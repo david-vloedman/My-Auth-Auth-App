@@ -4,7 +4,6 @@ import {
 	createUserFormError,
 	createUserFormSubmit,
 } from '../../../redux/reducers'
-import Button from '@material-ui/core/Button'
 import * as Styles from './CreateUser.styles'
 
 /**
