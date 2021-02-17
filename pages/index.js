@@ -1,8 +1,12 @@
 import Head from 'next/head'
 import { connectToDatabase } from '../util/mongodb'
 import CreateUser from '../components/forms/CreateUser/CreateUser'
+import createBoard, {alphabet} from '../chess/createBoard'
 
 export default function Home({ isConnected }) {
+
+	const board = createBoard(8, 8)
+
 	return (
 		<div className='container'>
 			<Head>
@@ -12,7 +16,9 @@ export default function Home({ isConnected }) {
 
 			<main>
 				<CreateUser />
-				{isConnected ? 'Connected' : 'Nope'}
+				<ul>
+					{board.map(row => <li key={Math.random()}>{JSON.stringify(row)}</li>)}
+				</ul>
 			</main>
 
 			<footer></footer>
