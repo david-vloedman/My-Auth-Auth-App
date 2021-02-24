@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 
 const createUserFormReducer = {
 	createUserFormChange(state, action) {
-		console.log(state, action)
+		
 		return {
 			...state,
 			createUserForm: {

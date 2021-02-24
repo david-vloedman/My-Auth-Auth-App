@@ -27,8 +27,9 @@ export default function CreateUser(props) {
 
 	return (
 		<Styles.FormContainer>
+			<Styles.StyledTextField name='firstName' label='First Name' onChange={onChange}/>
 			<Styles.StyledTextField name='useName' label='User Name' onChange={onChange} />
-			<Styles.StyledTextField name='password' label='Password' onChange={onChange} />
+			<Styles.StyledTextField name='password' label='Password' type='password' onChange={onChange} />
 			<Styles.StyledButton type='button' onClick={(e) => onSubmit(e)} variant='contained'>
 				Submit
 			</Styles.StyledButton>

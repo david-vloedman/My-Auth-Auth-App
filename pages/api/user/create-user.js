@@ -1,4 +1,5 @@
 import { connectToDatabase } from '../../../util/mongodb'
+import bcrypt from 'bcrypt'
 /**
  * Add a new user to the database
  */
@@ -10,7 +11,7 @@ export default async (req, res) => {
 
 		const newUser = {
 			userName: userName,
-			password: password,
+			password: await hashPassword(password, 10),
 			role: 'user',
 		}
 
@@ -63,3 +64,13 @@ const unknownErrorResponse = () => ({
 	hasError: false,
 	success: false,
 })
+
+const hashPassword = async (password, saltRounds) => {
+	try{
+		const hashedPW = await bcrypt.hash(password, saltRounds)
+		return hashedPW
+	} catch (err){
+		console.log(err)
+	}
+	
+}
