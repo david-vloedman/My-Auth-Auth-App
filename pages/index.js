@@ -1,9 +1,14 @@
 import Head from 'next/head'
 import styled from 'styled-components'
+import UserDashBoard from '../components/dashboard/UserDashboard'
 import LoginFormContainer from '../components/containers/LoginForm/LoginFormContainer'
+import {useSelector, useDispatch} from 'react-redux'
+import withSession from '../lib/withSession'
+import * as Actions from '../redux/reducers'
 
+function Home(props) {
 
-export default function Home({props}) {
+	const {user} = props
 
 	return (
 		<div className='container'>
@@ -13,7 +18,7 @@ export default function Home({props}) {
 			</Head>
 
 			<main>
-				<LoginFormContainer />
+				{user ? <UserDashBoard/> : <LoginFormContainer />}
 			</main>
 
 			<footer></footer>
@@ -21,9 +26,20 @@ export default function Home({props}) {
 	)
 }
 
+export const getServerSideProps = withSession(async function({req, res}){
+	const user = req.session.get('user')
 
-const StyledMainContainer = styled.div`
-	max-width: 350px;
-	padding:5px;
-	margin: auto;
-`
+	if(!user){
+		return {
+			redirect: '/login',
+			permanent: false
+		}
+	}
+
+	return {
+		props: {user}
+	}
+})
+
+export default Home
+

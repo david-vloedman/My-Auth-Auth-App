@@ -1,15 +1,16 @@
 import { useSelector, useDispatch } from 'react-redux'
 import fetchJson from '../../../lib/fetchJson'
 import * as Styles from './LoginForm.styles'
-import {loggedIn, loggedOut} from '../../../redux/reducers'
+
+import { loggedIn, logOut } from '../../../redux/reducers'
 /**
  * Login page for the application
  */
 
 const url = '/api/session/login'
 
-export default function LoginForm(props) {
-	const dispatch = useDispatch()
+function LoginForm(props) {
+	
 
 	const formData = {
 		userName: '',
@@ -24,12 +25,13 @@ export default function LoginForm(props) {
 				method: 'POST',
 				body: JSON.stringify(formData),
 				credentials: 'include',
-      })
-      
-      if(response.loggedIn){
-        dispatch(loggedIn(response.user))
-      }
+			})
+
 			console.log(response)
+
+			if (response.loggedIn) {
+				
+			}
 		} catch (error) {
 			console.log(error)
 		}
@@ -62,3 +64,5 @@ export default function LoginForm(props) {
 		</Styles.FormContainer>
 	)
 }
+
+export default LoginForm

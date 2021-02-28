@@ -10,6 +10,8 @@ export default withSession(async (req, res) => {
 	const userCollection = db.collection('users')
 	const user = await userCollection.findOne({ userName: userName })
 	
+	console.log(user)
+
 	if(!user){
 		return res.json({loggedIn: false, error: 'No user found'})
 	}
@@ -22,7 +24,7 @@ export default withSession(async (req, res) => {
 
 		await req.session.save()
 
-		return res.json({loggedIn: true})
+		return res.json({loggedIn: true, session:req.session.get('user')})
 	}
 
 	return res.json({ loggedIn: false, error: 'Invalid password' })

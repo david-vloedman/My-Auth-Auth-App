@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import fetchJson from '../../../lib/fetchJson'
 import { userCreated } from '../../../redux/reducers'
-import * as Styles from './CreateUser.Formstyles'
+import * as Styles from './CreateUserForm.styles'
 
 const url = '/api/user/create-user'
 /**

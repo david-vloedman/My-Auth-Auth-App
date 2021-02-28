@@ -13,6 +13,7 @@ export default function LoginFormContainer({ props }) {
 	const toggleForms = () => {
 		setVisibility({ login: !visibility.login, create: !visibility.create })
 	}
+	
 	return (
 		<Styles.StyledMainContainer>
 			{visibility.login ? <LoginForm /> : null}

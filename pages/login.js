@@ -1,5 +1,7 @@
-import LoginForm from '../components/forms/Login/LoginForm'
+import LoginFormContainer from '../components/containers/LoginForm/LoginFormContainer'
 
-export default function login(props){
-  return <LoginForm />
+export default function login(){
+  return <div>
+    <LoginFormContainer />
+  </div>
 }

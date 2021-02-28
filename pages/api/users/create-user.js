@@ -9,7 +9,7 @@ export default async (req, res) => {
 
 		const body = JSON.parse(req.body)
 		console.log(body)
-		const { userName, password } = JSON.parse(req.body)
+		const { userName, password, firstName } = JSON.parse(req.body)
 
 		if (!validUserName(userName)) {
 			return res.json(userNameNotValidResponse())
@@ -20,6 +20,7 @@ export default async (req, res) => {
 		}
 
 		const newUser = {
+			name: firstName,
 			userName: userName,
 			password: await hashPassword(password, 10),
 			role: 'user',
