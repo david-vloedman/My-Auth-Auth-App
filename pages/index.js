@@ -1,24 +1,19 @@
 import Head from 'next/head'
-import { connectToDatabase } from '../util/mongodb'
-import CreateUser from '../components/forms/CreateUser/CreateUser'
-import createBoard, {alphabet} from '../chess/createBoard'
+import styled from 'styled-components'
+import LoginFormContainer from '../components/containers/LoginForm/LoginFormContainer'
 
-export default function Home({ isConnected }) {
 
-	const board = createBoard(8, 8)
+export default function Home({props}) {
 
 	return (
 		<div className='container'>
 			<Head>
-				<title>Create Next App</title>
+				<title>Login</title>
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
 			<main>
-				<CreateUser />
-				<ul>
-					{board.map(row => <li key={Math.random()}>{JSON.stringify(row)}</li>)}
-				</ul>
+				<LoginFormContainer />
 			</main>
 
 			<footer></footer>
@@ -26,12 +21,9 @@ export default function Home({ isConnected }) {
 	)
 }
 
-export async function getServerSideProps(context) {
-	const { client } = await connectToDatabase()
 
-	const isConnected = client.isConnected()
-
-	return {
-		props: { isConnected },
-	}
-}
+const StyledMainContainer = styled.div`
+	max-width: 350px;
+	padding:5px;
+	margin: auto;
+`

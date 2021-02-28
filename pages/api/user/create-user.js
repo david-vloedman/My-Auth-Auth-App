@@ -7,7 +7,17 @@ export default async (req, res) => {
 	try {
 		const { db } = await connectToDatabase()
 
-		const { userName, password } = req.query
+		const body = JSON.parse(req.body)
+		console.log(body)
+		const { userName, password } = JSON.parse(req.body)
+
+		if (!validUserName(userName)) {
+			return res.json(userNameNotValidResponse())
+		}
+
+		if (!validPassword(password)) {
+			return res.json(passwordNotValidResponse())
+		}
 
 		const newUser = {
 			userName: userName,
@@ -44,7 +54,7 @@ const createNewUser = async (user, collection) => {
 
 const userExists = async (userName, collection) => {
 	const existingUser = await collection.find({ userName: userName }).toArray()
-	
+
 	return existingUser.length > 0
 }
 
@@ -60,17 +70,37 @@ const userCreatedResponse = (userData) => ({
 	...userData,
 })
 
-const unknownErrorResponse = () => ({
-	hasError: false,
+const userNameNotValidResponse = () => ({
 	success: false,
+	hasError: true,
+	errorMsg: 'Username must be greater than 5 characters',
+})
+
+const passwordNotValidResponse = () => ({
+	success: false,
+	hasError: true,
+	errorMsg: 'Password must be greater than 8 characters',
+})
+
+const unknownErrorResponse = () => ({
+	hasError: true,
+	success: false,
+	errorMsg: 'Cannot create user at this time.',
 })
 
 const hashPassword = async (password, saltRounds) => {
-	try{
+	try {
 		const hashedPW = await bcrypt.hash(password, saltRounds)
 		return hashedPW
-	} catch (err){
+	} catch (err) {
 		console.log(err)
 	}
-	
+}
+
+const validPassword = (password) => {
+	return password.length > 8
+}
+
+const validUserName = (userName) => {
+	return userName.length > 5
 }

@@ -19,3 +19,7 @@ export const StyledTextField = styled(TextField)`
 export const StyledButton = styled(Button)`
   margin: .5rem !important;
 `
+
+export const StyledErrorMsg = styled.span`
+  color: red;
+`
