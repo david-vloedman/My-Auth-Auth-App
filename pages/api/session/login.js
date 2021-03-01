@@ -25,6 +25,6 @@ export default withSession(async (req, res) => {
 		return res.json({loggedIn: true, session:req.session.get('user')})
 	}
 
-	return res.json({ loggedIn: false, error: 'Invalid password' })
+	return res.json({ hasError: true, errorMsg: 'Invalid password' })
 })
 

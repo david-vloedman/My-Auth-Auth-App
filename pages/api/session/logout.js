@@ -2,7 +2,6 @@ import {withIronSession} from 'next-iron-session'
 
 const handler = async (req, res) => {
 	req.session.destroy()
-	console.log('handled')
   res.send('Logged out')
 }
 
