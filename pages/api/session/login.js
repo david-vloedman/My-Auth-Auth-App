@@ -9,8 +9,6 @@ export default withSession(async (req, res) => {
 	const { userName, password } = JSON.parse(req.body)
 	const userCollection = db.collection('users')
 	const user = await userCollection.findOne({ userName: userName })
-	
-	console.log(user)
 
 	if(!user){
 		return res.json({loggedIn: false, error: 'No user found'})
@@ -18,8 +16,7 @@ export default withSession(async (req, res) => {
 
 	if (await bcrypt.compare(password, user.password)) {
 		req.session.set('user', {
-			id: user._id,
-			admin: false
+			...user
 		})
 
 		await req.session.save()

@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux'
+import {useRouter} from 'next/router'
 import fetchJson from '../../../lib/fetchJson'
 import * as Styles from './LoginForm.styles'
 
@@ -11,6 +11,7 @@ const url = '/api/session/login'
 
 function LoginForm(props) {
 	
+	const router = useRouter()
 
 	const formData = {
 		userName: '',
@@ -30,7 +31,7 @@ function LoginForm(props) {
 			console.log(response)
 
 			if (response.loggedIn) {
-				
+				router.push('/')
 			}
 		} catch (error) {
 			console.log(error)

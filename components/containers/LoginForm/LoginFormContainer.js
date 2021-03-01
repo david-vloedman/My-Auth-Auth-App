@@ -16,8 +16,8 @@ export default function LoginFormContainer({ props }) {
 	
 	return (
 		<Styles.StyledMainContainer>
-			{visibility.login ? <LoginForm /> : null}
-			{visibility.create ? <CreateUserForm /> : null}
+			{visibility.login ? <LoginForm toggleForms={toggleForms}/> : null}
+			{visibility.create ? <CreateUserForm toggleForms={toggleForms}/> : null}
 			<a href='#' onClick={toggleForms}>
 				{visibility.login ? 'Create account' : 'Existing account sign-in'}
 			</a>

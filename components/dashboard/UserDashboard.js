@@ -3,13 +3,14 @@ import Box from '@material-ui/core/Box'
 import LogoutButton from '../logout/LogoutButton'
 
 
-const UserDashboard = () => {
+const UserDashboard = (props) => {
+  const user = props
   
   return (
-    <Box>
-      
+    <div>
+      Welcome, {user.name}!
       <LogoutButton />
-    </Box>
+      </div>
   )
 }
 

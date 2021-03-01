@@ -1,20 +1,20 @@
-import { useDispatch } from 'react-redux'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
+// local imports
 import fetchJson from '../../../lib/fetchJson'
-import { userCreated } from '../../../redux/reducers'
 import * as Styles from './CreateUserForm.styles'
 
-const url = '/api/user/create-user'
+const url = '/api/users/create-user'
 /**
  * A form for creating a new user
  * @param {*} props
  */
 
 export default function CreateUser(props) {
-	const dispatch = useDispatch()
-
+	
 	const [form, setForm] = useState({})
-
+	const {toggleForms} = props
+	
 	const onChange = (e) => {
 		const key = e.target.name
 		const value = e.target.value
@@ -22,7 +22,7 @@ export default function CreateUser(props) {
 			...form,
 			[key]: value,
 			hasError: false,
-			errorMsg: undefined,
+			message: undefined,
 		})
 	}
 
@@ -38,12 +38,17 @@ export default function CreateUser(props) {
 			setForm({
 				...form,
 				hasError: true,
-				errorMsg: response.errorMsg,
+				message: response.errorMsg,
 			})
 		}
 
 		if (response.success) {
-			dispatch(userCreated())
+			setForm({
+				hasError: false,
+				message: 'Account created!',
+			})
+
+			toggleForms()
 		}
 	}
 
@@ -73,7 +78,11 @@ export default function CreateUser(props) {
 				Submit
 			</Styles.StyledButton>
 
-			<Styles.StyledErrorMsg>{form.errorMsg}</Styles.StyledErrorMsg>
+			{form.hasError ? (
+				<Styles.StyledErrorMsg>{form.message}</Styles.StyledErrorMsg>
+			) : (
+				<div>{form.message}</div>
+			)}
 		</Styles.FormContainer>
 	)
 }

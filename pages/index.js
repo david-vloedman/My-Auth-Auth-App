@@ -13,12 +13,12 @@ function Home(props) {
 	return (
 		<div className='container'>
 			<Head>
-				<title>Login</title>
+				<title>Dashboard</title>
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
 			<main>
-				{user ? <UserDashBoard/> : <LoginFormContainer />}
+				{user ? <UserDashBoard {...user}/> : null}
 			</main>
 
 			<footer></footer>
@@ -31,13 +31,18 @@ export const getServerSideProps = withSession(async function({req, res}){
 
 	if(!user){
 		return {
-			redirect: '/login',
-			permanent: false
+			redirect: {
+				destination: '/login',
+				permanent: false
+			},
+			
 		}
 	}
 
 	return {
-		props: {user}
+		props: {
+			user
+		}
 	}
 })
 

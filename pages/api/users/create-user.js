@@ -7,8 +7,6 @@ export default async (req, res) => {
 	try {
 		const { db } = await connectToDatabase()
 
-		const body = JSON.parse(req.body)
-		console.log(body)
 		const { userName, password, firstName } = JSON.parse(req.body)
 
 		if (!validUserName(userName)) {
@@ -25,7 +23,7 @@ export default async (req, res) => {
 			password: await hashPassword(password, 10),
 			role: 'user',
 		}
-
+		console.log(newUser)
 		const usersCollection = db.collection('users')
 
 		const userExistsResult = await userExists(userName, usersCollection)

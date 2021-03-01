@@ -1,19 +1,24 @@
 import Button from '@material-ui/core/Button'
 import fetchJson from '../../lib/fetchJson'
-import * as Actions from '../../redux/reducers'
-import {useDispatch} from 'react-redux'
+import { useRouter } from 'next/router'
 
 const url = '/api/session/logout'
 
-export default function LogoutButton(props){
-  const dispatch = useDispatch()
-  const onClick = async () => {
-    const response = fetchJson(url, {
-      method: 'GET'
+export default function LogoutButton(props) {
+
+  const router = useRouter()
+
+	const onClick = async () => {
+		const response = await fetch(url, {
+			method: 'GET',
     })
+    
+    router.push('/')
+	}
 
-    dispatch(Actions.logOut())
-  }
-
-  return <Button onClick={onClick}>Logout</Button>
+	return (
+		<Button onClick={onClick} variant='contained'>
+			Logout
+		</Button>
+	)
 }
