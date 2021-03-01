@@ -6,37 +6,32 @@ import bcrypt from 'bcrypt'
 export default async (req, res) => {
 	try {
 		const { db } = await connectToDatabase()
-
+		// get data from the request
 		const { userName, password, firstName } = JSON.parse(req.body)
+		// validate data
+		if (!validUserName(userName)) return res.json(userNameNotValidResponse())
 
-		if (!validUserName(userName)) {
-			return res.json(userNameNotValidResponse())
-		}
-
-		if (!validPassword(password)) {
-			return res.json(passwordNotValidResponse())
-		}
-
-		
+		if (!validPassword(password)) return res.json(passwordNotValidResponse())
+		// project data
 		const newUser = {
 			name: firstName,
 			userName: userName,
 			password: await hashPassword(password, 10),
 			role: 'user',
 		}
-		console.log(newUser)
+		// establish the collection we're using
 		const usersCollection = db.collection('users')
-
+		// check if the user name already exists in the collection
 		const userExistsResult = await userExists(userName, usersCollection)
 
 		if (userExistsResult) return res.json(userExistsResponse())
-
+		// create a new user
 		const user = await createNewUser(newUser, usersCollection)
-
+		// if user creation failed, return error
 		if (user.hasError) {
 			return res.json(unknownErrorResponse())
 		}
-
+		// return the id of the newly created user
 		return res.json(userCreatedResponse({ _id: user._id }))
 	} catch (err) {
 		res.json(err)

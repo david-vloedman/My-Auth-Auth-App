@@ -1,4 +1,5 @@
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 import fetchJson from '../../../lib/fetchJson'
 import * as Styles from './LoginForm.styles'
 
@@ -10,25 +11,38 @@ import { loggedIn, logOut } from '../../../redux/reducers'
 const url = '/api/session/login'
 
 function LoginForm(props) {
-	
 	const router = useRouter()
 
-	const formData = {
+	const [form, setForm] = useState({
 		userName: '',
 		password: '',
-	}
+		hasError: false,
+		message: '',
+	})
+
+	const resetFormErrors = () => setForm({
+		...form,
+		hasError: false,
+		message: ''
+	})
 
 	const onSubmit = async (e) => {
 		e.preventDefault()
-
+		resetFormErrors()
 		try {
 			const response = await fetchJson(url, {
 				method: 'POST',
-				body: JSON.stringify(formData),
+				body: JSON.stringify(form),
 				credentials: 'include',
 			})
 
-			console.log(response)
+			if (response.hasError) {
+				setForm({
+					...form,
+					hasError: true,
+					message: response.errorMsg
+				})
+			}
 
 			if (response.loggedIn) {
 				router.push('/')
@@ -39,7 +53,10 @@ function LoginForm(props) {
 	}
 
 	const onChange = (e) => {
-		formData[e.target.name] = e.target.value
+		setForm({
+			...form,
+			[e.target.name]: e.target.value,
+		})
 	}
 
 	return (
@@ -55,6 +72,12 @@ function LoginForm(props) {
 				label='Password'
 				onChange={onChange}
 			/>
+
+			{form.hasError ? (
+				<Styles.StyledErrorMsg>{form.message}</Styles.StyledErrorMsg>
+			) : (
+				<div>{form.message}</div>
+			)}
 			<Styles.StyledButton
 				type='button'
 				onClick={(e) => onSubmit(e)}
