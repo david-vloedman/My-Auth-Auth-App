@@ -9,6 +9,6 @@ const composeEnhancers =
 	compose
 
 
-export function initStore() {
-	return createStore(reducers, composeEnhancers(applyMiddleware(thunk)))
+export function initStore(initialState) {
+	return createStore(reducers,{...initialState}, composeEnhancers(applyMiddleware(thunk)))
 }

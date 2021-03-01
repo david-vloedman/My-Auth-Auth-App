@@ -2,34 +2,30 @@ import { createSlice } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 
 const createUserFormReducer = {
-	createUserFormChange(state, action) {
-		console.log(state, action)
+	userCreated(state, action) {
 		return {
 			...state,
-			createUserForm: {
-				...state.createUserForm,
-				hasError: false,
-				[action.payload.key]: action.payload.value,
+		}
+	},
+}
+
+const userSessionReducer = {
+	logIn(state, action) {
+		return {
+			...state,
+			session: {
+				...action.payload,
 			},
 		}
 	},
 
-	createUserFormError(state, action) {
+
+	logOut(state, action) {
 		return {
 			...state,
-			createUserForm: {
-				...state.createUserForm,
-				hasError: true,
-				error: action.payload,
-			},
+			session: undefined,
 		}
-  },
-  
-  createUserFormSubmit(state, action){
-    return {
-      ...state,
-    }
-  }
+	},
 }
 
 const createUserFormSlice = createSlice({
@@ -38,14 +34,19 @@ const createUserFormSlice = createSlice({
 	reducers: createUserFormReducer,
 })
 
-export const {
-	createUserFormChange,
-  createUserFormError,
-  createUserFormSubmit
-} = createUserFormSlice.actions
+const userSessionSlice = createSlice({
+	name: 'session',
+	initialState: {},
+	reducers: userSessionReducer,
+})
+
+export const { userCreated } = createUserFormSlice.actions
+
+export const { loggedIn, logOut } = userSessionSlice.actions
 
 const reducers = combineReducers({
 	createUserFormSlice: createUserFormSlice.reducer,
+	session: userSessionSlice.reducer,
 })
 
 export default reducers

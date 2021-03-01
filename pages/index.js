@@ -1,18 +1,24 @@
 import Head from 'next/head'
-import { connectToDatabase } from '../util/mongodb'
-import CreateUser from '../components/forms/CreateUser/CreateUser'
+import styled from 'styled-components'
+import UserDashBoard from '../components/dashboard/UserDashboard'
+import LoginFormContainer from '../components/containers/LoginForm/LoginFormContainer'
+import {useSelector, useDispatch} from 'react-redux'
+import withSession from '../lib/withSession'
+import * as Actions from '../redux/reducers'
 
-export default function Home({ isConnected }) {
+function Home(props) {
+
+	const {user} = props
+
 	return (
 		<div className='container'>
 			<Head>
-				<title>Create Next App</title>
+				<title>Dashboard</title>
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
 			<main>
-				<CreateUser />
-				{isConnected ? 'Connected' : 'Nope'}
+				{user ? <UserDashBoard {...user}/> : null}
 			</main>
 
 			<footer></footer>
@@ -20,12 +26,25 @@ export default function Home({ isConnected }) {
 	)
 }
 
-export async function getServerSideProps(context) {
-	const { client } = await connectToDatabase()
+export const getServerSideProps = withSession(async function({req, res}){
+	const user = req.session.get('user')
 
-	const isConnected = client.isConnected()
+	if(!user){
+		return {
+			redirect: {
+				destination: '/login',
+				permanent: false
+			},
+			
+		}
+	}
 
 	return {
-		props: { isConnected },
+		props: {
+			user
+		}
 	}
-}
+})
+
+export default Home
+
