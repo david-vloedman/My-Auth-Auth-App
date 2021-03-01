@@ -1,4 +1,5 @@
 import { connectToDatabase } from '../../../util/mongodb'
+import * as Responses from '../../../../lib/helpers/responses'
 import withSession from '../../../lib/withSession'
 
 export default withSession(async (req, res) => {
@@ -8,11 +9,7 @@ export default withSession(async (req, res) => {
 
 	const sessionUser = req.session.get('user')
 
-	if (!sessionUser)
-		return res.status(403).json({
-			status: 'fail',
-			message: 'Forbidden',
-		})
+	if (!sessionUser) return Responses.forbidden(res)
 
 	const { db } = await connectToDatabase()
 
@@ -29,13 +26,7 @@ export default withSession(async (req, res) => {
 
 	const user = await users.findOne({ _id: id })
 
-	if (!user) {
-		// return no user found
-		return res.status(404).json({
-			status: 'fail',
-			message: 'User not found',
-		})
-	}
+	if (!user) return Responses.notFound(res, 'User not found')
 
 	res.status(200).json({
 		status: 'success',
