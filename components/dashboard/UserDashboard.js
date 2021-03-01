@@ -1,6 +1,7 @@
 import * as Styles from './UserDashboard.styles'
 import Box from '@material-ui/core/Box'
 import LogoutButton from '../logout/LogoutButton'
+import FriendsList from '../friends/friendsList/FriendsList'
 
 
 const UserDashboard = (props) => {
@@ -8,9 +9,13 @@ const UserDashboard = (props) => {
   
   return (
     <div>
-      Welcome, {user.name}!
+      <div>Welcome, {user.name}!</div>
       <LogoutButton />
+
+      <div>
+        <FriendsList />
       </div>
+    </div>
   )
 }
 
