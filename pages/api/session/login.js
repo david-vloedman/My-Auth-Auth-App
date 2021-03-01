@@ -16,7 +16,8 @@ export default withSession(async (req, res) => {
 
 	if (await bcrypt.compare(password, user.password)) {
 		req.session.set('user', {
-			...user
+			...user,
+			password: undefined
 		})
 
 		await req.session.save()
