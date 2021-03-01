@@ -17,6 +17,7 @@ export default async (req, res) => {
 			return res.json(passwordNotValidResponse())
 		}
 
+		
 		const newUser = {
 			name: firstName,
 			userName: userName,
