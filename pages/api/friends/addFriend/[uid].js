@@ -1,5 +1,5 @@
-import { connectToDatabase } from '../../../util/mongodb'
-import withSession from '../../../lib/withSession'
+import { connectToDatabase } from '../../../../util/mongodb'
+import withSession from '../../../../lib/withSession'
 import * as Responses from '../../../../lib/helpers/responses'
 
 export default withSession(async (req, res) => {
