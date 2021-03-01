@@ -1,5 +1,4 @@
 import Button from '@material-ui/core/Button'
-import fetchJson from '../../lib/fetchJson'
 import { useRouter } from 'next/router'
 
 const url = '/api/session/logout'
