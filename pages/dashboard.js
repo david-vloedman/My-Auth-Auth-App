@@ -1,10 +1,11 @@
 import UserDashBoard from '../components/dashboard/UserDashboard'
 import withSession from '../lib/withSession'
 
-export default function ({ props }) {
+export default function (props) {
+  const {user} = props
 	return (
 		<div>
-			<UserDashBoard />
+			<UserDashBoard props={user}/>
 		</div>
 	)
 }
