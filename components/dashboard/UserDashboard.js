@@ -1,24 +1,31 @@
 import * as Styles from './UserDashboard.styles'
-import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import LogoutButton from '../logout/LogoutButton'
 import FriendsList from '../friends/friendsList/FriendsList'
-import withSession from '../../lib/withSession'
 import fetchJson from '../../lib/fetchJson'
 import { useState } from 'react'
 const url = '/api/users/'
 
 const UserDashboard = (props) => {
-	const { user } = props
+	
+	const user  = props
 
+	console.log(user.friends)
+	
 	const [users, setUsers] = useState()
 
 	const onAddFriendClick = async (uid) => {
 		// show all users
-		const addFriendUrl = `/api/friends/addFriend/${uid}`
-		const response = await fetchJson(addFriendUrl)
-
-		console.log(response)
+		try{
+			
+			const addFriendUrl = `/api/friends/addFriend/${uid}`
+			const response = await fetchJson(addFriendUrl, {
+				method: 'POST'
+			})
+			// response has message of success or error in it, decide where to show it
+		}catch(error){
+			console.log(error)
+		}
 	}
 
 	const showAllUsers = () => {
@@ -36,7 +43,7 @@ const UserDashboard = (props) => {
 	}
 
 	const UserList = ({ users }) => {
-    console.log(users)
+    
 		return (
 			<ul>
 				{users?.map((usr) => {
@@ -56,17 +63,11 @@ const UserDashboard = (props) => {
 	}
 
 	return (
+
 		<div>
-			<div>Welcome, !</div>
-			<LogoutButton />
-			<Button variant='contained' onClick={(e) => getAllUsers()}>
-				Add Friend
-			</Button>
-			{users ? <UserList users={users} /> : null}
-			<div>
-				<FriendsList />
-			</div>
+			<FriendsList friendsList={user.friends}/>
 		</div>
+
 	)
 }
 

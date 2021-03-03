@@ -28,6 +28,23 @@ const userSessionReducer = {
 	},
 }
 
+const dashBoardReducer = {
+	friendsLoaded(state, action){
+		return {
+			...state,
+			friendsList: action.payload
+		}
+	},
+
+	
+}
+
+const dashBoardSlice = createSlice({
+	name: 'dashboard',
+	initialState: {},
+	reducers: dashBoardReducer
+})
+
 const createUserFormSlice = createSlice({
 	name: 'createUserFormSlice',
 	initialState: {},

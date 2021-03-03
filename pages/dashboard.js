@@ -5,13 +5,17 @@ export default function (props) {
   const {user} = props
 	return (
 		<div>
-			<UserDashBoard props={user}/>
+			<UserDashBoard props={...props}/>
 		</div>
 	)
 }
 
 export const getServerSideProps = withSession(async function ({ req, res }) {
 	const user = req.session.get('user')
+
+	const {friends} = user
+
+	
 
 	if (!user) {
 		return {
