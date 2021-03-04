@@ -4,6 +4,7 @@ import LogoutButton from '../logout/LogoutButton'
 import FriendsList from '../friends/friendsList/FriendsList'
 import fetchJson from '../../lib/fetchJson'
 import { useState } from 'react'
+
 const url = '/api/users/'
 
 const UserDashboard = (props) => {

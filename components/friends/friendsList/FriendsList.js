@@ -2,7 +2,6 @@ import Button from '@material-ui/core/Button'
 import * as Styles from './FriendsList.styles'
 import List from '@material-ui/core/List'
 import ListSubheader from '@material-ui/core/ListSubheader'
-
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
@@ -60,7 +59,6 @@ export default function FriendsList(props) {
 	return (
 		<Styles.Container>
       <Paper elevation={3}>
-      
 			<MainList friends={friendsList} />
       </Paper>
 		</Styles.Container>

@@ -9,8 +9,12 @@ export default withSession(async (req, res) => {
 	} = req
 	// get the current user
 	const sessionUser = req.session.get('user')
+
 	// no session, not allowed
 	if (!sessionUser) return Responses.forbidden(res)
+	// already friends?
+	if (sessionUser.friends.find((fri) => fri === uid))
+		return Responses.ok(res, 'Already friends')
 
 	const { db } = await connectToDatabase()
 	const usersCollection = db.collection('users')
@@ -19,21 +23,25 @@ export default withSession(async (req, res) => {
 
 	if (!friend) return Responses.serverError(res, 'Failed to add friend')
 
-	
-
 	const updateResult = await usersCollection.updateOne(
 		{ _id: ObjectId(sessionUser._id) },
-		{ $push: { friends: ObjectId(friend._id)} }
+		{ $push: { friends: ObjectId(friend._id) } }
 	)
 
-	if(updateResult.result.nModified === 1){
-		const currentUser = await usersCollection.findOne(ObjectId(sessionUser._id))
+	if (updateResult.result.nModified === 1) {
+		const currentUser = await usersCollection.findOne(ObjectId(sessionUser._id), {password:0}, undefined)
+		console.log(currentUser)
+		const friends = await usersCollection
+			.find(...currentUser.friends, { name: 1, userName: 1 }, undefined)
+			.toArray()
 		console.log(currentUser)
 		req.session.unset('user')
 
 		req.session.set('user', {
 			...currentUser,
-			password: undefined
+			friends: {
+				...friends
+			}
 		})
 
 		await req.session.save()
@@ -43,6 +51,3 @@ export default withSession(async (req, res) => {
 		? Responses.serverError(res, 'Failed to add friend')
 		: Responses.ok(res, `${friend.userName} has been added to your friends`)
 })
-
-
- 

@@ -15,18 +15,13 @@ export default withSession(async (req, res) => {
 	}
 
 	if (await bcrypt.compare(password, user.password)) {
-		const friends = await userCollection
-			.find(...user.friends)
-			.project({ name: 1, userName: 1 })
-			.toArray()
-
-		console.log(friends, 'FRIENDS')
-
-		req.session.set('user', {
+		const newSession = {
 			...user,
-			password: undefined,
-			friends: [...friends],
-		})
+			friends: await getFriends(user, userCollection),
+			password: undefined
+		}
+		console.log(newSession)
+		req.session.set('user', newSession)
 
 		await req.session.save()
 
@@ -35,3 +30,21 @@ export default withSession(async (req, res) => {
 
 	return res.json({ hasError: true, errorMsg: 'Invalid password' })
 })
+
+/**
+ * Gets the friends of the given 
+ * @param {*} user 
+ * @param {*} userCollection 
+ * @param {*} req 
+ */
+export const getFriends = async (user, userCollection) => {
+	if (user.friends) {
+		const friends = await userCollection
+			.find({_id: {$in: [...user.friends]}}, {userName: 1, name: 1}, undefined)
+			.toArray()
+		return [...friends]
+	}
+
+	return []
+}
+

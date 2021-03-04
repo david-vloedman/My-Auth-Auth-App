@@ -14,46 +14,47 @@ import MenuDrawer from './MenuDrawer'
 
 export default function Layout({ props, children }) {
 	const [showDrawer, setShowDrawer] = useState(false)
-
+	
 	const toggleDrawer = () => {
 		setShowDrawer(!showDrawer)
-		console.log(showDrawer)
 	}
 
 	return (
 		<div>
-				
 			<CssBaseLine />
-			<StyledContainer>
+			<MenuDrawer
+				open={showDrawer}
+				onClose={toggleDrawer}
+				toggleDrawer={toggleDrawer}
+			/>
+			<div>
 				<StyledAppBar position='static'>
 					<Toolbar>
 						<IconButton edge='start' onClick={() => toggleDrawer()}>
-							<MenuIcon />
+							<StyledMenuIcon />
 						</IconButton>
 						<StyledTitle variant='h6'>Nothing App</StyledTitle>
 						<LogoutButton color='inherit'>Logout</LogoutButton>
 					</Toolbar>
 				</StyledAppBar>
-				
-					<MenuDrawer open={showDrawer} variant='persistent' />
-				
-				{children}
-			</StyledContainer>
-		
+				<StyledContainer>{children}</StyledContainer>
+			</div>
 		</div>
 	)
 }
 
 const StyledAppBar = styled(AppBar)`
-	display: flex;
+	
 `
 
 const StyledTitle = styled(Typography)`
 	flex-grow: 1;
 `
 
+const StyledMenuIcon = styled(MenuIcon)`
+	color: #ffffff;
+`
+
 const StyledContainer = styled(Container)`
 	background-color: #e8e8e8;
 `
-
-
