@@ -1,12 +1,11 @@
 import Head from 'next/head'
-import styled from 'styled-components'
-import UserDashBoard from '../components/dashboard/UserDashboard'
+import FriendsList from '../components/friends/friendsList/FriendsList'
 import withSession from '../lib/withSession'
 
 export default function Home(props) {
 
 	const {user} = props
-
+  console.log(user)
 	return (
 		<div className='container'>
 			<Head>
@@ -15,7 +14,7 @@ export default function Home(props) {
 			</Head>
 
 			<main>
-				
+				<FriendsList friendsList={user.friends} />
 			</main>
 
 			<footer></footer>
@@ -25,7 +24,7 @@ export default function Home(props) {
 
 export const getServerSideProps = withSession(async function({req, res}){
 	const user = req.session.get('user')
-
+console.log(user)
 	if(!user){
 		return {
 			redirect: {
@@ -42,5 +41,3 @@ export const getServerSideProps = withSession(async function({req, res}){
 		}
 	}
 })
-
-
