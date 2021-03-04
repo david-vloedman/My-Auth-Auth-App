@@ -4,6 +4,15 @@ import { useState } from 'react'
 import fetchJson from '../../lib/fetchJson'
 import SearchUserForm from '../../components/forms/SearchUsers/SearchUsersForm'
 import getAppState from '../../lib/helpers/getAppState'
+import List from '@material-ui/core/List'
+import ListSubheader from '@material-ui/core/ListSubheader'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
 
 const url = '/api/users/'
 export default function search(props) {
@@ -14,16 +23,37 @@ export default function search(props) {
 	
 
 	const Results = (props) => {
+    console.log(props)
     const { results } = props
     return <div>
-      {JSON.stringify(results)}
+      		<List>
+				<ListSubheader component='div' disableSticky={true}>Friends</ListSubheader>
+				{results?.map((friend) => {
+					return (
+						<ListItem key={Math.random()}>
+              <ListItemAvatar>
+                <Avatar>
+                {/* add avatar images for users */}
+                </Avatar>
+              </ListItemAvatar>
+							<ListItemText primary={friend.userName} secondary={friend.name ? friend.name : null} />
+              <ListItemSecondaryAction>
+                <IconButton edge='end'>
+                  
+                </IconButton>
+              </ListItemSecondaryAction>
+							
+						</ListItem>
+					)
+				})}
+			</List>
     </div>
   }
-
+  console.log(results)
 	return (
   <div>
     <SearchUserForm setResults={setResults}/>
-    { results ? <Results results={results} /> : null }
+    { results ? <Results results={[...results.data.results]} /> : null }
   </div>
   )
 }

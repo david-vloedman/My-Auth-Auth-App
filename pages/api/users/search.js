@@ -27,7 +27,7 @@ export default withSession(async (req, res) => {
 
 		Responses.ok(res, '', {
 			count: results.length,
-			...results,
+			results:[...results],
 		})
 	} catch (error) {
 		console.log(error)
