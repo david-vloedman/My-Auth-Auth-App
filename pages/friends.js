@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import FriendsList from '../components/friends/friendsList/FriendsList'
 import withSession from '../lib/withSession'
+import getAppState from '../lib/helpers/getAppState'
+
 
 export default function Home(props) {
 
@@ -23,21 +25,25 @@ export default function Home(props) {
 }
 
 export const getServerSideProps = withSession(async function({req, res}){
+
 	const user = req.session.get('user')
-console.log(user)
-	if(!user){
+
+	if (!user) {
 		return {
 			redirect: {
 				destination: '/login',
-				permanent: false
+				permanent: false,
 			},
-			
 		}
 	}
+  console.log(user._id)
+  const appState = await getAppState(user._id)
+	
+	
 
 	return {
 		props: {
-			user
-		}
+			user: JSON.parse(appState), /// !!??
+		},
 	}
 })

@@ -8,7 +8,7 @@ import Backdrop from '@material-ui/core/Backdrop'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 import styled from 'styled-components'
-import LogoutButton from '../logout/LogoutButton'
+import LogoutButton from '../buttons/LogoutButton'
 import { useState } from 'react'
 import MenuDrawer from './MenuDrawer'
 

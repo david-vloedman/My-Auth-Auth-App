@@ -1,11 +1,11 @@
 import Head from 'next/head'
-import styled from 'styled-components'
-import UserDashBoard from '../components/dashboard/UserDashboard'
 import withSession from '../lib/withSession'
+import getAppState from '../lib/helpers/getAppState'
 
 export default function Home(props) {
+	const { user } = props
 
-	const {user} = props
+	console.log(user)
 
 	return (
 		<div className='container'>
@@ -14,33 +14,30 @@ export default function Home(props) {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<main>
-				
-			</main>
+			<main></main>
 
 			<footer></footer>
 		</div>
 	)
 }
 
-export const getServerSideProps = withSession(async function({req, res}){
+export const getServerSideProps = withSession(async function ({ req, res }) {
 	const user = req.session.get('user')
-
-	if(!user){
+	console.log(user)
+	if (!user) {
 		return {
 			redirect: {
 				destination: '/login',
-				permanent: false
+				permanent: false,
 			},
-			
 		}
 	}
 
+	const appState = await getAppState(user._id)
+	
 	return {
 		props: {
-			user
-		}
+			user:{...JSON.parse(appState)}, /// !!??
+		},
 	}
 })
-
-

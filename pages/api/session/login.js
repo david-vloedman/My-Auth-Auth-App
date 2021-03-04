@@ -16,9 +16,7 @@ export default withSession(async (req, res) => {
 
 	if (await bcrypt.compare(password, user.password)) {
 		const newSession = {
-			...user,
-			friends: await getFriends(user, userCollection),
-			password: undefined
+			_id:user._id
 		}
 		console.log(newSession)
 		req.session.set('user', newSession)
