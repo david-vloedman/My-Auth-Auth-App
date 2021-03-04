@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import fetchJson from '../../../lib/fetchJson'
 import * as Styles from './LoginForm.styles'
+import Paper from '@material-ui/core/Paper'
 
 import { loggedIn, logOut } from '../../../redux/reducers'
 /**

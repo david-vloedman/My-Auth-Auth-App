@@ -6,7 +6,8 @@ export default withSession(async (req, res) => {
 
 	if (!user)
 		return res.status(403).json({
-			message: 'Not authorized',
+			status: 'fail',
+			message: 'Forbidden',
 		})
 
 	const { db } = await connectToDatabase()
@@ -16,9 +17,12 @@ export default withSession(async (req, res) => {
 	const allUsers = await users.find({})?.toArray()
 
 	if (!allUsers) {
-		return res.status(404).json({
-			count: 0,
-			results: [],
+		return res.status(200).json({
+			status: 'success',
+			data: {
+				count: 0,
+				results: [],
+			},
 		})
 	}
 
@@ -27,8 +31,11 @@ export default withSession(async (req, res) => {
 		password: undefined,
 	}))
 
-	res.json({
-		count: usersMapped.length,
-		results: usersMapped,
+	res.status(200).json({
+		status: 'success',
+		data: {
+			count: usersMapped.length,
+			results: usersMapped,
+		},
 	})
 })
