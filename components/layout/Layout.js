@@ -57,4 +57,7 @@ const StyledMenuIcon = styled(MenuIcon)`
 
 const StyledContainer = styled(Container)`
 	background-color: #e8e8e8;
+	min-height: 100vh;
+	display: flex;
+	padding-top: 1rem;
 `

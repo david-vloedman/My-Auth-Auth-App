@@ -14,8 +14,7 @@ export default withSession(async (req, res) => {
 	
 	if (!sessionUser) return Responses.forbidden(res)
 	// check if session user is already, if true, return
-	console.log(sessionUser.friends)
-	console.log('session user into add friend', sessionUser.friends.find(f => f._id === uid))
+	
 	if (sessionUser.friends?.find((fri) => fri._id === uid))
 		return Responses.ok(res, 'Already friends')
 
@@ -42,15 +41,7 @@ export default withSession(async (req, res) => {
 			const friends = await usersCollection
 				.find({_id: { $in: [...currentUser.friends]}}, { 'name': 1, 'userName': 1 }, undefined)
 				.toArray()
-
-			req.session.unset('user')
-
-			req.session.set('user', {
-				...currentUser,
-				friends: [...friends],
-			})
-
-			await req.session.save()
+			
 
 			updateResult.result.nModified === 0
 				? Responses.serverError(res, 'Failed to add friend')
