@@ -3,15 +3,13 @@ import FriendsList from '../components/friends/friendsList/FriendsList'
 import withSession from '../lib/withSession'
 import getAppState from '../lib/helpers/getAppState'
 
+export default function friends(props) {
+	const { user } = props
 
-export default function Home(props) {
-
-	const {user} = props
-  console.log(user)
 	return (
 		<div className='container'>
 			<Head>
-				<title>Dashboard</title>
+				<title>My Friends</title>
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
@@ -24,8 +22,7 @@ export default function Home(props) {
 	)
 }
 
-export const getServerSideProps = withSession(async function({req, res}){
-
+export const getServerSideProps = withSession(async function ({ req, res }) {
 	const user = req.session.get('user')
 
 	if (!user) {
@@ -36,14 +33,18 @@ export const getServerSideProps = withSession(async function({req, res}){
 			},
 		}
 	}
-  console.log(user._id)
-  const appState = await getAppState(user._id)
-	
-	
 
-	return {
-		props: {
-			user: JSON.parse(appState), /// !!??
-		},
-	}
+	try {
+		const appState = await getAppState(user._id)
+
+		return {
+			props: {
+				user: JSON.parse(appState), /// !!??
+			},
+		}
+	} catch (error) {
+    return {
+      notFound: true
+    }
+  }
 })
