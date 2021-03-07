@@ -1,69 +1,63 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 
-const createUserFormReducer = {
-	userCreated(state, action) {
+const layoutReducer = {
+	toggleLoggedIn(state, payload) {
 		return {
 			...state,
-		}
-	},
-}
-
-const userSessionReducer = {
-	logIn(state, action) {
-		return {
-			...state,
-			session: {
-				...action.payload,
-			},
+			loggedIn:!state.loggedIn,
 		}
 	},
 
-
-	logOut(state, action) {
+	toggleDrawer(state, payload) {
 		return {
 			...state,
-			session: undefined,
+			showDrawer: !state.showDrawer,
 		}
 	},
-}
-
-const dashBoardReducer = {
-	friendsLoaded(state, action){
-		return {
-			...state,
-			friendsList: action.payload
-		}
-	},
-
 	
 }
 
-const dashBoardSlice = createSlice({
-	name: 'dashboard',
+const layoutSlice = createSlice({
+	name: 'layout',
 	initialState: {},
-	reducers: dashBoardReducer
+	reducers: layoutReducer,
 })
 
-const createUserFormSlice = createSlice({
-	name: 'createUserFormSlice',
+const userReducer = {
+	setUser(state, action) {
+		return {
+			...state,
+			layout: { ...state.layout, loggedIn: true },
+			user: { ...action.payload },
+		}
+	},
+	unsetUser(state, action) {
+		return {
+			...state,
+			layout: { ...state.layout, loggedIn: false },
+			user: undefined,
+		}
+	},
+}
+
+const userSlice = createSlice({
+	name: 'user',
 	initialState: {},
-	reducers: createUserFormReducer,
+	reducers: userReducer,
 })
 
-const userSessionSlice = createSlice({
-	name: 'session',
-	initialState: {},
-	reducers: userSessionReducer,
-})
+export const { setUser, unsetUser } = userSlice.actions
 
-export const { userCreated } = createUserFormSlice.actions
-
-export const { loggedIn, logOut } = userSessionSlice.actions
+export const {
+	toggleLoggedIn,
+	toggleDrawer,
+	
+} = layoutSlice.actions
 
 const reducers = combineReducers({
-	createUserFormSlice: createUserFormSlice.reducer,
-	session: userSessionSlice.reducer,
+	layout: layoutSlice.reducer,
+	user: userSlice.reducer,
 })
 
 export default reducers

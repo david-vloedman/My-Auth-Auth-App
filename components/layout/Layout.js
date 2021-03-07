@@ -1,29 +1,33 @@
 import CssBaseLine from '@material-ui/core/CssBaseline'
 import Container from '@material-ui/core/Container'
 import styled from 'styled-components'
-import { useState } from 'react'
 import MenuDrawer from './MenuDrawer'
 import AppBar from '../appBar/AppBar'
+import { useSelector, useDispatch } from 'react-redux'
+import * as Actions from '../../redux/reducers'
 
 export default function Layout({ props, children }) {
-	const [showDrawer, setShowDrawer] = useState(false)
-	
-	const [loggedIn, setLoggedIn] = useState(false);
+	const { loggedIn, showDrawer } = useSelector((state) => state.layout)
+	const { user } = useSelector((state) => state)
+	const dispatch = useDispatch()
 
-	const toggleDrawer = () => {
-		setShowDrawer(!showDrawer)
+	const dispatchDrawerToggle = () => {
+		dispatch(Actions.toggleDrawer())
 	}
 
 	return (
 		<div>
 			<CssBaseLine />
-			<MenuDrawer
-				open={showDrawer}
-				onClose={toggleDrawer}
-				toggleDrawer={toggleDrawer}
-			/>
-		<AppBar props={{toggleDrawer:toggleDrawer, loggedIn:loggedIn}}/>
-		<StyledContainer>{children}</StyledContainer>
+			{loggedIn ? (
+				<MenuDrawer
+					open={showDrawer}
+					onClose={dispatchDrawerToggle}
+					toggleDrawer={dispatchDrawerToggle}
+				/>
+			) : null}
+
+			<AppBar props={{ toggleDrawer: dispatchDrawerToggle, loggedIn }} />
+			<StyledContainer>{children}</StyledContainer>
 		</div>
 	)
 }

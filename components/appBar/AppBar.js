@@ -3,21 +3,28 @@ import * as Styles from './AppBar.styles'
 import IconButton from '@material-ui/core/IconButton'
 import LogoutButton from '../buttons/LogoutButton'
 
-export default function AppBar({props}){
-  const {loggedIn, toggleDrawer} = props
+export default function AppBar({ props }) {
+	const { loggedIn, toggleDrawer } = props
 
-  return (
-    <div>
-    <Styles.StyledAppBar position='static'>
-      <Toolbar>
-        <IconButton edge='start' onClick={() => toggleDrawer()}>
-          {loggedIn ? <Styles.StyledMenuIcon /> : null}
-        </IconButton>
-        <Styles.StyledTitle variant='h6'>Nothing App</Styles.StyledTitle>
-        {loggedIn ? <LogoutButton color='inherit'>Logout</LogoutButton> : null}
-        
-      </Toolbar>
-    </Styles.StyledAppBar>
-  </div>
-  )
+	const MenuButton = () => {
+		return (
+			<IconButton edge='start' onClick={toggleDrawer}>
+				<Styles.StyledMenuIcon />
+			</IconButton>
+		)
+	}
+
+	return (
+		<div>
+			<Styles.StyledAppBar position='static'>
+				<Toolbar>
+					{loggedIn ? <MenuButton /> : null}
+					<Styles.StyledTitle variant='h6'>Nothing App</Styles.StyledTitle>
+					{loggedIn ? (
+						<LogoutButton color='inherit'>Logout</LogoutButton>
+					) : null}
+				</Toolbar>
+			</Styles.StyledAppBar>
+		</div>
+	)
 }
