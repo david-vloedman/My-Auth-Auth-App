@@ -54,8 +54,7 @@ export default function FriendsList(props) {
 			</List>
 		)
 	}
-
-	console.log(friendsList)
+	
 	return (
 		<Styles.Container>
       <Paper elevation={3}>

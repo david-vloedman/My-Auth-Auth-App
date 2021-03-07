@@ -11,55 +11,51 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
+import Avatar from '@material-ui/core/Avatar'
+import IconButton from '@material-ui/core/IconButton'
+import Paper from '@material-ui/core/Paper'
+import styled from 'styled-components'
 
 const url = '/api/users/'
 export default function search(props) {
-	const { user } = props
-
 	const [results, setResults] = useState()
 
-	
-
 	const Results = (props) => {
-    console.log(props)
-    const { results } = props
-    return <div>
-      		<List>
-				<ListSubheader component='div' disableSticky={true}>Friends</ListSubheader>
-				{results?.map((friend) => {
-					return (
-						<ListItem key={Math.random()}>
-              <ListItemAvatar>
-                <Avatar>
-                {/* add avatar images for users */}
-                </Avatar>
-              </ListItemAvatar>
-							<ListItemText primary={friend.userName} secondary={friend.name ? friend.name : null} />
-              <ListItemSecondaryAction>
-                <IconButton edge='end'>
-                  
-                </IconButton>
-              </ListItemSecondaryAction>
-							
-						</ListItem>
-					)
-				})}
-			</List>
-    </div>
-  }
-  console.log(results)
+		const { results } = props
+		return (
+			<div>
+				<List>
+					{results?.map((friend) => {
+						return (
+							<ListItem key={Math.random()}>
+								<ListItemAvatar>
+									<Avatar>{/* add avatar images for users */}</Avatar>
+								</ListItemAvatar>
+								<ListItemText
+									primary={friend.userName}
+									secondary={friend.name ? friend.name : null}
+								/>
+								<ListItemSecondaryAction>
+									<IconButton edge='end'></IconButton>
+								</ListItemSecondaryAction>
+							</ListItem>
+						)
+					})}
+				</List>
+			</div>
+		)
+	}
+	
 	return (
-  <div>
-    <SearchUserForm setResults={setResults}/>
-    { results ? <Results results={[...results.data.results]} /> : null }
-  </div>
-  )
+		<div>
+			<SearchUserForm setResults={setResults} />
+			{results ? <Results results={[...results.data.results]} /> : null}
+		</div>
+	)
 }
 
 export const getServerSideProps = withSession(async function ({ req, res }) {
-  const user = req.session.get('user')
+	const user = req.session.get('user')
 
 	if (!user) {
 		return {
@@ -69,8 +65,8 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
 			},
 		}
 	}
-  
-  const appState = await getAppState(user._id)
+
+	const appState = await getAppState(user._id)
 
 	return {
 		props: {
