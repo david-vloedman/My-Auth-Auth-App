@@ -84,7 +84,7 @@ function LoginForm(props) {
 				onClick={(e) => onSubmit(e)}
 				variant='contained'
 			>
-				Login
+				Sign-in
 			</Styles.StyledButton>
 		</Styles.FormContainer>
 	)
