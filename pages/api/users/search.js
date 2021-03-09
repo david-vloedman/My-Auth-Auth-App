@@ -19,15 +19,17 @@ export default withSession(async (req, res) => {
 
 		const results = await db
 			.collection('users')
-			.find({
-				$or: [{ userName: searchValue }, { name: searchValue }],
-			})
+			.find([
+				{
+					$or: [{ userName: searchValue } , { name: searchValue }],
+				},
+			])
 			.project({ userName: 1, name: 1 })
 			.toArray()
 
 		Responses.ok(res, '', {
 			count: results.length,
-			results:[...results],
+			results: [...results],
 		})
 	} catch (error) {
 		console.log(error)

@@ -9,8 +9,7 @@ import Button from '@material-ui/core/Button'
 const url = '/api/users/search'
 
 export default function SearchUserForm(props) {
-
-  const {setResults} = props
+	const { setResults } = props
 
 	const [form, setForm] = useState()
 
@@ -22,42 +21,54 @@ export default function SearchUserForm(props) {
 	}
 
 	const onSubmit = async (e) => {
-    e.preventDefault()
-    const results = await fetchJson(url, {
-      method: 'POST',
-      body: JSON.stringify(form)
-    })
+		e.preventDefault()
 
-    setResults(results)
+		if (!form?.searchValue) {
+			const allUsers = await fetchJson('/api/users', {
+				method: 'GET',
+      })
+      
+      return setResults(allUsers)
+		}
+
+		const results = await fetchJson(url, {
+			method: 'POST',
+			body: JSON.stringify(form),
+		})
+
+		setResults(results)
 	}
 
 	return (
 		<StyledFormContainer>
-      
 			<StyledPaper elevation={3}>
-      <Typography variant="h6">Search for a user</Typography>
-				
-					<StyledTextField name='searchValue' label='Username or Name' onChange={onChange} />
-          <Button variant='contained' color='primary' onClick={onSubmit}>Search</Button>
-        
+				<Typography variant='h6'>Search for a user</Typography>
+
+				<StyledTextField
+					name='searchValue'
+					label='Username or Name'
+					onChange={onChange}
+				/>
+				<Button variant='contained' color='primary' onClick={onSubmit}>
+					Search
+				</Button>
 			</StyledPaper>
-      </StyledFormContainer>
-		
+		</StyledFormContainer>
 	)
 }
 
 const StyledFormContainer = styled.div`
 	max-width: 350px;
-  margin: auto;
+	margin: auto;
 `
 
 const StyledPaper = styled(Paper)`
-  padding: 1rem;
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-around;
+	padding: 1rem;
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: space-around;
 `
 
 const StyledTextField = styled(TextField)`
-  margin: 0.5rem !important;
+	margin: 0.5rem !important;
 `

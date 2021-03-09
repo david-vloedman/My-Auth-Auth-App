@@ -14,7 +14,7 @@ export default withSession(async (req, res) => {
 
 	const users = db.collection('users')
 
-	const allUsers = await users.find({})?.toArray()
+	const allUsers = await users.find({})?.project({userName: 1, name: 1}).toArray()
 
 	if (!allUsers) {
 		return res.status(200).json({
@@ -26,16 +26,11 @@ export default withSession(async (req, res) => {
 		})
 	}
 
-	const usersMapped = allUsers.map((user) => ({
-		...user,
-		password: undefined,
-	}))
-
 	res.status(200).json({
 		status: 'success',
 		data: {
-			count: usersMapped.length,
-			results: usersMapped,
+			count: allUsers.length || 0,
+			results: allUsers || [],
 		},
 	})
 })
