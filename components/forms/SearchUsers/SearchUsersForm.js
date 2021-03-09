@@ -1,15 +1,14 @@
 import { useState } from 'react'
-import fetchJson from '../../../lib/fetchJson'
 import TextField from '@material-ui/core/TextField'
 import Paper from '@material-ui/core/Paper'
 import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-
-const url = '/api/users/search'
+import axios from 'axios'
+import Fuse from 'fuse.js'
 
 export default function SearchUserForm(props) {
-	const { setResults } = props
+	const { setResults, setLoading, setError } = props
 
 	const [form, setForm] = useState()
 
@@ -20,28 +19,39 @@ export default function SearchUserForm(props) {
 		})
 	}
 
+	const searchUsers = (searchTerm, data) => {
+		const options = {
+			includeScore: true,
+			keys: ['userName', 'name']
+		}
+
+		console.log(data)
+		const fuse = new Fuse(data, options)
+
+		const result = fuse.search(searchTerm)
+
+		return result.map(i => i.item)
+		
+	}
+
+
 	const onSubmit = async (e) => {
 		e.preventDefault()
 
-		if (!form?.searchValue) {
-			const allUsers = await fetchJson('/api/users', {
-				method: 'GET',
-      })
-      
-      return setResults(allUsers)
+		try {
+			setLoading(true)
+			const allUsers = await axios.get('/api/users')
+			const results = searchUsers(form['searchValue'], allUsers.data.data.results)
+			setResults({data:[...results]})
+		} catch (error) {
+			console.log(error)
+			setError(true)
 		}
-
-		const results = await fetchJson(url, {
-			method: 'POST',
-			body: JSON.stringify(form),
-		})
-
-		setResults(results)
 	}
 
 	return (
 		<StyledFormContainer>
-			<StyledPaper elevation={3}>
+			
 				<Typography variant='h6'>Search for a user</Typography>
 
 				<StyledTextField
@@ -49,10 +59,10 @@ export default function SearchUserForm(props) {
 					label='Username or Name'
 					onChange={onChange}
 				/>
-				<Button variant='contained' color='primary' onClick={onSubmit}>
+				<Button variant='contained' color='primary' type='submit' onClick={onSubmit}>
 					Search
 				</Button>
-			</StyledPaper>
+			
 		</StyledFormContainer>
 	)
 }
@@ -60,6 +70,10 @@ export default function SearchUserForm(props) {
 const StyledFormContainer = styled.div`
 	max-width: 350px;
 	margin: auto;
+	padding: 1rem;
+	display: flex;
+	flex-flow: column wrap;
+	justify-content: space-around;
 `
 
 const StyledPaper = styled(Paper)`
