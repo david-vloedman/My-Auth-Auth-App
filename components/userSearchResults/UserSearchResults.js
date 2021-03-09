@@ -4,22 +4,20 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import Avatar from '@material-ui/core/Avatar'
-import IconButton from '@material-ui/core/IconButton'
-import Add from '@material-ui/icons/Add'
 import AddUserButton from '../buttons/AddUserButton/AddUserButton'
 
 export default function UserSearchResults(props) {
-	const { users } = props
+	const { users} = props
   console.log(users)
 	return (
 		<div>
-			<List>{users?.map(user => (<UserListItem user={user} key={user._id}/>))}</List>
+			<List>{users?.map(user => (<UserListItem user={user} key={user._id} {...props}/>))}</List>
 		</div>
 	)
 }
 
 function UserListItem(props) {
-	const { user } = props
+	const { user, setAlert } = props
 
 	return (
 		<ListItem>
@@ -31,7 +29,7 @@ function UserListItem(props) {
 				secondary={user?.name ? user.name : null}
 			/>
 			<ListItemSecondaryAction>
-				<AddUserButton uid={user._id} />
+				<AddUserButton user={user} setAlert={setAlert} />
 			</ListItemSecondaryAction>
 		</ListItem>
 	)
