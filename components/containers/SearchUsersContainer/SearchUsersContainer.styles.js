@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 import Paper from '@material-ui/core/Paper'
 
-export const StyledMainContainer = styled.div`
-  margin: auto;
+export const MainContainer = styled.div`
   max-width: 350px;
+  margin: auto;
 `
 
 export const StyledPaper = styled(Paper)`
-  padding: 5px;
+  max-width: 350px;
 `

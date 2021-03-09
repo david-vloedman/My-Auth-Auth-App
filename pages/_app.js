@@ -5,23 +5,10 @@ import { initStore } from '../store'
 
 function MyApp({ Component, pageProps }) {
 	const { user } = pageProps
-	
-	const store = user ? initStore({user:user, layout: {loggedIn: true, showDrawer: false}}) :
-	initStore({layout: {loggedIn: false, showDrawer: false}})
 
-	// if(user){
-	// 	dispatch(Actions.setUser(user))
-	// 	dispatch(Actions.loggedIn())
-	// }
-
-	// const store = user
-	// 	? initStore({
-	// 			...user,
-	// 			...layout,
-	// 	  })
-	// 	: initStore({})
-	
-	
+	const store = user
+		? initStore({ user: user, layout: { loggedIn: true, showDrawer: false } })
+		: initStore({ layout: { loggedIn: false, showDrawer: false } })
 
 	return (
 		<Provider store={store}>
