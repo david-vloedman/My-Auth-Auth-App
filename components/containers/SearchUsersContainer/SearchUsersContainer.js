@@ -18,26 +18,25 @@ export default function SearchUsersContainer(props) {
 		setResults({ loading: true })
 	}
 
-  const onClose = () => {
-    setAlert({
-      open: false
-    })
-  }
- 
+	const onClose = () => {
+		setAlert({
+			open: false,
+		})
+	}
 
 	const WrappedSnackBar = () => (
-		<Snackbar 
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }} 
-      message={alert.message}
-      open={alert.open}      
-      onClose={onClose}
-      color='green'
-      />
+		<Snackbar
+			anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+			message={alert.message}
+			open={alert.open}
+			onClose={onClose}
+			color='green'
+		/>
 	)
 
 	return (
 		<Styles.MainContainer>
-      <WrappedSnackBar />
+			<WrappedSnackBar />
 			<Styles.StyledPaper>
 				<SearchUserForm
 					setResults={setResults}
@@ -49,7 +48,7 @@ export default function SearchUsersContainer(props) {
 				) : results?.error ? (
 					<div>Error</div>
 				) : results?.data ? (
-					<UserSearchResults users={results.data} setAlert={setAlert}/>
+					<UserSearchResults users={results.data} setAlert={setAlert} />
 				) : null}
 			</Styles.StyledPaper>
 		</Styles.MainContainer>

@@ -1,34 +1,35 @@
 import IconButton from '@material-ui/core/IconButton'
-import Add from '@material-ui/icons/Add'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import DeleteIcon from '@material-ui/icons/Delete'
 import axios from 'axios'
 import { useState } from 'react'
 
-const url = (uid) => `/api/friends/addFriend/${uid}`
+const url = (uid) => `/api/friends/removeFriend/${uid}`
 
-export default function AddUserButton(props) {
-	const { user, setAlert } = props
+export default function RemoveUserButton(props) {
+
+  const { user, setAlert } = props
 
 	const [request, setRequest] = useState({
 		loading: false,
 		error: false,
 	})
 
-
-	const onClick = async () => {
+  const onClick = async () => {
 		try {
 			setRequest({
 				loading: true,
 				error: false,
 			})
 			const response = await axios.post(url(user._id))
+      console.log(response)
 			setRequest({
 				loading: false,
 				error: false,
 				success: true,
 			})
       setAlert({
-        message: `Successfully added ${user.userName}`,
+        message: `Successfully removed ${user.userName}`,
         open: true
       })
 		} catch (error) {
@@ -41,12 +42,11 @@ export default function AddUserButton(props) {
 
 	return (
 		<>
-			
 			<IconButton onClick={onClick}>
 				{request.loading ? (
 					<CircularProgress />
 				) : (
-					<Add disabled={request.error} />
+					<DeleteIcon disabled={request.error} />
 				)}
 			</IconButton>
 		</>

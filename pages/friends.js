@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import FriendsList from '../components/friends/friendsList/FriendsList'
+import FriendsList from '../components/contactList/FriendsList'
 import withSession from '../lib/withSession'
 import getAppState from '../lib/helpers/getAppState'
 

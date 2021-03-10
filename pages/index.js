@@ -31,7 +31,7 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
 	}
 
 	const appState = await getAppState(user._id)
-	
+	console.log(appState)
 	return {
 		props: {
 			user:{...JSON.parse(appState)}, /// !!??
