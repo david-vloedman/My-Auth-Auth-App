@@ -26,7 +26,7 @@ export default function SearchUsersContainer(props) {
 
 	const WrappedSnackBar = () => (
 		<Snackbar
-			anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+			anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
 			message={alert.message}
 			open={alert.open}
 			onClose={onClose}
