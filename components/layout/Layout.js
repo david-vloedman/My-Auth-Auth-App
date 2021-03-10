@@ -16,8 +16,8 @@ export default function Layout({ props, children }) {
 	}
 
 	return (
-		<div>
-			<CssBaseLine />
+		<>
+		<CssBaseLine />
 			{loggedIn ? (
 				<MenuDrawer
 					open={showDrawer}
@@ -27,14 +27,19 @@ export default function Layout({ props, children }) {
 			) : null}
 
 			<AppBar props={{ toggleDrawer: dispatchDrawerToggle, loggedIn }} />
-			<StyledContainer>{children}</StyledContainer>
-		</div>
+			
+			<StyledContainer>
+				
+
+				{children}
+			</StyledContainer>
+		</>
 	)
 }
 
 const StyledContainer = styled(Container)`
 	background-color: #e8e8e8;
 	min-height: 100vh;
-	display: flex;
-	padding-top: 1rem;
 `
+
+

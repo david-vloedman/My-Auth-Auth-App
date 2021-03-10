@@ -1,4 +1,4 @@
-import LoginFormContainer from '../components/containers/LoginForm/LoginFormContainer'
+import LoginContainer from '../components/containers/LoginContainer/LoginContainer'
 import Head from 'next/head'
 
 export default function login() {
@@ -8,7 +8,7 @@ export default function login() {
 				<title>Login</title>
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-			<LoginFormContainer />
+			<LoginContainer />
 		</div>
 	)
 }

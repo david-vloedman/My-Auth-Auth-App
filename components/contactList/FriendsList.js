@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper'
 import DeleteIcon from '@material-ui/icons/Delete'
+import RemoveUserButton from '../buttons/RemoveUserButton/RemoveUserButton'
 
 export default function FriendsList(props) {
 	const { friendsList } = props
@@ -29,7 +30,7 @@ export default function FriendsList(props) {
 		return (
 			<List>
 				<ListSubheader component='div' disableSticky={true}>Friends</ListSubheader>
-				{friends.map((friend) => {
+				{friends?.map((friend) => {
 					return (
 						<ListItem key={Math.random()}>
               <ListItemAvatar>
@@ -39,9 +40,7 @@ export default function FriendsList(props) {
               </ListItemAvatar>
 							<ListItemText primary={friend.userName} secondary={friend.name ? friend.name : null} />
               <ListItemSecondaryAction>
-                <IconButton edge='end'>
-                  <DeleteIcon />
-                </IconButton>
+                <RemoveUserButton user={friend} setAlert={removeFriend} />
               </ListItemSecondaryAction>
 							
 						</ListItem>

@@ -1,10 +1,10 @@
 import CreateUserForm from '../../forms/CreateUser/CreateUserForm'
 import LoginForm from '../../forms/Login/LoginForm'
 import Typography from '@material-ui/core/Typography'
-import * as Styles from './LoginFormContainer.styles'
+import * as Styles from './LoginContainer.styles'
 import { useState } from 'react'
 
-export default function LoginFormContainer({ props }) {
+export default function LoginContainer({ props }) {
 	const [visibility, setVisibility] = useState({
 		login: true,
 		create: false,
