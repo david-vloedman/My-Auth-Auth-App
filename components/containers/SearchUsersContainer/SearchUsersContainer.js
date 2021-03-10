@@ -30,7 +30,7 @@ export default function SearchUsersContainer(props) {
 			message={alert.message}
 			open={alert.open}
 			onClose={onClose}
-			color='green'
+			color='secondary'
 		/>
 	)
 

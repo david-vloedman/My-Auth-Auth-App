@@ -10,38 +10,37 @@ import Message from '@material-ui/icons/Message'
 import Link from 'next/link'
 
 export default function MenuDrawer(props) {
-
-	const {toggleDrawer, open} = props
+	const { toggleDrawer, open } = props
 
 	return (
 		<Drawer anchor='left' open={open} onClose={toggleDrawer}>
 			<List onClick={toggleDrawer}>
-				<ListItem button key='messages'>
-					<ListItemIcon>
-						<Message />
-					</ListItemIcon>
-					<Link href='/messages'>
+				<Link href='/messages'>
+					<ListItem button key='messages'>
+						<ListItemIcon>
+							<Message />
+						</ListItemIcon>
 						<ListItemText primary='Messages' />
-					</Link>
-				</ListItem>
+					</ListItem>
+				</Link>
 
-				<ListItem key='myFriends' button>
-					<ListItemIcon>
-						<Person />
-					</ListItemIcon>
-					<Link href='/friends'>
+				<Link href='/friends'>
+					<ListItem key='myFriends' button>
+						<ListItemIcon>
+							<Person />
+						</ListItemIcon>
 						<ListItemText primary='My Friends' />
-					</Link>
-				</ListItem>
-
-				<ListItem key='findFriends' button>
-					<ListItemIcon>
-						<PersonAdd />
-					</ListItemIcon>
-					<Link href='/users/search'>
+					</ListItem>
+				</Link>
+				
+				<Link href='/users/search'>
+					<ListItem key='findFriends' button>
+						<ListItemIcon>
+							<PersonAdd />
+						</ListItemIcon>
 						<ListItemText primary='Search Users' />
-					</Link>
-				</ListItem>
+					</ListItem>
+				</Link>
 			</List>
 		</Drawer>
 	)
