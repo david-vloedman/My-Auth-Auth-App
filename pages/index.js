@@ -19,9 +19,9 @@ export default function Home(props) {
 }
 
 export const getServerSideProps = withSession(async function ({ req, res }) {
-	const user = req.session.get('user')
-	
-	if (!user) {
+	const sessionUser = req.session.get('user')
+
+	if (!sessionUser) {
 		return {
 			redirect: {
 				destination: '/login',
@@ -30,11 +30,21 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
 		}
 	}
 
-	const appState = await getAppState(user._id)
-	console.log(appState)
-	return {
-		props: {
-			user:{...JSON.parse(appState)}, /// !!??
-		},
+	try {
+		const appState = await getAppState(sessionUser._id)
+		
+		const json = JSON.stringify(appState)
+		const jsonParsed = JSON.parse(json)
+		return {
+			props: {
+				...jsonParsed
+
+			}
+		}
+	} catch (error) {
+		console.log(error)
+		return {
+			notFound: true,
+		}
 	}
 })

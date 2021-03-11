@@ -7,8 +7,8 @@ import Avatar from '@material-ui/core/Avatar'
 import AddUserButton from '../buttons/AddUserButton/AddUserButton'
 
 export default function UserSearchResults(props) {
-	const { users} = props
-  console.log(users)
+	const { users } = props
+  
 	return (
 		<div>
 			<List>{users?.map(user => (<UserListItem user={user} key={user._id} {...props}/>))}</List>
@@ -29,7 +29,7 @@ function UserListItem(props) {
 				secondary={user?.name ? user.name : null}
 			/>
 			<ListItemSecondaryAction>
-				<AddUserButton user={user} setAlert={setAlert} />
+				<AddUserButton user={user} setAlert={setAlert} {...props}/>
 			</ListItemSecondaryAction>
 		</ListItem>
 	)

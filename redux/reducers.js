@@ -5,7 +5,7 @@ const layoutReducer = {
 	toggleLoggedIn(state, payload) {
 		return {
 			...state,
-			loggedIn:!state.loggedIn,
+			loggedIn: !state.loggedIn,
 		}
 	},
 
@@ -15,7 +15,6 @@ const layoutReducer = {
 			showDrawer: !state.showDrawer,
 		}
 	},
-	
 }
 
 const layoutSlice = createSlice({
@@ -26,17 +25,28 @@ const layoutSlice = createSlice({
 
 const userReducer = {
 	setUser(state, action) {
+		console.log(action.payload)
 		return {
 			...state,
-			layout: { ...state.layout, loggedIn: true },
-			user: { ...action.payload },
+			...action.payload
 		}
 	},
 	unsetUser(state, action) {
 		return {
 			...state,
-			layout: { ...state.layout, loggedIn: false },
 			user: undefined,
+		}
+	},
+	friendAdded(state, action) {
+		return {
+			...state,
+			...action.payload
+		}
+	},
+	friendRemoved(state, action) {
+		return {
+			...state,
+			...action.payload
 		}
 	},
 }
@@ -47,13 +57,14 @@ const userSlice = createSlice({
 	reducers: userReducer,
 })
 
-export const { setUser, unsetUser } = userSlice.actions
-
 export const {
-	toggleLoggedIn,
-	toggleDrawer,
-	
-} = layoutSlice.actions
+	setUser,
+	unsetUser,
+	friendRemoved,
+	friendAdded,
+} = userSlice.actions
+
+export const { toggleLoggedIn, toggleDrawer } = layoutSlice.actions
 
 const reducers = combineReducers({
 	layout: layoutSlice.reducer,

@@ -1,10 +1,18 @@
 import Head from 'next/head'
-import FriendsList from '../components/contactList/FriendsList'
+import FriendsList from '../components/FriendsList/FriendsList'
 import withSession from '../lib/withSession'
 import getAppState from '../lib/helpers/getAppState'
+import { useSelector, useDispatch } from 'react-redux'
+import * as Actions from '../redux/reducers'
 
 export default function friends(props) {
-	const { user } = props
+	const reduxUser = useSelector((state) => state.user)
+	console.log(reduxUser)
+	const dispatch = useDispatch()
+
+	const onRemoveFriend = (uid) => {
+		dispatch(Actions.friendRemoved(uid))
+	}
 
 	return (
 		<div className='container'>
@@ -14,7 +22,10 @@ export default function friends(props) {
 			</Head>
 
 			<main>
-				<FriendsList friendsList={user.friends} />
+				<FriendsList
+					friendsList={reduxUser.friends ? [...reduxUser.friends] : []}
+					onRemoveFriend={onRemoveFriend}
+				/>
 			</main>
 
 			<footer></footer>
@@ -23,9 +34,9 @@ export default function friends(props) {
 }
 
 export const getServerSideProps = withSession(async function ({ req, res }) {
-	const user = req.session.get('user')
+	const sessionUser = req.session.get('user')
 
-	if (!user) {
+	if (!sessionUser) {
 		return {
 			redirect: {
 				destination: '/login',
@@ -35,16 +46,19 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
 	}
 
 	try {
-		const appState = await getAppState(user._id)
+		const appState = await getAppState(sessionUser._id)
 
+		const json = JSON.stringify(appState)
+		const jsonParsed = JSON.parse(json)
 		return {
 			props: {
-				user: JSON.parse(appState), /// !!??
+				...jsonParsed,
 			},
 		}
 	} catch (error) {
-    return {
-      notFound: true
-    }
-  }
+		console.log(error)
+		return {
+			notFound: true,
+		}
+	}
 })

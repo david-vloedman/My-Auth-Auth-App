@@ -11,14 +11,14 @@ export default withSession(async (req, res) => {
 	const user = await userCollection.findOne({ userName: userName })
 
 	if (!user) {
-		return res.json({ loggedIn: false, error: 'No user found' })
+		return res.json({ hasError: true, errorMsg: 'No user found' })
 	}
 
 	if (await bcrypt.compare(password, user.password)) {
 		const newSession = {
-			_id:user._id
+			_id: user._id,
 		}
-		console.log(newSession)
+
 		req.session.set('user', newSession)
 
 		await req.session.save()
@@ -30,19 +30,22 @@ export default withSession(async (req, res) => {
 })
 
 /**
- * Gets the friends of the given 
- * @param {*} user 
- * @param {*} userCollection 
- * @param {*} req 
+ * Gets the friends of the given
+ * @param {*} user
+ * @param {*} userCollection
+ * @param {*} req
  */
 export const getFriends = async (user, userCollection) => {
 	if (user.friends) {
 		const friends = await userCollection
-			.find({_id: {$in: [...user.friends]}}, {userName: 1, name: 1}, undefined)
+			.find(
+				{ _id: { $in: [...user.friends] } },
+				{ userName: 1, name: 1 },
+				undefined
+			)
 			.toArray()
 		return [...friends]
 	}
 
 	return []
 }
-

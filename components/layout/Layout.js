@@ -6,18 +6,26 @@ import AppBar from '../appBar/AppBar'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Actions from '../../redux/reducers'
 
-export default function Layout({ props, children }) {
-	const { loggedIn, showDrawer } = useSelector((state) => state.layout)
-	const { user } = useSelector((state) => state)
+export default function Layout(props) {
+	const { user } = props
 	const dispatch = useDispatch()
+	
+	const { loggedIn, showDrawer } = useSelector((state) => state.layout)
+	const reduxUser = useSelector((state) => state.user)
 
+	// if there is no user in redux state, set it to the state given by the server
+	if (Object.keys(reduxUser).length === 0 && Object.keys(user).length > 0) {
+		console.log("SETTING USER")
+		dispatch(Actions.setUser(user))
+		dispatch(Actions.toggleLoggedIn())
+	}
 	const dispatchDrawerToggle = () => {
 		dispatch(Actions.toggleDrawer())
 	}
 
 	return (
 		<>
-		<CssBaseLine />
+			<CssBaseLine />
 			{loggedIn ? (
 				<MenuDrawer
 					open={showDrawer}
@@ -27,12 +35,8 @@ export default function Layout({ props, children }) {
 			) : null}
 
 			<AppBar props={{ toggleDrawer: dispatchDrawerToggle, loggedIn }} />
-			
-			<StyledContainer>
-				
 
-				{children}
-			</StyledContainer>
+			<StyledContainer>{{ ...props.children }}</StyledContainer>
 		</>
 	)
 }
@@ -41,5 +45,3 @@ const StyledContainer = styled(Container)`
 	background-color: #e8e8e8;
 	min-height: 100vh;
 `
-
-

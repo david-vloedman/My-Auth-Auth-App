@@ -3,17 +3,17 @@ import Add from '@material-ui/icons/Add'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import axios from 'axios'
 import { useState } from 'react'
+import {useSelector, useDispatch} from 'react-redux'
 
 const url = (uid) => `/api/friends/addFriend/${uid}`
 
 export default function AddUserButton(props) {
-	const { user, setAlert } = props
+	const { user, setAlert, onAddFriend } = props
 
 	const [request, setRequest] = useState({
 		loading: false,
 		error: false,
 	})
-
 
 	const onClick = async () => {
 		try {
@@ -22,16 +22,19 @@ export default function AddUserButton(props) {
 				error: false,
 			})
 			const response = await axios.post(url(user._id))
+			
 			setRequest({
 				loading: false,
 				error: false,
 				success: true,
 			})
+			onAddFriend(response.data.data)
       setAlert({
-        message: `Successfully added ${user.userName}`,
+        message: response.data.message,
         open: true
       })
 		} catch (error) {
+			console.log(error)
 			setRequest({
 				loading: false,
 				error: true,

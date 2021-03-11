@@ -2,7 +2,7 @@ import { connectToDatabase } from '../../../util/mongodb'
 import withSession from '../../../lib/withSession'
 import * as Responses from '../../../lib/helpers/responses'
 /**
- * Login into a user account
+ * Search for a user in the system
  */
 export default withSession(async (req, res) => {
 	const { searchValue } = JSON.parse(req.body)
