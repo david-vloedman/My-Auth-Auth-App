@@ -25,7 +25,7 @@ const layoutSlice = createSlice({
 
 const userReducer = {
 	setUser(state, action) {
-		console.log(action.payload)
+		
 		return {
 			...state,
 			...action.payload
