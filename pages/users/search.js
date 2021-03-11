@@ -7,9 +7,9 @@ export default function search() {
 }
 
 export const getServerSideProps = withSession(async function ({ req }) {
-	const user = req.session.get('user')
+	const sessionUser = req.session.get('user')
 
-	if (!user) {
+	if (!sessionUser) {
 		return {
 			redirect: {
 				destination: '/login',
@@ -18,11 +18,21 @@ export const getServerSideProps = withSession(async function ({ req }) {
 		}
 	}
 
-	const appState = await getAppState(user._id)
+	try {
+		const appState = await getAppState(sessionUser._id)
+		console.log(appState)
+		const json = JSON.stringify(appState)
+		const test = JSON.parse(json)
+		return {
+			props: {
+				...test
 
-	return {
-		props: {
-			user: JSON.parse(appState), /// !!??
-		},
+			}
+		}
+	} catch (error) {
+		console.log(error)
+		return {
+			notFound: true,
+		}
 	}
 })

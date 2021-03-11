@@ -3,35 +3,39 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 import DeleteIcon from '@material-ui/icons/Delete'
 import axios from 'axios'
 import { useState } from 'react'
+import * as Actions from '../../../redux/reducers'
+import {useDispatch, useSelector} from 'react-redux'
 
 const url = (uid) => `/api/friends/removeFriend/${uid}`
 
 export default function RemoveUserButton(props) {
-
-  const { user, setAlert } = props
-
+	
+  const { onRemoveFriend, friend } = props
+	
 	const [request, setRequest] = useState({
 		loading: false,
 		error: false,
 	})
 
   const onClick = async () => {
+		
 		try {
 			setRequest({
+				...request,
 				loading: true,
 				error: false,
 			})
-			const response = await axios.post(url(user._id))
-      console.log(response)
+			
+			const response = await axios.post(url(friend._id))
+
 			setRequest({
+				...request,
 				loading: false,
 				error: false,
 				success: true,
 			})
-      setAlert({
-        message: `Successfully removed ${user.userName}`,
-        open: true
-      })
+			console.log(response.data?.data.friends)
+			onRemoveFriend(response.data?.data?.friends)
 		} catch (error) {
 			setRequest({
 				loading: false,

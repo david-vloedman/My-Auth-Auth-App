@@ -6,18 +6,27 @@ import AppBar from '../appBar/AppBar'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Actions from '../../redux/reducers'
 
-export default function Layout({ props, children }) {
-	const { loggedIn, showDrawer } = useSelector((state) => state.layout)
-	const { user } = useSelector((state) => state)
+const ifNoUser = (dispatch, user) => dispatch(Actions.setUser({...user}))
+
+export default function Layout(props) {
+	const { user } = props
+
 	const dispatch = useDispatch()
 
+	const { loggedIn, showDrawer } = useSelector((state) => state.layout)
+
+	const reduxUser = useSelector((state) => state.user.user)
+	
+	if (!reduxUser) {
+		ifNoUser(dispatch, user)
+	}
 	const dispatchDrawerToggle = () => {
 		dispatch(Actions.toggleDrawer())
 	}
 
 	return (
 		<>
-		<CssBaseLine />
+			<CssBaseLine />
 			{loggedIn ? (
 				<MenuDrawer
 					open={showDrawer}
@@ -27,12 +36,8 @@ export default function Layout({ props, children }) {
 			) : null}
 
 			<AppBar props={{ toggleDrawer: dispatchDrawerToggle, loggedIn }} />
-			
-			<StyledContainer>
-				
 
-				{children}
-			</StyledContainer>
+			<StyledContainer>{{ ...props.children }}</StyledContainer>
 		</>
 	)
 }
@@ -41,5 +46,3 @@ const StyledContainer = styled(Container)`
 	background-color: #e8e8e8;
 	min-height: 100vh;
 `
-
-

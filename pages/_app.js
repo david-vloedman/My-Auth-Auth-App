@@ -4,15 +4,15 @@ import Layout from '../components/layout/Layout'
 import { initStore } from '../store'
 
 function MyApp({ Component, pageProps }) {
-	const { user } = pageProps
-
-	const store = user
-		? initStore({ user: user, layout: { loggedIn: true, showDrawer: false } })
-		: initStore({ layout: { loggedIn: false, showDrawer: false } })
-
+	
+	const store = initStore()
+	// const store = user
+	// 	? initStore({ user: user, layout: { loggedIn: true, showDrawer: false } })
+	// 	: initStore({ layout: { loggedIn: false, showDrawer: false } })
+console.log(pageProps)
 	return (
 		<Provider store={store}>
-			<Layout>
+			<Layout user={pageProps}>
 				<Component {...pageProps} />
 			</Layout>
 		</Provider>

@@ -6,24 +6,13 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper'
-import DeleteIcon from '@material-ui/icons/Delete'
 import RemoveUserButton from '../buttons/RemoveUserButton/RemoveUserButton'
 
 export default function FriendsList(props) {
-	const { friendsList } = props
-
-	const getUserList = async () => {
-		/* get all users */
-	}
-	const addFriend = async (uid) => {
-		/* add friend */
-	}
-	const removeFriend = async (uid) => {
-		/* remove friend */
-	}
-
+	
+	const { friendsList, onRemoveFriend } = props
+	console.log(friendsList)
 	const MainList = (props) => {
 		const { friends } = props
 
@@ -40,7 +29,7 @@ export default function FriendsList(props) {
               </ListItemAvatar>
 							<ListItemText primary={friend.userName} secondary={friend.name ? friend.name : null} />
               <ListItemSecondaryAction>
-                <RemoveUserButton user={friend} setAlert={removeFriend} />
+                <RemoveUserButton friend={friend} onRemoveFriend={onRemoveFriend} />
               </ListItemSecondaryAction>
 							
 						</ListItem>
