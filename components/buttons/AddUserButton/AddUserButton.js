@@ -3,7 +3,7 @@ import Add from '@material-ui/icons/Add'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import axios from 'axios'
 import { useState } from 'react'
-import {useSelect, useDispatch} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 
 const url = (uid) => `/api/friends/addFriend/${uid}`
 

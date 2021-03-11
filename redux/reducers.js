@@ -28,8 +28,7 @@ const userReducer = {
 		console.log(action.payload)
 		return {
 			...state,
-			user: action.payload
-			
+			...action.payload
 		}
 	},
 	unsetUser(state, action) {
@@ -41,17 +40,14 @@ const userReducer = {
 	friendAdded(state, action) {
 		return {
 			...state,
-			friends: [...user.friends, action.payload],
+			...action.payload
 		}
 	},
 	friendRemoved(state, action) {
 		console.log(action.payload)
 		return {
 			...state,
-			user: {
-				...state.user,
-				friends: [...action.payload],
-			},
+			...action.payload
 		}
 	},
 }

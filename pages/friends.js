@@ -6,7 +6,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as Actions from '../redux/reducers'
 
 export default function friends(props) {
-	const reduxUser = useSelector((state) => state.user.user)
+	const reduxUser = useSelector((state) => state.user)
+	console.log(reduxUser)
 	const dispatch = useDispatch()
 
 	const onRemoveFriend = (uid) => {

@@ -14,6 +14,7 @@ export default function LogoutButton(props) {
 				method: 'GET',
 			})
 			dispatch(Actions.toggleLoggedIn())
+			dispatch(Actions.unsetUser())
 			console.log(response)
 		} catch(error){
 			console.log(error)

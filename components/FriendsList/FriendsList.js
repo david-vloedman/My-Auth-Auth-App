@@ -12,7 +12,7 @@ import RemoveUserButton from '../buttons/RemoveUserButton/RemoveUserButton'
 export default function FriendsList(props) {
 	
 	const { friendsList, onRemoveFriend } = props
-	console.log(friendsList)
+	
 	const MainList = (props) => {
 		const { friends } = props
 

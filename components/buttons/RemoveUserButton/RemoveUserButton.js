@@ -21,22 +21,21 @@ export default function RemoveUserButton(props) {
 		
 		try {
 			setRequest({
-				...request,
 				loading: true,
 				error: false,
 			})
 			
 			const response = await axios.post(url(friend._id))
-
+			console.log(response)
 			setRequest({
-				...request,
 				loading: false,
 				error: false,
 				success: true,
 			})
-			console.log(response.data?.data.friends)
-			onRemoveFriend(response.data?.data?.friends)
+			
+			onRemoveFriend(response.data?.data)
 		} catch (error) {
+			console.log(error)
 			setRequest({
 				loading: false,
 				error: true,

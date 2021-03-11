@@ -6,19 +6,18 @@ import AppBar from '../appBar/AppBar'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Actions from '../../redux/reducers'
 
-const ifNoUser = (dispatch, user) => dispatch(Actions.setUser({...user}))
-
 export default function Layout(props) {
 	const { user } = props
-
 	const dispatch = useDispatch()
-
-	const { loggedIn, showDrawer } = useSelector((state) => state.layout)
-
-	const reduxUser = useSelector((state) => state.user.user)
 	
-	if (!reduxUser) {
-		ifNoUser(dispatch, user)
+	const { loggedIn, showDrawer } = useSelector((state) => state.layout)
+	const reduxUser = useSelector((state) => state.user)
+
+	// if there is no user in redux state, set it to the state given by the server
+	if (Object.keys(reduxUser).length === 0 && Object.keys(user).length > 0) {
+		console.log("SETTING USER")
+		dispatch(Actions.setUser(user))
+		dispatch(Actions.toggleLoggedIn())
 	}
 	const dispatchDrawerToggle = () => {
 		dispatch(Actions.toggleDrawer())
