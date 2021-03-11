@@ -5,6 +5,7 @@ import * as Styles from './SearchUsersContainer.styles'
 import Snackbar from '@material-ui/core/Snackbar'
 
 export default function SearchUsersContainer(props) {
+
 	const [results, setResults] = useState()
 	const [alert, setAlert] = useState({
 		open: false,
@@ -48,7 +49,7 @@ export default function SearchUsersContainer(props) {
 				) : results?.error ? (
 					<div>Error</div>
 				) : results?.data ? (
-					<UserSearchResults users={results.data} setAlert={setAlert} />
+					<UserSearchResults users={results.data} setAlert={setAlert} {...props}/>
 				) : null}
 			</Styles.StyledPaper>
 		</Styles.MainContainer>

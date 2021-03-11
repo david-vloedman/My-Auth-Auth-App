@@ -8,7 +8,7 @@ import {useSelector, useDispatch} from 'react-redux'
 const url = (uid) => `/api/friends/addFriend/${uid}`
 
 export default function AddUserButton(props) {
-	const { user, setAlert } = props
+	const { user, setAlert, onAddFriend } = props
 
 	const [request, setRequest] = useState({
 		loading: false,
@@ -22,17 +22,19 @@ export default function AddUserButton(props) {
 				error: false,
 			})
 			const response = await axios.post(url(user._id))
-			console.log(response)
+			
 			setRequest({
 				loading: false,
 				error: false,
 				success: true,
 			})
+			onAddFriend(response.data.data)
       setAlert({
         message: response.data.message,
         open: true
       })
 		} catch (error) {
+			console.log(error)
 			setRequest({
 				loading: false,
 				error: true,

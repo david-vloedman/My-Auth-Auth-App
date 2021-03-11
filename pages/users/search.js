@@ -1,9 +1,15 @@
 import withSession from '../../lib/withSession'
 import SearchUsersContainer from '../../components/containers/SearchUsersContainer/SearchUsersContainer'
 import getAppState from '../../lib/helpers/getAppState'
+import {setUser, friendAdded}  from '../../redux/reducers'
+import { useDispatch, useSelector } from 'react-redux'
 
-export default function search() {
-	return <SearchUsersContainer />
+export default function search(props) {
+	const dispatch = useDispatch()
+
+	const onAddFriend = (payload) => dispatch(friendAdded(payload))
+
+	return <SearchUsersContainer onAddFriend={onAddFriend}/>
 }
 
 export const getServerSideProps = withSession(async function ({ req }) {
@@ -20,14 +26,13 @@ export const getServerSideProps = withSession(async function ({ req }) {
 
 	try {
 		const appState = await getAppState(sessionUser._id)
-		console.log(appState)
-		const json = JSON.stringify(appState)
-		const test = JSON.parse(json)
+
+		const stringified = JSON.stringify(appState)
+		const parsed = JSON.parse(stringified)
 		return {
 			props: {
-				...test
-
-			}
+				...parsed,
+			},
 		}
 	} catch (error) {
 		console.log(error)

@@ -44,7 +44,6 @@ const userReducer = {
 		}
 	},
 	friendRemoved(state, action) {
-		console.log(action.payload)
 		return {
 			...state,
 			...action.payload
