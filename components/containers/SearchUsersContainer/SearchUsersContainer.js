@@ -1,4 +1,4 @@
-import UserSearchResults from '../../userSearchResults/UserSearchResults'
+import UserSearchResults from '../../UserSearchResults/UserSearchResults'
 import { useState } from 'react'
 import SearchUserForm from '../../forms/SearchUsers/SearchUsersForm'
 import * as Styles from './SearchUsersContainer.styles'

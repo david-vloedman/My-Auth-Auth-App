@@ -10,7 +10,9 @@ import Fuse from 'fuse.js'
 export default function SearchUserForm(props) {
 	const { setResults, setLoading, setError } = props
 
-	const [form, setForm] = useState()
+	const [form, setForm] = useState({
+		searchTerm: '',
+	})
 
 	const onChange = (e) => {
 		setForm({
@@ -22,18 +24,13 @@ export default function SearchUserForm(props) {
 	const searchUsers = (searchTerm, data) => {
 		const options = {
 			includeScore: true,
-			keys: ['userName', 'name']
+			keys: ['userName', 'name'],
 		}
 
-		console.log(data)
 		const fuse = new Fuse(data, options)
 
-		const result = fuse.search(searchTerm)
-
-		return result.map(i => i.item)
-		
+		return searchTerm ? fuse.search(searchTerm).map((i) => i.item) : data
 	}
-
 
 	const onSubmit = async (e) => {
 		e.preventDefault()
@@ -41,8 +38,11 @@ export default function SearchUserForm(props) {
 		try {
 			setLoading(true)
 			const allUsers = await axios.get('/api/users')
-			const results = searchUsers(form['searchValue'], allUsers.data.data.results)
-			setResults({data:[...results]})
+			const results = searchUsers(
+				form['searchValue'] || '',
+				allUsers.data.data.results
+			)
+			setResults({ data: [...results] })
 		} catch (error) {
 			console.log(error)
 			setError(true)
@@ -51,18 +51,21 @@ export default function SearchUserForm(props) {
 
 	return (
 		<StyledFormContainer>
-			
-				<Typography variant='h6'>Search for a user</Typography>
+			<Typography variant='h6'>Search for a user</Typography>
 
-				<StyledTextField
-					name='searchValue'
-					label='Username or Name'
-					onChange={onChange}
-				/>
-				<Button variant='contained' color='primary' type='submit' onClick={onSubmit}>
-					Search
-				</Button>
-			
+			<StyledTextField
+				name='searchValue'
+				label='Username or Name'
+				onChange={onChange}
+			/>
+			<Button
+				variant='contained'
+				color='primary'
+				type='submit'
+				onClick={onSubmit}
+			>
+				Search
+			</Button>
 		</StyledFormContainer>
 	)
 }
