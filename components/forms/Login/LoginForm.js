@@ -36,7 +36,7 @@ function LoginForm(props) {
 				body: JSON.stringify(form),
 				credentials: 'include',
 			})
-			console.log(response)
+			
 			if (response.hasError) {
 				setForm({
 					...form,

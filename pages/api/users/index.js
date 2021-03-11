@@ -14,7 +14,11 @@ export default withSession(async (req, res) => {
 
 	const users = db.collection('users')
 
-	const allUsers = await users.find({})?.project({userName: 1, name: 1}).toArray()
+	const allUsers = await users
+		.find({})
+		?.project({ userName: 1, name: 1 })
+		.sort({ userName: 1 })
+		.toArray()
 
 	if (!allUsers) {
 		return res.status(200).json({

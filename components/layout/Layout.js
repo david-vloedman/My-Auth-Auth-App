@@ -15,7 +15,6 @@ export default function Layout(props) {
 
 	// if there is no user in redux state, set it to the state given by the server
 	if (Object.keys(reduxUser).length === 0 && Object.keys(user).length > 0) {
-		console.log("SETTING USER")
 		dispatch(Actions.setUser(user))
 		dispatch(Actions.toggleLoggedIn())
 	}

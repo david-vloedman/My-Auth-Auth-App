@@ -1,11 +1,10 @@
-import UserSearchResults from '../../userSearchResults/UserSearchResults'
+import UserSearchResults from '../../UserSearchResults/UserSearchResults'
 import { useState } from 'react'
 import SearchUserForm from '../../forms/SearchUsers/SearchUsersForm'
 import * as Styles from './SearchUsersContainer.styles'
 import Snackbar from '@material-ui/core/Snackbar'
 
 export default function SearchUsersContainer(props) {
-
 	const [results, setResults] = useState()
 	const [alert, setAlert] = useState({
 		open: false,
@@ -13,10 +12,6 @@ export default function SearchUsersContainer(props) {
 
 	const setError = () => {
 		setResults({ error: true })
-	}
-
-	const setLoading = () => {
-		setResults({ loading: true })
 	}
 
 	const onClose = () => {
@@ -42,14 +37,13 @@ export default function SearchUsersContainer(props) {
 				<SearchUserForm
 					setResults={setResults}
 					setError={setError}
-					setLoading={setLoading}
 				/>
-				{results?.loading ? (
-					<div>Loading...</div>
-				) : results?.error ? (
-					<div>Error</div>
-				) : results?.data ? (
-					<UserSearchResults users={results.data} setAlert={setAlert} {...props}/>
+				{results?.data ? (
+					<UserSearchResults
+						users={results.data}
+						setAlert={setAlert}
+						{...props}
+					/>
 				) : null}
 			</Styles.StyledPaper>
 		</Styles.MainContainer>
