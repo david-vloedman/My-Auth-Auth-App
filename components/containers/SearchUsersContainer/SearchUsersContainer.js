@@ -23,6 +23,7 @@ export default function SearchUsersContainer(props) {
 	const WrappedSnackBar = () => (
 		<Snackbar
 			anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+			autoHideDuration={3000}
 			message={alert.message}
 			open={alert.open}
 			onClose={onClose}
