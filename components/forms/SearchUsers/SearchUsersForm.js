@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import * as Styles from './SearchUsersForm.styles'
-import TextField from '@material-ui/core/TextField'
-import styled from 'styled-components'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -9,7 +7,7 @@ import axios from 'axios'
 import Fuse from 'fuse.js'
 
 export default function SearchUserForm(props) {
-	const { setResults, setLoading, setError } = props
+	const { setResults, setError } = props
 
 	const [form, setForm] = useState({
 		searchTerm: '',
