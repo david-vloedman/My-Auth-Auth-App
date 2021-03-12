@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import MessagesContainer from '../components/Messages/Messages'
+import MessagesContainer from '../components/containers/MessagesContainer/MessagesContainer'
 
 export default function messages(props) {
 	return (

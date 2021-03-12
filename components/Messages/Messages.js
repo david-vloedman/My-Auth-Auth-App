@@ -1,7 +1,9 @@
+import * as Styles from './Messages.styles'
+
 export default function Messages(props){
   return (
-    <div>
+    <Styles.MainContainer>
       Messages
-    </div>
+    </Styles.MainContainer>
   )
 }
