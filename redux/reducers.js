@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
+import { friendsPageReducer } from './friendsPageSlice'
 
 const layoutReducer = {
 	toggleLoggedIn(state, payload) {
@@ -69,6 +70,7 @@ export const { toggleLoggedIn, toggleDrawer } = layoutSlice.actions
 const reducers = combineReducers({
 	layout: layoutSlice.reducer,
 	user: userSlice.reducer,
+	friendsPage: friendsPageReducer
 })
 
 export default reducers

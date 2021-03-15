@@ -6,28 +6,23 @@ import getAppState from '../lib/helpers/getAppState'
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react'
 import * as Actions from '../redux/reducers'
+import {closeDialog, openNewMessageDialog, onMessageFormChange } from '../redux/friendsPageSlice'
 
 export default function friends(props) {
 	const reduxUser = useSelector((state) => state.user)
-
+	const pageState = useSelector((state) => state.friendsPage)
 	const dispatch = useDispatch()
-
-	const [dialogOpen, setDialogOpen] = useState(false)
+	
 	const [messageForm, setMessageForm] = useState({
 		sender: reduxUser._id,
 	})
 
 	const closeDialog = () => {
-		console.log('closing')
-		setDialogOpen(false)
+		dispatch(closeDialog())
 	}
 
-	const openNewMessageDialog = (recipientId) => {
-		setDialogOpen(true)
-		setMessageForm({
-			...messageForm,
-			recipient: recipientId,
-		})
+	const openDialog = (recipientId) => {
+		dispatch(openNewMessageDialog({recipientId, senderId: reduxUser._id}))
 	}
 
 	// message form
@@ -47,8 +42,6 @@ export default function friends(props) {
 		dispatch(Actions.friendRemoved(uid))
 	}
 
-	console.log(dialogOpen)
-
 	return (
 		<div className='container'>
 			<Head>
@@ -61,10 +54,10 @@ export default function friends(props) {
 				<FriendsList
 					friendsList={reduxUser.friends ? [...reduxUser.friends] : []}
 					onRemoveFriend={onRemoveFriend}
-					openNewMessageDialog={openNewMessageDialog}
+					openNewMessageDialog={openDialog}
 				/>
 					<ComposeMessageDialog
-					dialogOpen={dialogOpen}
+					dialogOpen={pageState.dialogOpen}
 					closeDialog={closeDialog}
 					onSubmit={onMessageSubmit}
 					onChange={onMessageChange}
