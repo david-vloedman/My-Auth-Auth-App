@@ -1,41 +1,55 @@
 import Messages from './Messages'
 
-describe("Messages Component", () => {
+describe('Messages Component', () => {
+	const testMessages = [
+		{
+			id: '23',
+			subject: 'testing',
+			recipient: 'Joe',
+			sender: 'Sarah',
+			body: 'Hello Joe, this is a test message',
+		},
+		{
+			id: '12',
+			recipient: 'Joe',
+			sender: 'Sarah',
+			body: 'Hello Joe, this is a test message',
+		},
+		{
+			id: '45',
+			subject: 'testing',
+			recipient: 'Joe',
+			sender: 'Sarah',
+			body: 'helloooo',
+		},
+	]
 
-  const testMessages = [
-    {subject: 'testing', recipient: 'Joe', sender: 'Sarah', body: 'Hello Joe, this is a test message'},
-    {recipient: 'Joe', sender: 'Sarah', body: 'Hello Joe, this is a test message'},
-    {subject: 'testing', recipient: 'Joe', sender: 'Sarah'},
-    {},
-  ]
+	it('renders without crashing', () => {
+		shallow(<Messages />)
+	})
 
-  it("renders without crashing", () => {
-    shallow(<Messages />)
-  })
+	it('accepts message properties', () => {
+		const component = mount(<Messages messages={testMessages} />)
+		expect(component.props().messages).toEqual(testMessages)
+	})
 
-  it("accepts message properties", ()=>{
-    const component = mount(<Messages messages={testMessages} />)
-    expect(component.props().messages).toEqual(testMessages)
-  })
+	it('accepts setter functions', () => {
+		const onOpenMessage = jest.fn()
+		const onReadMessage = jest.fn()
+		const onDeleteMessage = jest.fn()
+		
+		const component = mount(
+			<Messages
+				messages={testMessages}
+				onOpenMessage={onOpenMessage}
+				onDeleteMessage={onDeleteMessage}
+				onReadMessage={onReadMessage}
+			/>
+		)
 
-  
-  
-  it("renders the messages it is given", ()=>{
-    const component = mount(<Messages messages={testMessages} />)
-
-    testMessages.map(msg => {
-      const bodyValue = component.find('div').text(msg.body)
-      const recipientValue = component.find('div').text(msg.recipient)
-      const senderValue = component.find('MessageListItem').text(msg.sender)
-      const subjectValue = component.find('MessageListItem').text(msg.subject)
-
-      expect(bodyValue).toEqual(msg.body)
-      expect(recipientValue).toEqual(msg.recipient)
-      expect(senderValue).toEqual(msg.sender)
-      expect(subjectValue).toEqual(msg.subject)
-    })
-    
-  })
-
+		expect(component.props().onDeleteMessage).toEqual(onDeleteMessage)
+		expect(component.props().onReadMessage).toEqual(onReadMessage)
+		expect(component.props().onOpenMessage).toEqual(onOpenMessage)
+	})
 
 })

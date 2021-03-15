@@ -1,25 +1,26 @@
 import * as Styles from './FriendsList.styles'
 import List from '@material-ui/core/List'
-import ListSubheader from '@material-ui/core/ListSubheader'
+import Typography from '@material-ui/core/Typography'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
 import RemoveUserButton from '../buttons/RemoveUserButton/RemoveUserButton'
+import SendMessageButton from '../buttons/SendMessageButton/SendMessageButton'
 
 export default function FriendsList(props) {
 	
-	const { friendsList, onRemoveFriend } = props
+	const { friendsList, onRemoveFriend, openNewMessageDialog } = props
 	
 	const MainList = (props) => {
 		const { friends } = props
 
 		return (
 			<List>
-				<ListSubheader component='div' disableSticky={true}>Friends</ListSubheader>
-				{friends?.map((friend) => {
+				{friends?.map?.((friend) => {
 					return (
 						<ListItem key={Math.random()}>
               <ListItemAvatar>
@@ -29,9 +30,9 @@ export default function FriendsList(props) {
               </ListItemAvatar>
 							<ListItemText primary={friend.userName} secondary={friend.name ? friend.name : null} />
               <ListItemSecondaryAction>
-                <RemoveUserButton friend={friend} onRemoveFriend={onRemoveFriend} />
+                {/* <RemoveUserButton friend={friend} onRemoveFriend={onRemoveFriend} /> */}
+								<Button onClick={() => openNewMessageDialog(friend._id)}>Send</Button>
               </ListItemSecondaryAction>
-							
 						</ListItem>
 					)
 				})}
@@ -42,6 +43,7 @@ export default function FriendsList(props) {
 	return (
 		<Styles.Container>
       <Paper elevation={3}>
+				<Typography variant='h6'>Friends</Typography>
 			<MainList friends={friendsList} />
       </Paper>
 		</Styles.Container>
