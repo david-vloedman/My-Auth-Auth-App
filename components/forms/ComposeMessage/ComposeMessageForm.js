@@ -6,6 +6,7 @@ export default function ComposeMessageForm(props) {
 
 	const {onChange} = props
 
+
 	return (
 		<Styles.FormContainer>
 			<Typography variant='h6'>Compose Message</Typography>

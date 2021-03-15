@@ -3,6 +3,7 @@ import Dialog from '@material-ui/core/Dialog'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
+import SendIcon from '@material-ui/icons/Send'
 import CloseIcon from '@material-ui/icons/Close'
 import Typography from '@material-ui/core/Typography'
 import Slide from '@material-ui/core/Slide'
@@ -24,11 +25,11 @@ export default function ComposeMessageDialog(props) {
 						<CloseIcon />
 					</IconButton>
 					<Typography variant='h6'>
-						Sound
+						Compose Message
 					</Typography>
-					<Button autoFocus color='inherit' onClick={onSubmit}>
-						save
-					</Button>
+					<IconButton autoFocus color='inherit' onClick={onSubmit}>
+						<SendIcon />
+					</IconButton>
 				</Toolbar>
 			</AppBar>
 			<ComposeMessageForm {...props}/>

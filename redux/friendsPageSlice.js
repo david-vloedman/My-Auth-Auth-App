@@ -30,6 +30,11 @@ const pageReducer = {
         ...action.payload
       }
     }
+  },
+  onMessageFormSubmit(state, action){
+    return {
+      ...state
+    }
   }
 }
 
@@ -43,4 +48,4 @@ const friendsPageSlice = createSlice({
 
 export const friendsPageReducer = friendsPageSlice.reducer
 
-export const {closeDialog, openNewMessageDialog, onMessageFormChange } = friendsPageSlice.actions
+export const {closeDialog, openNewMessageDialog, onMessageFormChange, onMessageFormSubmit } = friendsPageSlice.actions

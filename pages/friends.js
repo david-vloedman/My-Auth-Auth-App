@@ -6,39 +6,39 @@ import getAppState from '../lib/helpers/getAppState'
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react'
 import * as Actions from '../redux/reducers'
-import {closeDialog, openNewMessageDialog, onMessageFormChange } from '../redux/friendsPageSlice'
+import {
+	closeDialog,
+	openNewMessageDialog,
+	onMessageFormChange,
+	onMessageFormSubmit
+} from '../redux/friendsPageSlice'
 
 export default function friends(props) {
 	const reduxUser = useSelector((state) => state.user)
 	const pageState = useSelector((state) => state.friendsPage)
 	const dispatch = useDispatch()
-	
-	const [messageForm, setMessageForm] = useState({
-		sender: reduxUser._id,
-	})
 
-	const closeDialog = () => {
+	const dispatchCloseDialog = () => {
 		dispatch(closeDialog())
 	}
 
-	const openDialog = (recipientId) => {
-		dispatch(openNewMessageDialog({recipientId, senderId: reduxUser._id}))
+	const dispatchOpenDialog = (recipientId) => {
+		dispatch(openNewMessageDialog({ recipientId, senderId: reduxUser._id }))
 	}
-
-	// message form
-	const onMessageChange = (e) => {
-		setMessageForm({
-			...messageForm,
-			[e.target.name]: e.target.value,
-		})
+	
+	const dispatchMessageChange = (e) => {
+		const prop = {
+			[e.target.name]: e.target.value
+		}
+		dispatch(onMessageFormChange(prop))
 	}
-	const onMessageSubmit = (e) => {
+	const dispatchMessageSubmit = (e) => {
 		e.preventDefault()
-		console.log(messageForm)
+		dispatch(onMessageFormSubmit())
 	}
 
 	// friends list remove friend
-	const onRemoveFriend = (uid) => {
+	const dispatchFriendRemoved = (uid) => {
 		dispatch(Actions.friendRemoved(uid))
 	}
 
@@ -50,17 +50,16 @@ export default function friends(props) {
 			</Head>
 
 			<main>
-			
 				<FriendsList
 					friendsList={reduxUser.friends ? [...reduxUser.friends] : []}
-					onRemoveFriend={onRemoveFriend}
-					openNewMessageDialog={openDialog}
+					onRemoveFriend={dispatchFriendRemoved}
+					openNewMessageDialog={dispatchOpenDialog}
 				/>
-					<ComposeMessageDialog
+				<ComposeMessageDialog
 					dialogOpen={pageState.dialogOpen}
-					closeDialog={closeDialog}
-					onSubmit={onMessageSubmit}
-					onChange={onMessageChange}
+					closeDialog={dispatchCloseDialog}
+					onSubmit={dispatchMessageSubmit}
+					onChange={dispatchMessageChange}
 				/>
 			</main>
 
