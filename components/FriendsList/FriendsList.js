@@ -8,8 +8,6 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
-import RemoveUserButton from '../buttons/RemoveUserButton/RemoveUserButton'
-import SendMessageButton from '../buttons/SendMessageButton/SendMessageButton'
 
 export default function FriendsList(props) {
 	

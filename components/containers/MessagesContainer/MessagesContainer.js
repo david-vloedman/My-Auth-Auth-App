@@ -2,22 +2,7 @@ import * as Styles from './MessagesContainer.styles'
 import Messages from '../../Messages/Messages'
 
 export default function MessagesContainer(props) {
-	const testMessages = [
-		{
-			id: '123',
-			subject: 'testing',
-			recipient: 'Joe',
-			sender: 'Sarah',
-			body: 'Hello Joe, this is a test message',
-		},
-		{
-			id: '13214',
-			recipient: 'Joe',
-			sender: 'Sarah',
-			body: 'Hello Joe, this is a test message',
-		},
-		{ id: '534', subject: 'testing', recipient: 'Joe', body:'', sender: 'Sarah' },
-	]
+	
 
 	const {messages} = props
 
@@ -35,7 +20,7 @@ export default function MessagesContainer(props) {
 		<Styles.StyledMainContainer>
 			<Styles.StyledPaper>
 				<Messages
-					messages={testMessages}
+					messages={messages}
 					onOpenMessage={onRowClick}
 					onDeleteMessage={onDeleteMessage}
 				/>

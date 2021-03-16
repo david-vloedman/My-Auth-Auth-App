@@ -11,6 +11,8 @@ export default function Messages(props) {
 		onDeleteMessage: deleteMessage,
 	} = props
 
+	console.log(messages)
+
 	if (!messages) return <div>No messages</div>
 
 	const [viewMode, setViewMode] = useState({
@@ -85,7 +87,7 @@ Messages.propTypes = {
 			subject: PropTypes.string,
 			recipient: PropTypes.string.isRequired,
 			sender: PropTypes.string.isRequired,
-			body: PropTypes.string.isRequired,
+			message: PropTypes.string.isRequired,
 		})
 	),
 	onOpenMessage: PropTypes.func,

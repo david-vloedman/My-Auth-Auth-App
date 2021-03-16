@@ -2,14 +2,19 @@ import Head from 'next/head'
 import MessagesContainer from '../components/containers/MessagesContainer/MessagesContainer'
 import withSession from '../lib/withSession'
 import getAppState from '../lib/helpers/getAppState'
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function messages(props) {
+	const dispatch = useDispatch()
+	const user = useSelector((state) => state.user)
+	
+	console.log(user.messages)
 	return (
 		<div>
 			<Head>
 				<title>Messages</title>
 			</Head>
-      <MessagesContainer />
+			<MessagesContainer messages={user.messages}/>
 		</div>
 	)
 }
