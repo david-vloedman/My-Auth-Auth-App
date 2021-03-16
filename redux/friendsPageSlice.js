@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
+import axios from 'axios'
 
 const pageReducer = {
   closeDialog(state, action){
@@ -10,13 +11,14 @@ const pageReducer = {
   },
 
   openNewMessageDialog(state, action){
-    const {recipientId, senderId } = action.payload
+    const {recipientId, senderId, recipientUserName } = action.payload
     return {
       ...state,
       dialogOpen: true,
       messageForm : {
         ...state.messageForm,
         recipient: recipientId,
+        recipientDisplay: recipientUserName,
         sender: senderId
       }
     }
@@ -33,9 +35,21 @@ const pageReducer = {
   },
   onMessageFormSubmit(state, action){
     return {
-      ...state
+      ...state,
+      messageForm: {
+        ...state.messageForm,
+        loading: true
+      }
+    }
+  },
+  onMessageSent(state, action){
+    return {
+      ...state,
+      messageForm: {},
+
     }
   }
+
 }
 
 const friendsPageSlice = createSlice({
@@ -48,4 +62,4 @@ const friendsPageSlice = createSlice({
 
 export const friendsPageReducer = friendsPageSlice.reducer
 
-export const {closeDialog, openNewMessageDialog, onMessageFormChange, onMessageFormSubmit } = friendsPageSlice.actions
+export const {closeDialog, openNewMessageDialog, onMessageFormChange, onMessageFormSubmit, onMessageSent } = friendsPageSlice.actions

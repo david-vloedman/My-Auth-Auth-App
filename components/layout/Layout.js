@@ -5,11 +5,16 @@ import MenuDrawer from './MenuDrawer'
 import AppBar from '../appBar/AppBar'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Actions from '../../redux/reducers'
+import { useRouter } from 'next/router'
+import axios from 'axios'
+
+const logoutUrl = '/api/session/logout'
 
 export default function Layout(props) {
 	const { user } = props
 	const dispatch = useDispatch()
-	
+	const router = useRouter()
+
 	const { loggedIn, showDrawer } = useSelector((state) => state.layout)
 	const reduxUser = useSelector((state) => state.user)
 
@@ -18,8 +23,19 @@ export default function Layout(props) {
 		dispatch(Actions.setUser(user))
 		dispatch(Actions.toggleLoggedIn())
 	}
+
 	const dispatchDrawerToggle = () => {
 		dispatch(Actions.toggleDrawer())
+	}
+
+	const dispatchLogout = async () => {
+		try {
+			dispatch(Actions.unsetUser())
+			await axios.get(logoutUrl)
+			router.push('/login')
+		} catch (error) {
+			console.log('failed logout request', { ...error })
+		}
 	}
 
 	return (
@@ -30,6 +46,7 @@ export default function Layout(props) {
 					open={showDrawer}
 					onClose={dispatchDrawerToggle}
 					toggleDrawer={dispatchDrawerToggle}
+					logout={dispatchLogout}
 				/>
 			) : null}
 

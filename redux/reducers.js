@@ -29,13 +29,15 @@ const userReducer = {
 		
 		return {
 			...state,
-			...action.payload
+			...action.payload,
+			loggedIn: true
 		}
 	},
 	unsetUser(state, action) {
 		return {
 			...state,
 			user: undefined,
+			loggedIn: false
 		}
 	},
 	friendAdded(state, action) {

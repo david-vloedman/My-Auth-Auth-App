@@ -31,7 +31,7 @@ export default function FriendsList(props) {
 							<ListItemText primary={friend.userName} secondary={friend.name ? friend.name : null} />
               <ListItemSecondaryAction>
                 {/* <RemoveUserButton friend={friend} onRemoveFriend={onRemoveFriend} /> */}
-								<Button onClick={() => openNewMessageDialog(friend._id)}>Send</Button>
+								<Button onClick={() => openNewMessageDialog(friend._id, friend.userName)}>Send</Button>
               </ListItemSecondaryAction>
 						</ListItem>
 					)

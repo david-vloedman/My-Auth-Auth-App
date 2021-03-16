@@ -6,7 +6,8 @@ import getAppState from '../../../../lib/helpers/getAppState'
 
 export default withSession(async (req, res) => {
 	const {
-		query: { recipientId, subject, body },
+		query: { recipientId},
+		body: { subject, body }
 	} = req
 	
 	// get the current user
@@ -15,7 +16,7 @@ export default withSession(async (req, res) => {
 
 	if (!sessionUser) return Responses.forbidden(res)
 
-	if(!recipient || !body ) return Responses.serverError(res, 'Malformed request, must have recipient and body')
+	if(!recipientId || !body ) return Responses.serverError(res, 'Malformed request, must have recipient and body')
 
 	try {
 		const { db } = await connectToDatabase()
@@ -29,9 +30,9 @@ export default withSession(async (req, res) => {
 		const message = {
 			sender: sessionUser._id,
 			recipient: recipientId,
-			message: message.substring(0, 400), // limit message size to 400 characters, truncate anything over
+			message: body.substring(0, 400), // limit message size to 400 characters, truncate anything over
 			subject: subject.substring(0, 25), // limit subject size to 25 characters, truncate anything over
-			createdAt: Date.now,
+			createdAt: Date.now(),
 			inResponseTo: null // possibly chain messages into conversations in future
 		}
 

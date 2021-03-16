@@ -1,17 +1,18 @@
 import Head from 'next/head'
 import FriendsList from '../components/FriendsList/FriendsList'
-import ComposeMessageDialog from '../components/dialogs/ComposeMessageDialog'
+import ComposeMessageDialog from '../components/dialogs/composeMessage/ComposeMessageDialog'
 import withSession from '../lib/withSession'
 import getAppState from '../lib/helpers/getAppState'
 import { useSelector, useDispatch } from 'react-redux'
-import { useState } from 'react'
-import * as Actions from '../redux/reducers'
+import { friendRemoved } from '../redux/reducers'
 import {
 	closeDialog,
 	openNewMessageDialog,
 	onMessageFormChange,
-	onMessageFormSubmit
+	onMessageFormSubmit,
+	onMessageSent,
 } from '../redux/friendsPageSlice'
+import axios from 'axios'
 
 export default function friends(props) {
 	const reduxUser = useSelector((state) => state.user)
@@ -22,24 +23,48 @@ export default function friends(props) {
 		dispatch(closeDialog())
 	}
 
-	const dispatchOpenDialog = (recipientId) => {
-		dispatch(openNewMessageDialog({ recipientId, senderId: reduxUser._id }))
+	const dispatchOpenDialog = (recipientId, recipientUserName) => {
+		dispatch(
+			openNewMessageDialog({
+				recipientId,
+				senderId: reduxUser._id,
+				recipientUserName,
+			})
+		)
 	}
-	
+
 	const dispatchMessageChange = (e) => {
 		const prop = {
-			[e.target.name]: e.target.value
+			[e.target.name]: e.target.value,
 		}
 		dispatch(onMessageFormChange(prop))
 	}
 	const dispatchMessageSubmit = (e) => {
 		e.preventDefault()
+		sendMessage()
 		dispatch(onMessageFormSubmit())
 	}
 
-	// friends list remove friend
 	const dispatchFriendRemoved = (uid) => {
-		dispatch(Actions.friendRemoved(uid))
+		dispatch(friendRemoved(uid))
+	}
+
+	const dispatchOnMessageSent = () => {
+		dispatch(onMessageSent)
+	}
+
+	const sendMessage = async () => {
+		try {
+			const response = await axios.post(
+				`/api/messages/sendMessage/${pageState.messageForm?.recipient}`,
+				{
+					...pageState.messageForm,
+				}
+			)
+			console.log(response)
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	return (
@@ -50,17 +75,20 @@ export default function friends(props) {
 			</Head>
 
 			<main>
-				<FriendsList
-					friendsList={reduxUser.friends ? [...reduxUser.friends] : []}
-					onRemoveFriend={dispatchFriendRemoved}
-					openNewMessageDialog={dispatchOpenDialog}
-				/>
-				<ComposeMessageDialog
-					dialogOpen={pageState.dialogOpen}
-					closeDialog={dispatchCloseDialog}
-					onSubmit={dispatchMessageSubmit}
-					onChange={dispatchMessageChange}
-				/>
+				<div>
+					<FriendsList
+						friendsList={reduxUser.friends ? [...reduxUser.friends] : []}
+						onRemoveFriend={dispatchFriendRemoved}
+						openNewMessageDialog={dispatchOpenDialog}
+					/>
+					<ComposeMessageDialog
+						dialogOpen={pageState.dialogOpen}
+						closeDialog={dispatchCloseDialog}
+						onSubmit={dispatchMessageSubmit}
+						onChange={dispatchMessageChange}
+						recipientUsername={pageState?.messageForm?.recipientDisplay}
+					/>
+				</div>
 			</main>
 
 			<footer></footer>

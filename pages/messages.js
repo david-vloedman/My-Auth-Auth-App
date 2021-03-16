@@ -2,7 +2,6 @@ import Head from 'next/head'
 import MessagesContainer from '../components/containers/MessagesContainer/MessagesContainer'
 import withSession from '../lib/withSession'
 import getAppState from '../lib/helpers/getAppState'
-import ComposeMessageForm from '../components/forms/ComposeMessage/ComposeMessageForm'
 
 export default function messages(props) {
 	return (
@@ -11,7 +10,6 @@ export default function messages(props) {
 				<title>Messages</title>
 			</Head>
       <MessagesContainer />
-			<ComposeMessageForm />
 		</div>
 	)
 }
