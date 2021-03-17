@@ -3,6 +3,7 @@ import MessagesContainer from '../components/containers/MessagesContainer/Messag
 import withSession from '../lib/withSession'
 import getAppState from '../lib/helpers/getAppState'
 import { useDispatch, useSelector } from 'react-redux'
+import Message from '../components/Message/Message'
 
 export default function messages(props) {
 	const dispatch = useDispatch()
@@ -15,6 +16,7 @@ export default function messages(props) {
 				<title>Messages</title>
 			</Head>
 			<MessagesContainer messages={user.messages}/>
+			<Message onReplyClick={() => console.log('reply click')} onDeleteClick={()=> console.log('delete click')}/>
 		</div>
 	)
 }

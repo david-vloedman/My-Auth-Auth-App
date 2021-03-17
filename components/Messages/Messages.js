@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { Button } from '@material-ui/core'
+import Message from '../Message/Message'
 
 export default function Messages(props) {
 	const {
@@ -11,7 +12,6 @@ export default function Messages(props) {
 		onDeleteMessage: deleteMessage,
 	} = props
 
-	console.log(messages)
 
 	if (!messages) return <div>No messages</div>
 
@@ -76,6 +76,8 @@ export default function Messages(props) {
 				disableSelectionOnClick={!viewMode.edit}
 				checkboxSelection={viewMode.edit}
 			/>
+
+			
 		</Styles.MainContainer>
 	)
 }
