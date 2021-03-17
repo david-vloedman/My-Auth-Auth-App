@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import FriendsList from '../components/FriendsList/FriendsList'
-import ComposeMessageDialog from '../components/dialogs/composeMessage/ComposeMessageDialog'
+import ComposeMessageDialog from '../components/dialogs/ComposeMessageDialog/ComposeMessageDialog'
 import withSession from '../lib/withSession'
 import getAppState from '../lib/helpers/getAppState'
 import { useSelector, useDispatch } from 'react-redux'
@@ -62,6 +62,8 @@ export default function friends(props) {
 				}
 			)
 			console.log(response)
+
+			
 		} catch (error) {
 			console.log(error)
 		}

@@ -5,7 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import SendIcon from '@material-ui/icons/Send'
 import CloseIcon from '@material-ui/icons/Close'
-import Container from '@material-ui/core/Container'
 import Slide from '@material-ui/core/Slide'
 import * as Styles from './ComposeMessageDialog.styles'
 

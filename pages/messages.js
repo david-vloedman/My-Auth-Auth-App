@@ -16,7 +16,7 @@ export default function messages(props) {
 				<title>Messages</title>
 			</Head>
 			<MessagesContainer messages={user.messages}/>
-			<Message message={user.messages[1]} onReplyClick={() => console.log('reply click')} onDeleteClick={()=> console.log('delete click')}/>
+			<Message message={user.messages[2]} onReplyClick={() => console.log('reply click')} onDeleteClick={()=> console.log('delete click')}/>
 		</div>
 	)
 }
