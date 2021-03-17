@@ -35,7 +35,7 @@ describe('Single message component tests', ()=> {
   it('fires dispatch references on correct button clicks', () => {
     const onReply = jest.fn()
     const onDelete = jest.fn()
-    const component = mount(<Message onReplyClick={onReply} onDeleteClick={onDelete} />)
+    const component = mount(<Message message={message1} onReplyClick={onReply} onDeleteClick={onDelete} />)
 
     const deleteBtn = component.find('button[data-test-id="deleteMessageBtn"]')
     const replyBtn = component.find('button[data-test-id="replyToMessageBtn"]')
@@ -50,16 +50,17 @@ describe('Single message component tests', ()=> {
 
   it('renders the message data correctly', () => {
     const component = mount(<Message message={message1} />)
-
-    const subject = component.find('[data-test-id="subject"]')
-    const body = component.find('[data-test-id="body"]')
-    const date = component.find('[data-test-id="date"]')
-    const sender = component.find('[data-test-id="sender"]')
-
+    
+    const sender = component.find('span[data-test-id="sender"]').text()
+    const subject = component.find('span[data-test-id="subject"]').text()
+    const body = component.find('span[data-test-id="body"]').text()
+    const date = component.find('span[data-test-id="date"]').text()
+    
+    expect(sender).toEqual(message1.sender)
     expect(subject).toEqual(message1.subject)
     expect(body).toEqual(message1.body)
-    expect(date).toEqual(message1.createdAt)
-    expect(sender).toEqual(message1.sender)
+    expect(date).toEqual(new Date(message1.createdAt).toDateString())
+    
     component.unmount()
   })
 })

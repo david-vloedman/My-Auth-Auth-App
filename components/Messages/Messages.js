@@ -3,7 +3,6 @@ import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { Button } from '@material-ui/core'
-import Message from '../Message/Message'
 
 export default function Messages(props) {
 	const {
@@ -11,7 +10,6 @@ export default function Messages(props) {
 		onOpenMessage: openMessage,
 		onDeleteMessage: deleteMessage,
 	} = props
-
 
 	if (!messages) return <div>No messages</div>
 
@@ -38,31 +36,34 @@ export default function Messages(props) {
 		selectedMessages?.map((slm) => deleteMessage(slm))
 	}
 
-  const columns = [
-    {
-      field: 'sender',
-      flex: 1,
-      renderHeader: (params) => <strong>From</strong>,
-    },
-    {
-      field: 'subject',
-      headerName: 'Subject',
-      flex: 2,
-      renderHeader: (params) => <strong>Subject</strong>,
-    },
-  ]
-  
+	const columns = [
+		{
+			field: 'sender',
+			flex: 1,
+			renderHeader: (params) => <strong>From</strong>,
+		},
+		{
+			field: 'subject',
+			headerName: 'Subject',
+			flex: 2,
+			renderHeader: (params) => <strong>Subject</strong>,
+		},
+	]
 
 	return (
 		<Styles.MainContainer>
 			<Styles.ComponentHeader>
 				<Typography variant='h6'>Messages</Typography>
 				{viewMode.edit && selectedMessages?.length > 0 ? (
-					<Button color={'secondary'} test-id='btn-delete-messages' onClick={deleteSelectedMessages}>
+					<Button
+						color={'secondary'}
+						test-id='btn-delete-messages'
+						onClick={deleteSelectedMessages}
+					>
 						Delete
 					</Button>
 				) : null}
-				<Button onClick={toggleEditMode} >
+				<Button onClick={toggleEditMode}>
 					{viewMode.edit ? 'Done' : 'Edit'}
 				</Button>
 			</Styles.ComponentHeader>
@@ -76,8 +77,6 @@ export default function Messages(props) {
 				disableSelectionOnClick={!viewMode.edit}
 				checkboxSelection={viewMode.edit}
 			/>
-
-			
 		</Styles.MainContainer>
 	)
 }
@@ -96,5 +95,3 @@ Messages.propTypes = {
 	onReadMessage: PropTypes.func,
 	onDeleteMessage: PropTypes.func,
 }
-
-
