@@ -1,7 +1,7 @@
 # My-Auth-Auth-App
 
 # Why and/or what?
-This is an educational project. I wanted something somewhat tangible so I went with a basic user/session/messaging system 
+This is an educational project. I wanted something somewhat tangible so I went with a basic user/session/messaging web application 
 that I could easily use in future personal projects.
 
 # Deployments / Look at it
