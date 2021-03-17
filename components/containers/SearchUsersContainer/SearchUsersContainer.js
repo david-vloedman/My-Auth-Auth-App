@@ -1,8 +1,8 @@
-import UserSearchResults from '../../UserSearchResults/UserSearchResults'
-import { useState } from 'react'
-import SearchUserForm from '../../forms/SearchUsers/SearchUsersForm'
 import * as Styles from './SearchUsersContainer.styles'
-import Snackbar from '@material-ui/core/Snackbar'
+import UserSearchResults from '../../UserSearchResults/UserSearchResults'
+import SearchUserForm from '../../forms/SearchUsers/SearchUsersForm'
+import Snackbar from '../../SnackBar/SnackBar'
+import { useState } from 'react'
 
 export default function SearchUsersContainer(props) {
 	const [results, setResults] = useState()
@@ -22,12 +22,9 @@ export default function SearchUsersContainer(props) {
 
 	const WrappedSnackBar = () => (
 		<Snackbar
-			anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-			autoHideDuration={3000}
-			message={alert.message}
-			open={alert.open}
+			alertMessage={alert.message}
+			isOpen={alert.open}
 			onClose={onClose}
-			color='secondary'
 		/>
 	)
 

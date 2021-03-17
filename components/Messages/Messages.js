@@ -50,6 +50,10 @@ export default function Messages(props) {
 		},
 	]
 
+	const onRowClick = (param) => {
+		onOpenMessage()
+	}
+
 	return (
 		<Styles.MainContainer>
 			<Styles.ComponentHeader>

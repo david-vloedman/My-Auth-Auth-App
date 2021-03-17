@@ -2,9 +2,8 @@ import * as Styles from './MessagesContainer.styles'
 import Messages from '../../Messages/Messages'
 
 export default function MessagesContainer(props) {
-	
 
-	const {messages} = props
+	const {messages, onMessageClick} = props
 
 	const onRowClick = (param) => {
 		const { row } = param
@@ -21,7 +20,7 @@ export default function MessagesContainer(props) {
 			<Styles.StyledPaper>
 				<Messages
 					messages={messages}
-					onOpenMessage={onRowClick}
+					onOpenMessage={onMessageClick}
 					onDeleteMessage={onDeleteMessage}
 				/>
 			</Styles.StyledPaper>

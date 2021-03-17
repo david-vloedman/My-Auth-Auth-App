@@ -5,8 +5,6 @@ describe('Snackbar tests', () => {
 		shallow(<SnackBar />)
 	})
 
-  
-
 	it("should accept the properties 'alertMessage', 'isOpen' & 'onClose'", () => {
 		const message = 'Alert: this is a test'
 		const isOpen = true
