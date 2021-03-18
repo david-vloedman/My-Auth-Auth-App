@@ -38,21 +38,16 @@ export default function Messages(props) {
 
 	const columns = [
 		{
-			field: 'sender',
-			flex: 1,
-			renderHeader: (params) => <strong>From</strong>,
-		},
-		{
 			field: 'subject',
 			headerName: 'Subject',
 			flex: 1,
 			renderHeader: (params) => <strong>Subject</strong>,
 		},
+		{
+			field: 'senderUser',
+			renderHeader: (params) => <strong>From</strong>,
+		},
 	]
-
-	const onRowClick = (param) => {
-		onOpenMessage()
-	}
 
 	return (
 		<Styles.MainContainer>

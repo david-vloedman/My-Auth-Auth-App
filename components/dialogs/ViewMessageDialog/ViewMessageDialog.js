@@ -39,7 +39,7 @@ export default function ViewMessageDialog(props) {
 						</IconButton>
 						
 						<IconButton
-							onClick={onReplyClick}
+							onClick={() => onReplyClick(message)}
 							aria-label='reply'
 							color='inherit'
 						>

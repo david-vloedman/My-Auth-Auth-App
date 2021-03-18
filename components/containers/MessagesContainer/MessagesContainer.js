@@ -1,29 +1,59 @@
 import * as Styles from './MessagesContainer.styles'
 import Messages from '../../Messages/Messages'
 import ViewMessageDialog from '../../dialogs/ViewMessageDialog/ViewMessageDialog'
-import { dialogOpen, dialogClose } from '../../../redux/messagesPageSlice'
+import ComposeMessageDialog from '../../dialogs/ComposeMessageDialog/ComposeMessageDialog'
+import {
+	viewMessageDialogOpen,
+	viewMessageDialogClosed,
+} from '../../../redux/viewMessageDialog'
+import {
+	composeMessageDialogOpen,
+	composeMessageDialogClosed,
+} from '../../../redux/composeMessageDialog'
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function MessagesContainer(props) {
 	const dispatch = useDispatch()
-	const pageState = useSelector((state) => state.messagesPage)
+	const viewMessageDialogState = useSelector((state) => state.viewMessageDialog)
+	const composeMessageDialogState = useSelector(
+		(state) => state.composeMessageDialog
+	)
+
+	console.log(composeMessageDialogState)
+	console.log(viewMessageDialogState)
 	const userState = useSelector((state) => state.user)
 
-	const dispatchDialogOpen = (params) => {
+	const dispatchViewDialogOpen = (params) => {
 		const { row } = params
 		const message = userState.messages.find((m) => m.id === row.id)
-		dispatch(dialogOpen(message))
+		dispatch(viewMessageDialogOpen(message))
 	}
 
-	const dispatchDialogClose = () => {
-		dispatch(dialogClose())
+	const dispatchViewDialogClose = () => {
+		dispatch(viewMessageDialogClosed())
 	}
 
-	const dispatchMessageDelete = (param) => {
+	const dispatchDeleteMessages = (param) => {
+		// retrieve the selection model
 		console.log('delete message: ', param)
 	}
 
+	const dispatchComposeDialogClose = () => {
+		dispatch(composeMessageDialogClosed())
+	}
+
+	const dispatchComposeDialogOpen = (param) => {
+		dispatch(composeMessageDialogOpen(param))
+	}
+
 	const dispatchMessageReply = (param) => {
+		// close the view message dialog
+		dispatchViewDialogClose()
+		dispatchComposeDialogOpen({
+			recipientId: param.recipient,
+			senderId: userState._id,
+			recipientUserName: param.senderUser,
+		})
 		console.log('reply to message:', param)
 	}
 
@@ -32,16 +62,23 @@ export default function MessagesContainer(props) {
 			<Styles.StyledPaper>
 				<Messages
 					messages={userState.messages}
-					onOpenMessage={dispatchDialogOpen}
+					onOpenMessage={dispatchViewDialogOpen}
+					onDeleteMessage={dispatchDeleteMessages}
 				/>
-				<ViewMessageDialog
-					dialogOpen={pageState.dialog.dialogOpen}
-					dialogClose={dispatchDialogClose}
-					onDeleteClick={dispatchMessageDelete}
-					onReplyClick={dispatchMessageReply}
-					message={pageState.dialog.message}
-				/>
+		
 			</Styles.StyledPaper>
+			<ComposeMessageDialog
+					dialogOpen={composeMessageDialogState.isOpen}
+					dialogClosed={dispatchComposeDialogClose}
+				/>
+			<ViewMessageDialog
+				dialogOpen={viewMessageDialogState.isOpen}
+				dialogClose={dispatchViewDialogClose}
+				onDeleteClick={dispatchDeleteMessages}
+				onReplyClick={dispatchMessageReply}
+				message={viewMessageDialogState.message}
+			/>
+			
 		</Styles.StyledMainContainer>
 	)
 }

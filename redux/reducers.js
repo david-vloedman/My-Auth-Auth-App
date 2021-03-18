@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
-import messages from '../pages/messages'
 import { friendsPageReducer } from './friendsPageSlice'
-import { messagesPageReducer } from './messagesPageSlice'
+import { composeMessageDialogReducer } from './composeMessageDialog'
+import { viewMessageDialogReducer } from './viewMessageDialog'
 
 const layoutReducer = {
 	toggleLoggedIn(state, payload) {
@@ -75,7 +75,8 @@ const reducers = combineReducers({
 	layout: layoutSlice.reducer,
 	user: userSlice.reducer,
 	friendsPage: friendsPageReducer,
-	messagesPage: messagesPageReducer
+	composeMessageDialog: composeMessageDialogReducer,
+	viewMessageDialog: viewMessageDialogReducer
 })
 
 export default reducers
