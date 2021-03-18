@@ -6,8 +6,8 @@ import ListItemText from '@material-ui/core/ListItemText'
 import { Avatar } from '@material-ui/core'
 
 export default function ComposeMessageForm(props) {
-	const { onChange, recipientUsername } = props
-	console.log(recipientUsername)
+	const { onChange, formData } = props
+	
 	return (
 		<Styles.FormContainer>
 			<List>
@@ -15,7 +15,7 @@ export default function ComposeMessageForm(props) {
 					<ListItemIcon>
 						<Avatar />
 					</ListItemIcon>
-					<ListItemText primary={recipientUsername} />
+					<ListItemText primary={formData.recipientDisplay} />
 				</ListItem>
 			</List>
 			<Styles.StyledTextField

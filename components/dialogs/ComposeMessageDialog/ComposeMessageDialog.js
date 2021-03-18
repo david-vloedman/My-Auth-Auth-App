@@ -6,11 +6,12 @@ import IconButton from '@material-ui/core/IconButton'
 import SendIcon from '@material-ui/icons/Send'
 import CloseIcon from '@material-ui/icons/Close'
 import Slide from '@material-ui/core/Slide'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import * as Styles from './ComposeMessageDialog.styles'
 
 export default function ComposeMessageDialog(props) {
-	const { dialogOpen, dialogClosed, onSubmit } = props
-	console.log(dialogOpen)
+	const { dialogOpen, dialogClosed, onSubmit, isLoading } = props
+
 	return (
 		<Dialog
 			open={dialogOpen}
@@ -30,7 +31,7 @@ export default function ComposeMessageDialog(props) {
 					</IconButton>
 					<Styles.StyledTitle variant='h6'>Compose Message</Styles.StyledTitle>
 					<IconButton autoFocus color='inherit' onClick={onSubmit}>
-						<SendIcon />
+						{isLoading ? <CircularProgress /> : <SendIcon />}
 					</IconButton>
 				</Toolbar>
 			</AppBar>

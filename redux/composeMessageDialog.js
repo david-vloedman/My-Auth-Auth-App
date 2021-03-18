@@ -1,38 +1,71 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-
 const reducer = {
-  composeMessageDialogClosed(state, action){
-    return {
-      ...state,
+	composeMessageDialogClosed(state, action) {
+		return {
+			...state,
+			isOpen: false,
+			message: undefined,
+		}
+	},
+	composeMessageDialogOpen(state, action) {
+		const { recipientId, senderId, recipientUserName } = action.payload
+		return {
+			...state,
+			isOpen: true,
+			messageForm: {
+				...state.messageForm,
+				recipient: recipientId,
+				recipientDisplay: recipientUserName,
+				sender: senderId,
+			},
+		}
+	},
+	messageFormChange(state, action) {
+		return {
+			...state,
+			messageForm: {
+				...state.messageForm,
+				...action.payload,
+			},
+		}
+	},
+	messageFormSubmit(state, action) {
+		return {
+			...state,
+			messageForm: {
+				...state.messageForm,
+				loading: true,
+			},
+		}
+	},
+	sendRequestSuccess(state, action) {
+		return {
+			...state,
       isOpen: false,
-      message: undefined
-    }
-  },
-  composeMessageDialogOpen(state, action){
-    const {recipientId, senderId, recipientUserName } = action.payload
-    return {
-      ...state,
-      isOpen: true,
-      messageForm : {
-        ...state.messageForm,
-        recipient: recipientId,
-        recipientDisplay: recipientUserName,
-        sender: senderId
+      messageForm: {
+        loading: false,
       }
-    }
-  },
+		}
+	},
+  sendRequestFail(state, action){}
 }
 
 const composeMessageDialogSlice = createSlice({
-  name: 'ComposeMessageDialog',
-  initialState: {
-    isOpen: false
-  },
-  reducers: reducer
+	name: 'ComposeMessageDialog',
+	initialState: {
+		isOpen: false,
+		messageForm: {},
+	},
+	reducers: reducer,
 })
 
-
-
 export const composeMessageDialogReducer = composeMessageDialogSlice.reducer
-export const {composeMessageDialogClosed, composeMessageDialogOpen} = composeMessageDialogSlice.actions
+export const {
+	composeMessageDialogClosed,
+	composeMessageDialogOpen,
+	messageFormChange,
+	messageFormSubmit,
+  sendRequestSuccess,
+  sendRequestFail
+} = composeMessageDialogSlice.actions

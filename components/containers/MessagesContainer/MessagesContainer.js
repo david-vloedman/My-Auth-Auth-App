@@ -2,6 +2,7 @@ import * as Styles from './MessagesContainer.styles'
 import Messages from '../../Messages/Messages'
 import ViewMessageDialog from '../../dialogs/ViewMessageDialog/ViewMessageDialog'
 import ComposeMessageDialog from '../../dialogs/ComposeMessageDialog/ComposeMessageDialog'
+import SnackBar from '../../SnackBar/SnackBar'
 import {
 	viewMessageDialogOpen,
 	viewMessageDialogClosed,
@@ -9,8 +10,13 @@ import {
 import {
 	composeMessageDialogOpen,
 	composeMessageDialogClosed,
+	messageFormChange,
+	messageFormSubmit,
+	sendRequestSuccess,
+	sendRequestFail,
 } from '../../../redux/composeMessageDialog'
 import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
 
 export default function MessagesContainer(props) {
 	const dispatch = useDispatch()
@@ -19,8 +25,6 @@ export default function MessagesContainer(props) {
 		(state) => state.composeMessageDialog
 	)
 
-	console.log(composeMessageDialogState)
-	console.log(viewMessageDialogState)
 	const userState = useSelector((state) => state.user)
 
 	const dispatchViewDialogOpen = (params) => {
@@ -29,22 +33,16 @@ export default function MessagesContainer(props) {
 		dispatch(viewMessageDialogOpen(message))
 	}
 
-	const dispatchViewDialogClose = () => {
-		dispatch(viewMessageDialogClosed())
-	}
+	const dispatchViewDialogClose = () => dispatch(viewMessageDialogClosed())
 
-	const dispatchDeleteMessages = (param) => {
-		// retrieve the selection model
+	const dispatchDeleteMessages = (param) =>
 		console.log('delete message: ', param)
-	}
 
-	const dispatchComposeDialogClose = () => {
+	const dispatchComposeDialogClose = () =>
 		dispatch(composeMessageDialogClosed())
-	}
 
-	const dispatchComposeDialogOpen = (param) => {
+	const dispatchComposeDialogOpen = (param) =>
 		dispatch(composeMessageDialogOpen(param))
-	}
 
 	const dispatchMessageReply = (param) => {
 		// close the view message dialog
@@ -54,7 +52,30 @@ export default function MessagesContainer(props) {
 			senderId: userState._id,
 			recipientUserName: param.senderUser,
 		})
-		console.log('reply to message:', param)
+	}
+
+	const dispatchMessageFormChange = (e) => {
+		dispatch(
+			messageFormChange({
+				[e.target.name]: e.target.value,
+			})
+		)
+	}
+
+	const dispatchMessageSent = async (param) => {
+		dispatch(messageFormSubmit())
+		try {
+			const response = await axios.post(
+				`/api/messages/sendMessage/${composeMessageDialogState.messageForm.recipient}`,
+				{
+					...composeMessageDialogState.messageForm,
+				}
+			)
+			if (response.data?.insertedId) dispatch(sendRequestSuccess())
+			dispatch(sendRequestFail())
+		} catch (error) {
+			dispatch(sendRequestFail())
+		}
 	}
 
 	return (
@@ -65,20 +86,23 @@ export default function MessagesContainer(props) {
 					onOpenMessage={dispatchViewDialogOpen}
 					onDeleteMessage={dispatchDeleteMessages}
 				/>
-		
 			</Styles.StyledPaper>
 			<ComposeMessageDialog
-					dialogOpen={composeMessageDialogState.isOpen}
-					dialogClosed={dispatchComposeDialogClose}
-				/>
+				dialogOpen={composeMessageDialogState.isOpen}
+				formData={composeMessageDialogState.messageForm}
+				isLoading={composeMessageDialogState.loading}
+				dialogClosed={dispatchComposeDialogClose}
+				onSubmit={dispatchMessageSent}
+				onChange={dispatchMessageFormChange}
+			/>
 			<ViewMessageDialog
 				dialogOpen={viewMessageDialogState.isOpen}
+				message={viewMessageDialogState.message}
 				dialogClose={dispatchViewDialogClose}
 				onDeleteClick={dispatchDeleteMessages}
 				onReplyClick={dispatchMessageReply}
-				message={viewMessageDialogState.message}
 			/>
-			
+			<SnackBar />
 		</Styles.StyledMainContainer>
 	)
 }
