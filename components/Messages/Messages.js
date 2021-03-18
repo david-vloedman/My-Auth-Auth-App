@@ -45,7 +45,7 @@ export default function Messages(props) {
 		{
 			field: 'subject',
 			headerName: 'Subject',
-			flex: 2,
+			flex: 1,
 			renderHeader: (params) => <strong>Subject</strong>,
 		},
 	]

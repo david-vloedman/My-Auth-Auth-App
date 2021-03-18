@@ -37,8 +37,8 @@ export default function ComposeMessageDialog(props) {
 						</IconButton>
 					</Toolbar>
 				</AppBar>
-			<Styles.FormContainer>
-				<ComposeMessageForm {...props} />
+				<Styles.FormContainer>
+					<ComposeMessageForm {...props} />
 				</Styles.FormContainer>
 			</Dialog>
 		</Styles.FlexContainer>
