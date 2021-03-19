@@ -8,6 +8,7 @@ import {
 	sendRequestFail,
 } from '../../../redux/composeMessageDialog'
 import ComposeMessageDialog from '../../dialogs/ComposeMessageDialog/ComposeMessageDialog'
+import axios from 'axios'
 import { friendRemoved } from '../../../redux/reducers'
 import { useDispatch, useSelector } from 'react-redux'
 

@@ -12,6 +12,7 @@ export default async (req, res) => {
 		if (!validUserName(userName)) return res.json(userNameNotValidResponse())
 
 		if (!validPassword(password)) return res.json(passwordNotValidResponse())
+		
 		// project data
 		const newUser = {
 			name: firstName,
@@ -34,6 +35,7 @@ export default async (req, res) => {
 		// return the id of the newly created user
 		return res.json(userCreatedResponse({ _id: user._id }))
 	} catch (err) {
+		console.log(err)
 		res.json(err)
 	}
 }
