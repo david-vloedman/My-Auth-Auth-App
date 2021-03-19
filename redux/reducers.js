@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
+import { friendsPageReducer } from './friendsPageSlice'
+import { composeMessageDialogReducer } from './composeMessageDialog'
+import { viewMessageDialogReducer } from './viewMessageDialog'
 
 const layoutReducer = {
 	toggleLoggedIn(state, payload) {
@@ -28,13 +31,15 @@ const userReducer = {
 		
 		return {
 			...state,
-			...action.payload
+			...action.payload,
+			loggedIn: true
 		}
 	},
 	unsetUser(state, action) {
 		return {
 			...state,
 			user: undefined,
+			loggedIn: false
 		}
 	},
 	friendAdded(state, action) {
@@ -49,6 +54,12 @@ const userReducer = {
 			...action.payload
 		}
 	},
+	receivedMessageDeleted(state, action) {
+		return {
+			...state,
+			receivedMessages: [...state.receivedMessages.filter(msg => msg.id !== action.payload)]
+		}
+	}
 }
 
 const userSlice = createSlice({
@@ -62,6 +73,7 @@ export const {
 	unsetUser,
 	friendRemoved,
 	friendAdded,
+	receivedMessageDeleted
 } = userSlice.actions
 
 export const { toggleLoggedIn, toggleDrawer } = layoutSlice.actions
@@ -69,6 +81,9 @@ export const { toggleLoggedIn, toggleDrawer } = layoutSlice.actions
 const reducers = combineReducers({
 	layout: layoutSlice.reducer,
 	user: userSlice.reducer,
+	friendsPage: friendsPageReducer,
+	composeMessageDialog: composeMessageDialogReducer,
+	viewMessageDialog: viewMessageDialogReducer
 })
 
 export default reducers

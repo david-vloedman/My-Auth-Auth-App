@@ -11,7 +11,7 @@ export default function UserSearchResults(props) {
   
 	return (
 		<div>
-			<List>{users?.map(user => (<UserListItem user={user} key={user._id} {...props}/>))}</List>
+			<List>{users?.map?.(user => (<UserListItem user={user} key={user._id} {...props}/>))}</List>
 		</div>
 	)
 }

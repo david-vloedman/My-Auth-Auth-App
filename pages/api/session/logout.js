@@ -1,14 +1,10 @@
-import {withIronSession} from 'next-iron-session'
+import withSession from '../../../lib/withSession'
+import * as Responses from '../../../lib/helpers/responses'
 
-const handler = async (req, res) => {
+const logout = async (req, res) => {
 	req.session.destroy()
-  res.send('Logged out')
+
+  return Responses.ok(res, 'logged out')
 }
 
-export default withIronSession(handler, {
-	password: process.env.TOKEN_SECRET,
-	cookieOptions: {
-		secure: process.env.NODE_ENV === 'production'
-	},
-	cookieName: 'session'
-})
+export default withSession(logout)

@@ -1,17 +1,15 @@
 import Head from 'next/head'
+import MessagesContainer from '../components/containers/MessagesContainer/MessagesContainer'
 import withSession from '../lib/withSession'
 import getAppState from '../lib/helpers/getAppState'
 
-import FriendsContainer from '../components/containers/FriendsContainer/FriendsContainer'
-
-export default function friends(props) {
-
+export default function messages(props) {
 	return (
 		<div>
 			<Head>
-				<title>My Friends</title>
+				<title>Messages</title>
 			</Head>
-			<FriendsContainer />
+			<MessagesContainer />
 		</div>
 	)
 }
