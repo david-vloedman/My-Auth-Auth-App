@@ -9,9 +9,7 @@ const reducer = {
 		}
 	},
 	composeMessageDialogOpen(state, action) {
-		console.log(action.payload)
-		const {senderId, recipientUserName, recipientId} = action.payload
-		
+		const { senderId, recipientUserName, recipientId } = action.payload
 		return {
 			...state,
 			isOpen: true,
@@ -43,13 +41,13 @@ const reducer = {
 	sendRequestSuccess(state, action) {
 		return {
 			...state,
-      isOpen: false,
-      messageForm: {
-        loading: false,
-      }
+			isOpen: false,
+			messageForm: {
+				loading: false,
+			},
 		}
 	},
-  sendRequestFail(state, action){}
+	sendRequestFail(state, action) {},
 }
 
 const composeMessageDialogSlice = createSlice({
@@ -67,6 +65,6 @@ export const {
 	composeMessageDialogOpen,
 	messageFormChange,
 	messageFormSubmit,
-  sendRequestSuccess,
-  sendRequestFail
+	sendRequestSuccess,
+	sendRequestFail,
 } = composeMessageDialogSlice.actions
