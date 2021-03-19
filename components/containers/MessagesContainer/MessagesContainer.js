@@ -32,7 +32,7 @@ export default function MessagesContainer(props) {
 
 	const dispatchViewDialogOpen = (params) => {
 		const { row } = params
-		const message = userState.messages.find((m) => m.id === row.id)
+		const message = userState.receivedMessages.find((m) => m.id === row.id)
 		dispatch(viewMessageDialogOpen(message))
 	}
 
@@ -104,7 +104,7 @@ export default function MessagesContainer(props) {
 		<Styles.StyledMainContainer>
 			<Styles.StyledPaper>
 				<Messages
-					messages={userState.messages}
+					messages={userState.receivedMessages}
 					onOpenMessage={dispatchViewDialogOpen}
 					onDeleteMessage={dispatchDeleteMessages}
 				/>
