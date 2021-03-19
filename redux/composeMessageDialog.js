@@ -9,12 +9,13 @@ const reducer = {
 		}
 	},
 	composeMessageDialogOpen(state, action) {
-		const { recipientId, senderId, recipientUserName } = action.payload
+		console.log(action.payload)
+		const {senderId, recipientUserName, recipientId} = action.payload
+		
 		return {
 			...state,
 			isOpen: true,
 			messageForm: {
-				...state.messageForm,
 				recipient: recipientId,
 				recipientDisplay: recipientUserName,
 				sender: senderId,

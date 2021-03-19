@@ -8,7 +8,7 @@ export default withSession(async (req, res) => {
 	const {
 		query: { uid },
 	} = req
-	console.log(uid)
+	
 	// get the current user
 	const sessionUser = req.session.get('user')
 	// check the session, if no session, return forbidden

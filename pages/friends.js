@@ -88,6 +88,7 @@ export default function friends(props) {
 						closeDialog={dispatchCloseDialog}
 						onSubmit={dispatchMessageSubmit}
 						onChange={dispatchMessageChange}
+						formData={pageState.messageForm}
 						recipientUsername={pageState?.messageForm?.recipientDisplay}
 					/>
 				</div>

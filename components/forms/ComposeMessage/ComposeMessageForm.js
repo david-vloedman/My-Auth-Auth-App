@@ -7,7 +7,7 @@ import { Avatar } from '@material-ui/core'
 
 export default function ComposeMessageForm(props) {
 	const { onChange, formData } = props
-	
+	console.log(formData)
 	return (
 		<Styles.FormContainer>
 			<List>

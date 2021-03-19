@@ -10,7 +10,14 @@ import CloseIcon from '@material-ui/icons/Close'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 export default function ViewMessageDialog(props) {
-	const { message, dialogOpen, dialogClose, onDeleteClick, onReplyClick } = props
+	const {
+		message,
+		dialogOpen,
+		dialogClose,
+		onDeleteClick,
+		onReplyClick,
+	} = props
+	
 	return (
 		<Styles.StyledMainContainer>
 			<Dialog
@@ -27,7 +34,7 @@ export default function ViewMessageDialog(props) {
 							onClick={dialogClose}
 							aria-label='close'
 						>
-            <CloseIcon />
+							<CloseIcon />
 						</IconButton>
 						<Styles.StyledTitle variant='h6'>View Message</Styles.StyledTitle>
 						<IconButton
@@ -35,11 +42,13 @@ export default function ViewMessageDialog(props) {
 							arian-label='delete'
 							color='inherit'
 						>
-						<DeleteIcon />
+							<DeleteIcon />
 						</IconButton>
-						
+
 						<IconButton
-							onClick={() => onReplyClick(message)}
+							onClick={() =>
+								onReplyClick(message)
+							}
 							aria-label='reply'
 							color='inherit'
 						>
@@ -47,9 +56,8 @@ export default function ViewMessageDialog(props) {
 						</IconButton>
 					</Toolbar>
 				</AppBar>
-        <Message message={message} />	
+				<Message message={message} />
 			</Dialog>
-      
 		</Styles.StyledMainContainer>
 	)
 }

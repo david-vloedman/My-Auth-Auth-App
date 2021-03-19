@@ -6,21 +6,26 @@ import getAppState from '../../../../lib/helpers/getAppState'
 
 export default withSession(async (req, res) => {
 	const {
-		query: { recipientId},
-		body: { subject, body }
+		query: { recipientId },
+		body: { subject, body },
 	} = req
-	
+
 	// get the current user
 	const sessionUser = req.session.get('user')
 	// check the session, if no session, return forbidden
 
 	if (!sessionUser) return Responses.forbidden(res)
 
-	if(!recipientId || !body ) return Responses.serverError(res, 'Malformed request, must have recipient and body')
+	if (!recipientId || !body)
+		return Responses.serverError(
+			res,
+			'Malformed request, must have recipient and body'
+		)
 
 	try {
 		const { db } = await connectToDatabase()
 		const messagesCollection = db.collection('messages')
+		const usersCollection = db.collection('users')
 
 		const message = {
 			sender: sessionUser._id,
@@ -28,15 +33,34 @@ export default withSession(async (req, res) => {
 			body: body.substring(0, 400), // limit message size to 400 characters, truncate anything over
 			subject: subject.substring(0, 25), // limit subject size to 25 characters, truncate anything over
 			createdAt: Date.now(),
-			inResponseTo: null // possibly chain messages into conversations in future
+			inResponseTo: null, // possibly chain messages into conversations in future
 		}
 
-		const insertResult = await messagesCollection.insertOne(message)
+		const insertMsgResponse = await messagesCollection.insertOne(message)
+		const messageId = insertMsgResponse.insertedId
 
-		console.log(insertResult)
+		if (insertMsgResponse.result.ok === 1) {
+			const updateSenderResponse = await usersCollection.updateOne(
+				{ _id: ObjectId(sessionUser._id) },
+				{ $push: { sentMessages: messageId } }
+			)
+			console.log(sessionUser._id, recipientId)
+			const updateRecipientResponse = await usersCollection.updateOne(
+				{ _id: ObjectId(recipientId) },
+				{ $push: { receivedMessages: messageId } }
+			)
 
-		return res.json({...insertResult})
+			const updatedUser = await getAppState(sessionUser._id)
 
+			if (updateSenderResponse.result.ok === 1 && updateRecipientResponse.result.ok === 1) {
+				
+				return Responses.ok(res, 'Message sent!', { ...updatedUser })
+			}
+
+			return Responses.serverError(res, 'Message may not have been sent', {
+				...updatedUser,
+			})
+		}
 	} catch (error) {
 		// todo logging
 		console.log(`CAUGHT ERROR - /sendMessage : ${error}`)

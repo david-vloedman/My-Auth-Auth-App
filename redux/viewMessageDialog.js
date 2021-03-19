@@ -12,7 +12,6 @@ const reducer = {
 		return {
 			...state,
 			isOpen: false,
-			message: undefined,
 		}
 	},
 }

@@ -15,8 +15,11 @@ import {
 	sendRequestSuccess,
 	sendRequestFail,
 } from '../../../redux/composeMessageDialog'
+import { alert, onAlertClose } from '../../../redux/snackbar'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
+
+const sendMessageUrl = '/api/messages/sendMessage/'
 
 export default function MessagesContainer(props) {
 	const dispatch = useDispatch()
@@ -33,27 +36,37 @@ export default function MessagesContainer(props) {
 		dispatch(viewMessageDialogOpen(message))
 	}
 
+	/**
+	 * View Message Dialog
+	 */
 	const dispatchViewDialogClose = () => dispatch(viewMessageDialogClosed())
 
 	const dispatchDeleteMessages = (param) =>
 		console.log('delete message: ', param)
 
+	const dispatchMessageReply = (param) => {
+		console.log(param)
+		dispatchViewDialogClose()
+		dispatchComposeDialogOpen({
+			recipientId: param.sender,
+			senderId: userState._id,
+			recipientUserName: param.senderUser,
+		})
+	}
+
+	/**
+	 * Compose Message Dialog
+	 */
 	const dispatchComposeDialogClose = () =>
 		dispatch(composeMessageDialogClosed())
 
 	const dispatchComposeDialogOpen = (param) =>
 		dispatch(composeMessageDialogOpen(param))
 
-	const dispatchMessageReply = (param) => {
-		// close the view message dialog
-		dispatchViewDialogClose()
-		dispatchComposeDialogOpen({
-			recipientId: param.recipient,
-			senderId: userState._id,
-			recipientUserName: param.senderUser,
-		})
-	}
-
+	/**
+	 *
+	 * Compose Message Form
+	 */
 	const dispatchMessageFormChange = (e) => {
 		dispatch(
 			messageFormChange({
@@ -65,15 +78,24 @@ export default function MessagesContainer(props) {
 	const dispatchMessageSent = async (param) => {
 		dispatch(messageFormSubmit())
 		try {
+			console.log(`${sendMessageUrl}${composeMessageDialogState.messageForm.recipient}`)
 			const response = await axios.post(
-				`/api/messages/sendMessage/${composeMessageDialogState.messageForm.recipient}`,
+				`${sendMessageUrl}${composeMessageDialogState.messageForm.recipient}`,
 				{
 					...composeMessageDialogState.messageForm,
 				}
 			)
-			if (response.data?.insertedId) dispatch(sendRequestSuccess())
-			dispatch(sendRequestFail())
+			if (response.status === 200) {
+				dispatch(sendRequestSuccess(response.data.data.message))
+				return dispatch(
+					alert({
+						alertMessage: response.data.data.message,
+						onClose: () => dispatch(onAlertClose()),
+					})
+				)
+			}
 		} catch (error) {
+			console.log(error)
 			dispatch(sendRequestFail())
 		}
 	}
