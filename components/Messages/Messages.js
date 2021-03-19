@@ -11,8 +11,6 @@ export default function Messages(props) {
 		onDeleteMessage: deleteMessage,
 	} = props
 
-	if (!messages) return <div>No messages</div>
-
 	const [viewMode, setViewMode] = useState({
 		edit: false,
 	})

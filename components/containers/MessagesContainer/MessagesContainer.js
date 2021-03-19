@@ -59,7 +59,6 @@ export default function MessagesContainer(props) {
 	}
 
 	const dispatchMessageReply = (param) => {
-		console.log(param)
 		dispatchViewDialogClose()
 		dispatchComposeDialogOpen({
 			recipientId: param.sender,

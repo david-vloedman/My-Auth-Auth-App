@@ -5,27 +5,31 @@ import withSession from '../lib/withSession'
 import getAppState from '../lib/helpers/getAppState'
 import { useSelector, useDispatch } from 'react-redux'
 import { friendRemoved } from '../redux/reducers'
+
 import {
-	closeDialog,
-	openNewMessageDialog,
-	onMessageFormChange,
-	onMessageFormSubmit,
-	onMessageSent,
-} from '../redux/friendsPageSlice'
+	composeMessageDialogOpen,
+	composeMessageDialogClosed,
+	messageFormChange,
+	messageFormSubmit,
+	sendRequestSuccess,
+	sendRequestFail,
+} from '../redux/composeMessageDialog'
 import axios from 'axios'
+
+const sendMessageUrl = '/api/messages/sendMessage/'
 
 export default function friends(props) {
 	const reduxUser = useSelector((state) => state.user)
-	const pageState = useSelector((state) => state.friendsPage)
+	const composeMessageDialog = useSelector((state) => state.composeMessageDialog)
 	const dispatch = useDispatch()
 
 	const dispatchCloseDialog = () => {
-		dispatch(closeDialog())
+		dispatch(composeMessageDialogClosed())
 	}
 
 	const dispatchOpenDialog = (recipientId, recipientUserName) => {
 		dispatch(
-			openNewMessageDialog({
+			composeMessageDialogOpen({
 				recipientId,
 				senderId: reduxUser._id,
 				recipientUserName,
@@ -37,36 +41,29 @@ export default function friends(props) {
 		const prop = {
 			[e.target.name]: e.target.value,
 		}
-		dispatch(onMessageFormChange(prop))
+		dispatch(messageFormChange(prop))
 	}
-	const dispatchMessageSubmit = (e) => {
-		e.preventDefault()
-		sendMessage()
-		dispatch(onMessageFormSubmit())
+	const dispatchMessageSubmit = async (e) => {
+		
+		try {
+			const response = await axios.post(
+				`${sendMessageUrl}${composeMessageDialog.messageForm.recipient}`,
+				{
+					...composeMessageDialog.messageForm,
+				}
+			)
+			if (response.status === 200) {
+				dispatch(sendRequestSuccess(response.data.data.message))
+			}
+		} catch (error) {
+			console.log(error)
+			dispatch(sendRequestFail())
+		}
+		dispatch(messageFormSubmit())
 	}
 
 	const dispatchFriendRemoved = (uid) => {
 		dispatch(friendRemoved(uid))
-	}
-
-	const dispatchOnMessageSent = () => {
-		dispatch(onMessageSent)
-	}
-
-	const sendMessage = async () => {
-		try {
-			const response = await axios.post(
-				`/api/messages/sendMessage/${pageState.messageForm?.recipient}`,
-				{
-					...pageState.messageForm,
-				}
-			)
-			console.log(response)
-
-			
-		} catch (error) {
-			console.log(error)
-		}
 	}
 
 	return (
@@ -84,12 +81,12 @@ export default function friends(props) {
 						openNewMessageDialog={dispatchOpenDialog}
 					/>
 					<ComposeMessageDialog
-						dialogOpen={pageState.dialogOpen}
+						dialogOpen={composeMessageDialog.isOpen}
 						closeDialog={dispatchCloseDialog}
 						onSubmit={dispatchMessageSubmit}
 						onChange={dispatchMessageChange}
-						formData={pageState.messageForm}
-						recipientUsername={pageState?.messageForm?.recipientDisplay}
+						formData={composeMessageDialog.messageForm}
+						recipientUsername={composeMessageDialog.messageForm.recipientDisplay}
 					/>
 				</div>
 			</main>
