@@ -71,7 +71,7 @@ export default function FriendsContainer(props) {
 			/>
 			<ComposeMessageDialog
 				dialogOpen={composeMessageDialog.isOpen}
-				closeDialog={dispatchCloseDialog}
+				dialogClosed={dispatchCloseDialog}
 				onSubmit={dispatchMessageSubmit}
 				onChange={dispatchMessageChange}
 				formData={composeMessageDialog.messageForm}

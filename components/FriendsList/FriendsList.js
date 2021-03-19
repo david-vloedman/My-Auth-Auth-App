@@ -5,14 +5,15 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Avatar from '@material-ui/core/Avatar';
+import DeleteIcon from '@material-ui/icons/Delete'
+import SendIcon from '@material-ui/icons/Send'
+import IconButton from '@material-ui/core/IconButton'
+import Avatar from '@material-ui/core/Avatar'
 import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
 
 export default function FriendsList(props) {
-	
 	const { friendsList, onRemoveFriend, openNewMessageDialog } = props
-	
+
 	const MainList = (props) => {
 		const { friends } = props
 
@@ -21,29 +22,40 @@ export default function FriendsList(props) {
 				{friends?.map?.((friend) => {
 					return (
 						<ListItem key={Math.random()}>
-              <ListItemAvatar>
-                <Avatar>
-                {/* add avatar images for users */}
-                </Avatar>
-              </ListItemAvatar>
-							<ListItemText primary={friend.userName} secondary={friend.name ? friend.name : null} />
-              <ListItemSecondaryAction>
-                {/* <RemoveUserButton friend={friend} onRemoveFriend={onRemoveFriend} /> */}
-								<Button onClick={() => openNewMessageDialog(friend._id, friend.userName)}>Send</Button>
-              </ListItemSecondaryAction>
+							<ListItemAvatar>
+								<Avatar>{/* add avatar images for users */}</Avatar>
+							</ListItemAvatar>
+							<ListItemText
+								primary={friend.userName}
+								secondary={friend.name ? friend.name : null}
+							/>
+							<ListItemSecondaryAction>
+								<IconButton onClick={() => onRemoveFriend(friend._id)} button>
+									<DeleteIcon />
+								</IconButton>
+								<IconButton
+									onClick={() =>
+										openNewMessageDialog(friend._id, friend.userName)
+									}
+								>
+									<SendIcon />
+								</IconButton>
+							</ListItemSecondaryAction>
 						</ListItem>
 					)
 				})}
 			</List>
 		)
 	}
-	
+
 	return (
 		<Styles.Container>
-      <Paper elevation={3}>
+			<Paper elevation={3}>
+				<Styles.TitleContainer>
 				<Typography variant='h6'>Friends</Typography>
-			<MainList friends={friendsList} />
-      </Paper>
+				</Styles.TitleContainer>
+				<MainList friends={friendsList} />
+			</Paper>
 		</Styles.Container>
 	)
 }
