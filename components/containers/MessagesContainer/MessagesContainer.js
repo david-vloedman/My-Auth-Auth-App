@@ -15,11 +15,13 @@ import {
 	sendRequestSuccess,
 	sendRequestFail,
 } from '../../../redux/composeMessageDialog'
+import { receivedMessageDeleted } from '../../../redux/reducers'
 import { alert, onAlertClose } from '../../../redux/snackbar'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 
 const sendMessageUrl = '/api/messages/sendMessage/'
+const deleteMessageUrl = '/api/messages/removeMessage/'
 
 export default function MessagesContainer(props) {
 	const dispatch = useDispatch()
@@ -41,8 +43,20 @@ export default function MessagesContainer(props) {
 	 */
 	const dispatchViewDialogClose = () => dispatch(viewMessageDialogClosed())
 
-	const dispatchDeleteMessages = (param) =>
-		console.log('delete message: ', param)
+	const dispatchDeleteMessages = async (param) => {
+		try{
+			const response = await axios.post(`${deleteMessageUrl}${param}`)
+
+			if(response.status === 200){
+				dispatch(receivedMessageDeleted(param))
+			}
+		} catch(error){
+			console.log(error)
+			dispatch(receivedMessageDeleted(param)) 
+			// ehhh maybe just updating the UI like it happened when it did not is okay?
+		}
+	
+	}
 
 	const dispatchMessageReply = (param) => {
 		console.log(param)
@@ -78,7 +92,6 @@ export default function MessagesContainer(props) {
 	const dispatchMessageSent = async (param) => {
 		dispatch(messageFormSubmit())
 		try {
-			console.log(`${sendMessageUrl}${composeMessageDialogState.messageForm.recipient}`)
 			const response = await axios.post(
 				`${sendMessageUrl}${composeMessageDialogState.messageForm.recipient}`,
 				{

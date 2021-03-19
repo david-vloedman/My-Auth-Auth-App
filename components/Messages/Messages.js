@@ -87,7 +87,7 @@ Messages.propTypes = {
 			subject: PropTypes.string,
 			recipient: PropTypes.string.isRequired,
 			sender: PropTypes.string.isRequired,
-			message: PropTypes.string.isRequired,
+			body: PropTypes.string.isRequired,
 		})
 	),
 	onOpenMessage: PropTypes.func,
