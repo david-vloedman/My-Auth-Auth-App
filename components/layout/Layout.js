@@ -18,7 +18,7 @@ export default function Layout(props) {
 	const { loggedIn, showDrawer } = useSelector((state) => state.layout)
 	const reduxUser = useSelector((state) => state.user)
 
-	// if there is no user in redux state, set it to the state given by the server
+	//if there is no user in redux state, set it to the state given by the server
 	if (Object.keys(reduxUser).length === 0 && Object.keys(user).length > 0) {
 		dispatch(Actions.setUser(user))
 		dispatch(Actions.toggleLoggedIn())

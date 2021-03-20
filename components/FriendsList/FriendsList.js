@@ -30,7 +30,7 @@ export default function FriendsList(props) {
 								secondary={friend.name ? friend.name : null}
 							/>
 							<ListItemSecondaryAction>
-								<IconButton onClick={() => onRemoveFriend(friend._id)} button>
+								<IconButton onClick={() => onRemoveFriend(friend._id)}>
 									<DeleteIcon />
 								</IconButton>
 								<IconButton
