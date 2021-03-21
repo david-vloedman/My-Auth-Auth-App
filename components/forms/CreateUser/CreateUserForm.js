@@ -52,7 +52,7 @@ export default function CreateUser(props) {
 	}
 
 	return (
-		<Styles.FormContainer>
+		<>
 			<Styles.StyledTextField
 				name='firstName'
 				label='First Name'
@@ -73,6 +73,7 @@ export default function CreateUser(props) {
 				type='button'
 				onClick={(e) => onSubmit(e)}
 				variant='contained'
+				color='primary'
 			>
 				Submit
 			</Styles.StyledButton>
@@ -82,6 +83,6 @@ export default function CreateUser(props) {
 			) : (
 				<div>{form.message}</div>
 			)}
-		</Styles.FormContainer>
+		</>
 	)
 }

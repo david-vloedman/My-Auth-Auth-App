@@ -5,7 +5,7 @@ import MenuDrawer from './MenuDrawer'
 import AppBar from '../AppBar/AppBar'
 import defaultTheme from '../themes/default'
 import Heading from '../Heading/Heading'
-import {ThemeProvider} from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/core/styles'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Actions from '../../redux/reducers'
 import { useRouter } from 'next/router'
@@ -43,19 +43,20 @@ export default function Layout(props) {
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<CssBaseLine />
-			{loggedIn ? (
-				<MenuDrawer
-					open={showDrawer}
-					onClose={dispatchDrawerToggle}
-					toggleDrawer={dispatchDrawerToggle}
-					logout={dispatchLogout}
-				/>
-			) : null}
-
 			<AppBar props={{ toggleDrawer: dispatchDrawerToggle, loggedIn }} />
+			<StyledContainer>
+				<CssBaseLine />
+				{loggedIn ? (
+					<MenuDrawer
+						open={showDrawer}
+						onClose={dispatchDrawerToggle}
+						toggleDrawer={dispatchDrawerToggle}
+						logout={dispatchLogout}
+					/>
+				) : null}
 
-			<StyledContainer>{{ ...props.children }}</StyledContainer>
+				{{ ...props.children }}
+			</StyledContainer>
 		</ThemeProvider>
 	)
 }
@@ -63,4 +64,5 @@ export default function Layout(props) {
 const StyledContainer = styled(Container)`
 	background-color: #e8e8e8;
 	min-height: 100vh;
+	padding-top: 1rem;
 `

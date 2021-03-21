@@ -28,28 +28,19 @@ export default function LoginContainer({ props }) {
 	)
 
 	return (
-		<Box component='div' p='1rem'>
-			<Paper>
-				<Box component='div'>
-					<Box component='div' p='1rem'>
-						<Title />
-					</Box>
-					<Box
-						component='div'
-						p='1rem'
-						display={'flex'}
-						flexDirection={'column'}
-					>
-						{visibility.login ? <LoginForm toggleForms={toggleForms} /> : null}
-						{visibility.create ? (
-							<CreateUserForm toggleForms={toggleForms} />
-						) : null}
-						<a href='#' onClick={toggleForms}>
-							{visibility.login ? 'Create account' : 'Existing account sign-in'}
-						</a>
-					</Box>
+		<Styles.StyledPaper>
+			<Box component='div'>
+				<Title />
+				<Box display={'flex'} flexDirection={'column'}>
+					{visibility.login ? <LoginForm toggleForms={toggleForms} /> : null}
+					{visibility.create ? (
+						<CreateUserForm toggleForms={toggleForms} />
+					) : null}
+					<a href='#' onClick={toggleForms}>
+						{visibility.login ? 'Create account' : 'Existing account sign-in'}
+					</a>
 				</Box>
-			</Paper>
-		</Box>
+			</Box>
+		</Styles.StyledPaper>
 	)
 }
