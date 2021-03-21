@@ -73,7 +73,7 @@ export default function CreateUser(props) {
 				type='button'
 				onClick={(e) => onSubmit(e)}
 				variant='contained'
-				color='primary'
+				color='secondary'
 			>
 				Submit
 			</Styles.StyledButton>

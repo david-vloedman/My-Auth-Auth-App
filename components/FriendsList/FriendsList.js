@@ -48,14 +48,5 @@ export default function FriendsList(props) {
 		)
 	}
 
-	return (
-		<Styles.Container>
-			<Paper elevation={3}>
-				<Styles.TitleContainer>
-				<Typography variant='h6'>Friends</Typography>
-				</Styles.TitleContainer>
-				<MainList friends={friendsList} />
-			</Paper>
-		</Styles.Container>
-	)
+	return <MainList friends={friendsList} />
 }

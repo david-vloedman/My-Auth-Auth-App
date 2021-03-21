@@ -1,4 +1,6 @@
 import FriendsList from '../../FriendsList/FriendsList'
+import Heading from '../../Heading/Heading'
+import { StyledPaper } from './FriendsContainer.styles'
 import {
 	composeMessageDialogOpen,
 	composeMessageDialogClosed,
@@ -11,6 +13,7 @@ import ComposeMessageDialog from '../../dialogs/ComposeMessageDialog/ComposeMess
 import axios from 'axios'
 import { friendRemoved } from '../../../redux/reducers'
 import { useDispatch, useSelector } from 'react-redux'
+import { Box } from '@material-ui/core'
 
 const sendMessageUrl = '/api/messages/sendMessage/'
 
@@ -65,11 +68,16 @@ export default function FriendsContainer(props) {
 
 	return (
 		<>
-			<FriendsList
-				friendsList={reduxUser.friends ? [...reduxUser.friends] : []}
-				onRemoveFriend={dispatchFriendRemoved}
-				openNewMessageDialog={dispatchOpenDialog}
-			/>
+			<StyledPaper>
+				<Box component='div' padding='1rem'>
+				<Heading text='Friends' color={'black'} component="h2" variant="h5"/>
+				</Box>
+				<FriendsList
+					friendsList={reduxUser.friends ? [...reduxUser.friends] : []}
+					onRemoveFriend={dispatchFriendRemoved}
+					openNewMessageDialog={dispatchOpenDialog}
+				/>
+			</StyledPaper>
 			<ComposeMessageDialog
 				dialogOpen={composeMessageDialog.isOpen}
 				dialogClosed={dispatchCloseDialog}

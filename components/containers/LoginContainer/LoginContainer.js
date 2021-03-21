@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box'
 import Paper from '@material-ui/core/Paper'
 import * as Styles from './LoginContainer.styles'
 import { useState } from 'react'
-import { Grid } from '@material-ui/core'
+import { Button, Divider, Grid } from '@material-ui/core'
 
 export default function LoginContainer({ props }) {
 	const [visibility, setVisibility] = useState({
@@ -29,17 +29,23 @@ export default function LoginContainer({ props }) {
 
 	return (
 		<Styles.StyledPaper>
-			<Box component='div'>
-				<Title />
-				<Box display={'flex'} flexDirection={'column'}>
-					{visibility.login ? <LoginForm toggleForms={toggleForms} /> : null}
-					{visibility.create ? (
-						<CreateUserForm toggleForms={toggleForms} />
-					) : null}
-					<a href='#' onClick={toggleForms}>
-						{visibility.login ? 'Create account' : 'Existing account sign-in'}
-					</a>
-				</Box>
+			<Typography
+				component='h2'
+				variant='h6'
+				color={'secondary'}
+				align='center'
+			>
+				{visibility.login ? 'Login' : 'Create Account'}
+			</Typography>
+			<Box component='div' display='flex' flexDirection={'column'}>
+				{visibility.login ? <LoginForm toggleForms={toggleForms} /> : null}
+				{visibility.create ? (
+					<CreateUserForm toggleForms={toggleForms} />
+				) : null}
+				<Divider />
+				<Button href='#' onClick={toggleForms}>
+					{visibility.login ? 'Create account' : 'Existing account sign-in'}
+				</Button>
 			</Box>
 		</Styles.StyledPaper>
 	)

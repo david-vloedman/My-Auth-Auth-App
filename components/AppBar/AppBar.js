@@ -1,7 +1,7 @@
 import Toolbar from '@material-ui/core/Toolbar'
 import * as Styles from './AppBar.styles'
 import IconButton from '@material-ui/core/IconButton'
-import Heading from '../Heading/Heading'
+import Typography from '@material-ui/core/Typography'
 
 export default function AppBar({ props }) {
 	const { loggedIn, toggleDrawer } = props
@@ -19,7 +19,7 @@ export default function AppBar({ props }) {
 			<Styles.StyledAppBar position='static'>
 				<Toolbar>
 					<Styles.FlexGrowOne>
-					<Heading variant='h5' text={'Nothing App'}/>
+					<Typography component='h1' variant='h5' color={'secondary'}>Time Will Tell</Typography>
 					</Styles.FlexGrowOne>
 					{loggedIn ? <MenuButton /> : null}
 				</Toolbar>

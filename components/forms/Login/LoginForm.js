@@ -84,7 +84,7 @@ function LoginForm(props) {
 				type='button'
 				onClick={(e) => onSubmit(e)}
 				variant='contained'
-				color={'primary'}
+				color={'secondary'}
 			>
 				Sign-in
 			</Styles.StyledButton>
