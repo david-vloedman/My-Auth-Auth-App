@@ -14,7 +14,7 @@ export default function LoginContainer({ props }) {
 		setVisibility({ login: !visibility.login, create: !visibility.create })
 	}
 	
-	const Title = () => <Typography variant='h6'>{visibility.login ? 'Sign-in' : 'Create Account'}</Typography>
+	const Title = () => <Typography variant='h6' component="h6">{visibility.login ? 'Sign-in' : 'Create Account'}</Typography>
 
 	return (
 		<Styles.StyledMainContainer>

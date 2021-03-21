@@ -11,10 +11,9 @@ const url = '/api/users/create-user'
  */
 
 export default function CreateUser(props) {
-	
 	const [form, setForm] = useState({})
-	const {toggleForms} = props
-	
+	const { toggleForms } = props
+
 	const onChange = (e) => {
 		const key = e.target.name
 		const value = e.target.value

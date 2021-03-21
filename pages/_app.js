@@ -1,7 +1,9 @@
 import { Provider } from 'react-redux'
 // local imports
+import './style.css'
 import Layout from '../components/layout/Layout'
 import { initStore } from '../store'
+
 
 function MyApp({ Component, pageProps }) {
 	
