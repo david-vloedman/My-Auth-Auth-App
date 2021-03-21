@@ -5,7 +5,7 @@ export default function Heading(props) {
 	const { text, color, variant } = props
 
 	return (
-		<Typography variant={variant || 'h6'} data-test-id={'heading'}>
+		<Typography variant={variant || 'h6'} data-test-id={'heading'} color={color || 'secondary'}>
 			<CreepsterFont>{text}</CreepsterFont>
 		</Typography>
 	)

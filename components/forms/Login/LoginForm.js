@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import fetchJson from '../../../lib/fetchJson'
 import * as Styles from './LoginForm.styles'
-import Paper from '@material-ui/core/Paper'
+
 
 import { loggedIn, logOut } from '../../../redux/reducers'
 /**
@@ -21,11 +21,12 @@ function LoginForm(props) {
 		message: '',
 	})
 
-	const resetFormErrors = () => setForm({
-		...form,
-		hasError: false,
-		message: ''
-	})
+	const resetFormErrors = () =>
+		setForm({
+			...form,
+			hasError: false,
+			message: '',
+		})
 
 	const onSubmit = async (e) => {
 		e.preventDefault()
@@ -36,12 +37,12 @@ function LoginForm(props) {
 				body: JSON.stringify(form),
 				credentials: 'include',
 			})
-			
+
 			if (response.hasError) {
 				setForm({
 					...form,
 					hasError: true,
-					message: response.errorMsg
+					message: response.errorMsg,
 				})
 			}
 
@@ -61,7 +62,7 @@ function LoginForm(props) {
 	}
 
 	return (
-		<Styles.FormContainer>
+		<>
 			<Styles.StyledTextField
 				name='userName'
 				label='User Name'
@@ -83,10 +84,11 @@ function LoginForm(props) {
 				type='button'
 				onClick={(e) => onSubmit(e)}
 				variant='contained'
+				color={'primary'}
 			>
 				Sign-in
 			</Styles.StyledButton>
-		</Styles.FormContainer>
+		</>
 	)
 }
 
