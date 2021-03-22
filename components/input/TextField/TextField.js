@@ -4,7 +4,7 @@ export default function TextField(props){
   return <MuiTextField 
   {...props}
   InputLabelProps={{
-    style: { color: '#fff' },
+    style: { color: '#e8e8e8' },
   }}
   />
 }
