@@ -13,6 +13,9 @@ export const themeOptions = {
 		error: {
 			main: '#ff1600',
 		},
+		textPrimary: {
+			main: '#e8e8e8'
+		}
 	},
 	typography: {
 		h1: {

@@ -23,7 +23,7 @@ export default class MyDocument extends Document {
 				...initialProps,
 				styles: (
 					<>
-						<link
+						{/* <link
 							rel={'preload'}
 							href={'/fonts/Bebas_Neue/BebasNeue-Regular.ttf'}
 							as={'font'}
@@ -31,10 +31,10 @@ export default class MyDocument extends Document {
 						/>
             <link
 							rel={'preload'}
-							href={'/fonts/Open_Sans/OpenSans-regular.ttf'}
+							href={'/fonts/Open_Sans/OpenSans-Regular.ttf'}
 							as={'font'}
               crossOrigin={''}
-						/>
+						/> */}
 						{initialProps.styles}
 						{materialUiSheets.getStyleElement()}
 						{styledComponentSheet.getStyleElement()}
