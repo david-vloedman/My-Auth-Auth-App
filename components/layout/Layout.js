@@ -5,7 +5,6 @@ import MenuDrawer from './MenuDrawer'
 import AppBar from '../AppBar/AppBar'
 import defaultTheme from '../themes/default'
 import Heading from '../Heading/Heading'
-import { ThemeProvider } from '@material-ui/core/styles'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Actions from '../../redux/reducers'
 import { useRouter } from 'next/router'
@@ -42,7 +41,7 @@ export default function Layout(props) {
 	}
 
 	return (
-		<ThemeProvider theme={defaultTheme}>
+		<>
 			<AppBar props={{ toggleDrawer: dispatchDrawerToggle, loggedIn }} />
 			<StyledContainer>
 				<CssBaseLine />
@@ -57,7 +56,7 @@ export default function Layout(props) {
 
 				{{ ...props.children }}
 			</StyledContainer>
-		</ThemeProvider>
+		</>
 	)
 }
 

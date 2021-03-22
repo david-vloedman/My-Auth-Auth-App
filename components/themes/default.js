@@ -18,6 +18,9 @@ export const themeOptions = {
 		h1: {
 			fontFamily: 'Bebas Neue',
 		},
+    h2: {
+			fontFamily: 'Bebas Neue',
+		},
 		fontFamily: 'Bebas Neue',
 		body1: {
 			fontFamily: 'Open Sans',

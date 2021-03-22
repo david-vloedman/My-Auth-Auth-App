@@ -4,6 +4,7 @@ import SearchUserForm from '../../forms/SearchUsers/SearchUsersForm'
 import Snackbar from '../../SnackBar/SnackBar'
 import { useState } from 'react'
 import Heading from '../../Heading/Heading'
+import { Typography } from '@material-ui/core'
 
 export default function SearchUsersContainer(props) {
 	const [results, setResults] = useState()
@@ -33,7 +34,7 @@ export default function SearchUsersContainer(props) {
 		<>
 			<WrappedSnackBar />
 			<Styles.StyledPaper>
-				<Heading text='Find Friends' component='h2' variant='h5' color={'black'} />
+				<Typography component='h2' variant='h5'>Find Friends</Typography>
 				<SearchUserForm
 					setResults={setResults}
 					setError={setError}
