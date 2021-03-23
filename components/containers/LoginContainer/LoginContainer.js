@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import * as Styles from './LoginContainer.styles'
 import { useState } from 'react'
-import { Button, Divider, Grid } from '@material-ui/core'
+import { Button, Divider } from '@material-ui/core'
 
 export default function LoginContainer({ props }) {
 	const [visibility, setVisibility] = useState({

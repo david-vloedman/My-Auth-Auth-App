@@ -8,9 +8,9 @@ export default withSession(async (req, res) => {
 	const { db } = await connectToDatabase()
 	const { userName, password } = JSON.parse(req.body)
 	const userCollection = db.collection('users')
-	console.log(userName)
+	
 	const user = await userCollection.findOne({ userName: userName })
-	console.log(user)
+	
 	if (!user) {
 		return res.json({ hasError: true, errorSource:'userName', errorMsg: 'No user found' })
 	}

@@ -2,12 +2,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import fetchJson from '../../../lib/fetchJson'
 import * as Styles from './LoginForm.styles'
-
-import { loggedIn, logOut } from '../../../redux/reducers'
-import { CircularProgress, FormControl } from '@material-ui/core'
-/**
- * Login page for the application
- */
+import { Box, CircularProgress } from '@material-ui/core'
 
 const url = '/api/session/login'
 
@@ -96,11 +91,13 @@ function LoginForm(props) {
 				errorMessage: '',
 			},
 		})
-		console.log(form)
+		
 	}
 
 	return (
-		<>
+		
+		<form autoComplete={'off'} noValidate>
+			<Box display={'flex'} flexDirection={'column'}>
 			<Styles.StyledTextField
 				error={form.userName.hasError}
 				helperText={form.userName.hasError ? 'User not found' : ''}
@@ -108,6 +105,7 @@ function LoginForm(props) {
 				id='userName'
 				label='User Name'
 				onChange={onChange}
+				required
 			/>
 
 			<Styles.StyledTextField
@@ -118,17 +116,20 @@ function LoginForm(props) {
 				name='password'
 				label='Password'
 				onChange={onChange}
+				required
 			/>
 
 			<Styles.StyledButton
-				type='button'
-				onClick={(e) => onSubmit(e)}
+				type='submit'
+				onClick={onSubmit}
+				onSubmit={onSubmit}
 				variant='contained'
 				color={'secondary'}
 			>
 				{form.loading ? <CircularProgress /> : 'Sign-in'}
 			</Styles.StyledButton>
-		</>
+			</Box>
+		</form>
 	)
 }
 
