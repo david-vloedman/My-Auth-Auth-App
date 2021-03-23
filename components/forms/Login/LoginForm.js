@@ -2,12 +2,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import fetchJson from '../../../lib/fetchJson'
 import * as Styles from './LoginForm.styles'
-import Paper from '@material-ui/core/Paper'
-
-import { loggedIn, logOut } from '../../../redux/reducers'
-/**
- * Login page for the application
- */
+import { Box, CircularProgress } from '@material-ui/core'
 
 const url = '/api/session/login'
 
@@ -15,33 +10,66 @@ function LoginForm(props) {
 	const router = useRouter()
 
 	const [form, setForm] = useState({
-		userName: '',
-		password: '',
-		hasError: false,
-		message: '',
+		userName: {
+			value: '',
+			hasError: false,
+			errorMsg: '',
+		},
+		password: {
+			value: '',
+			hasError: false,
+			errorMsg: '',
+		},
+		loading: false,
 	})
 
-	const resetFormErrors = () => setForm({
-		...form,
-		hasError: false,
-		message: ''
-	})
+	const resetFormErrors = () =>
+		setForm({
+			...form,
+			userName: {
+				hasError: false,
+				errorMsg: '',
+				value: form.userName.value,
+			},
+			password: {
+				hasError: false,
+				errorMsg: '',
+				value: form.password.value,
+			},
+		})
+
+	const getFormValues = (form) => {
+		return {
+			userName: form.userName.value,
+			password: form.password.value,
+		}
+	}
 
 	const onSubmit = async (e) => {
 		e.preventDefault()
 		resetFormErrors()
 		try {
+			setForm({
+				...form,
+				loading: true
+			})
 			const response = await fetchJson(url, {
 				method: 'POST',
-				body: JSON.stringify(form),
+				body: JSON.stringify(getFormValues(form)),
 				credentials: 'include',
 			})
-			
+			setForm({
+				...form,
+				loading: false
+			})
 			if (response.hasError) {
 				setForm({
 					...form,
-					hasError: true,
-					message: response.errorMsg
+					[response.errorSource]: {
+						hasError: true,
+						errorMsg: response.errorMsg,
+						value: form[response.errorSource].value,
+					},
 				})
 			}
 
@@ -56,37 +84,52 @@ function LoginForm(props) {
 	const onChange = (e) => {
 		setForm({
 			...form,
-			[e.target.name]: e.target.value,
+			[e.target.name]: {
+				...form[e.target.name],
+				value: e.target.value,
+				hasError: false,
+				errorMessage: '',
+			},
 		})
+		
 	}
 
 	return (
-		<Styles.FormContainer>
+		
+		<form autoComplete={'off'} noValidate>
+			<Box display={'flex'} flexDirection={'column'}>
 			<Styles.StyledTextField
+				error={form.userName.hasError}
+				helperText={form.userName.hasError ? 'User not found' : ''}
 				name='userName'
+				id='userName'
 				label='User Name'
 				onChange={onChange}
+				required
 			/>
+
 			<Styles.StyledTextField
+				error={form.password.hasError}
+				helperText={form.password.hasError ? 'Invalid password' : ''}
 				type='password'
+				id='password'
 				name='password'
 				label='Password'
 				onChange={onChange}
+				required
 			/>
 
-			{form.hasError ? (
-				<Styles.StyledErrorMsg>{form.message}</Styles.StyledErrorMsg>
-			) : (
-				<div>{form.message}</div>
-			)}
 			<Styles.StyledButton
-				type='button'
-				onClick={(e) => onSubmit(e)}
+				type='submit'
+				onClick={onSubmit}
+				onSubmit={onSubmit}
 				variant='contained'
+				color={'secondary'}
 			>
-				Sign-in
+				{form.loading ? <CircularProgress /> : 'Sign-in'}
 			</Styles.StyledButton>
-		</Styles.FormContainer>
+			</Box>
+		</form>
 	)
 }
 

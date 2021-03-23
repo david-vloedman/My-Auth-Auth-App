@@ -9,7 +9,7 @@ export const StyledAppBar = styled(AppBar)`
 	
 `
 
-export const StyledTitle = styled(Typography)`
+export const FlexGrowOne = styled.div`
 	flex-grow: 1;
 `
 

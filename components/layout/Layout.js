@@ -3,6 +3,8 @@ import Container from '@material-ui/core/Container'
 import styled from 'styled-components'
 import MenuDrawer from './MenuDrawer'
 import AppBar from '../AppBar/AppBar'
+import defaultTheme from '../themes/default'
+import Heading from '../Heading/Heading'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Actions from '../../redux/reducers'
 import { useRouter } from 'next/router'
@@ -18,7 +20,7 @@ export default function Layout(props) {
 	const { loggedIn, showDrawer } = useSelector((state) => state.layout)
 	const reduxUser = useSelector((state) => state.user)
 
-	// if there is no user in redux state, set it to the state given by the server
+	//if there is no user in redux state, set it to the state given by the server
 	if (Object.keys(reduxUser).length === 0 && Object.keys(user).length > 0) {
 		dispatch(Actions.setUser(user))
 		dispatch(Actions.toggleLoggedIn())
@@ -40,19 +42,20 @@ export default function Layout(props) {
 
 	return (
 		<>
-			<CssBaseLine />
-			{loggedIn ? (
-				<MenuDrawer
-					open={showDrawer}
-					onClose={dispatchDrawerToggle}
-					toggleDrawer={dispatchDrawerToggle}
-					logout={dispatchLogout}
-				/>
-			) : null}
-
 			<AppBar props={{ toggleDrawer: dispatchDrawerToggle, loggedIn }} />
+			<StyledContainer>
+				<CssBaseLine />
+				{loggedIn ? (
+					<MenuDrawer
+						open={showDrawer}
+						onClose={dispatchDrawerToggle}
+						toggleDrawer={dispatchDrawerToggle}
+						logout={dispatchLogout}
+					/>
+				) : null}
 
-			<StyledContainer>{{ ...props.children }}</StyledContainer>
+				{{ ...props.children }}
+			</StyledContainer>
 		</>
 	)
 }
@@ -60,4 +63,5 @@ export default function Layout(props) {
 const StyledContainer = styled(Container)`
 	background-color: #e8e8e8;
 	min-height: 100vh;
+	padding-top: 1rem;
 `

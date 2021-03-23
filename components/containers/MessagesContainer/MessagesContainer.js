@@ -46,14 +46,15 @@ export default function MessagesContainer(props) {
 	const dispatchDeleteMessages = async (param) => {
 		try{
 			const response = await axios.post(`${deleteMessageUrl}${param}`)
-
-			if(response.status === 200){
-				dispatch(receivedMessageDeleted(param))
-			}
+			dispatch(receivedMessageDeleted(param))
+			dispatch(viewMessageDialogClosed())
+			// if(response.status === 200){
+			
+			// }
 		} catch(error){
 			console.log(error)
 			dispatch(receivedMessageDeleted(param)) 
-			// ehhh maybe just updating the UI like it happened when it did not is okay?
+			// ehhh maybe just updating the UI like it happened when it did not-- is okay?
 		}
 	
 	}

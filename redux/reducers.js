@@ -51,7 +51,7 @@ const userReducer = {
 	friendRemoved(state, action) {
 		return {
 			...state,
-			...action.payload
+			friends: [...state.friends.filter(fri => fri._id !== action.payload)]
 		}
 	},
 	receivedMessageDeleted(state, action) {
@@ -81,7 +81,6 @@ export const { toggleLoggedIn, toggleDrawer } = layoutSlice.actions
 const reducers = combineReducers({
 	layout: layoutSlice.reducer,
 	user: userSlice.reducer,
-	friendsPage: friendsPageReducer,
 	composeMessageDialog: composeMessageDialogReducer,
 	viewMessageDialog: viewMessageDialogReducer
 })

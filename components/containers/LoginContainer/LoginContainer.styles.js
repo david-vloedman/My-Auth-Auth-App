@@ -8,5 +8,10 @@ export const StyledMainContainer = styled.div`
 `
 
 export const StyledPaper = styled(Paper)`
-  padding: 5px;
+  display: flex,
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  max-width: 350px;
+  margin: auto;
 `

@@ -38,7 +38,7 @@ export default function ViewMessageDialog(props) {
 						</IconButton>
 						<Styles.StyledTitle variant='h6'>View Message</Styles.StyledTitle>
 						<IconButton
-							onClick={onDeleteClick}
+							onClick={() => onDeleteClick(message.id)}
 							arian-label='delete'
 							color='inherit'
 						>

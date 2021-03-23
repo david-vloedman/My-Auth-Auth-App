@@ -50,9 +50,7 @@ export default function SearchUserForm(props) {
 	}
 
 	return (
-		<Styles.StyledFormContainer>
-			<Typography variant='h6'>Search for a user</Typography>
-
+		<>
 			<Styles.StyledTextField
 				name='searchValue'
 				label='Username or Name'
@@ -72,6 +70,6 @@ export default function SearchUserForm(props) {
 					Search
 				</Button>
 			)}
-		</Styles.StyledFormContainer>
+		</>
 	)
 }
