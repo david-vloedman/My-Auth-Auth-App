@@ -2,7 +2,7 @@ import * as Styles from './Messages.styles'
 import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 import { useState } from 'react'
-import { Button } from '@material-ui/core'
+import { Box, Button } from '@material-ui/core'
 
 export default function Messages(props) {
 	const {
@@ -10,8 +10,6 @@ export default function Messages(props) {
 		onOpenMessage: openMessage,
 		onDeleteMessage: deleteMessage,
 	} = props
-
-	console.log(messages)
 
 	const [viewMode, setViewMode] = useState({
 		edit: false,
@@ -39,12 +37,12 @@ export default function Messages(props) {
 	const columns = [
 		{
 			field: 'subject',
-			headerName: 'Subject',
-			flex: 1,
+			flex: 2,
 			renderHeader: (params) => <strong>Subject</strong>,
 		},
 		{
 			field: 'senderUser',
+			flex: 1,
 			renderHeader: (params) => <strong>From</strong>,
 		},
 	]
@@ -53,6 +51,7 @@ export default function Messages(props) {
 		<Styles.MainContainer>
 			<Styles.ComponentHeader>
 				<Typography variant='h6'>Messages</Typography>
+				<Box>
 				{viewMode.edit && selectedMessages?.length > 0 ? (
 					<Button
 						color={'secondary'}
@@ -65,6 +64,7 @@ export default function Messages(props) {
 				<Button onClick={toggleEditMode}>
 					{viewMode.edit ? 'Done' : 'Edit'}
 				</Button>
+				</Box>
 			</Styles.ComponentHeader>
 			<Styles.MessageDataGrid
 				rows={messages}

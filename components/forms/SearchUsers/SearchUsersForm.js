@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import * as Styles from './SearchUsersForm.styles'
-import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import axios from 'axios'
@@ -63,9 +62,10 @@ export default function SearchUserForm(props) {
 			) : (
 				<Button
 					variant='contained'
-					color='primary'
+					color='secondary'
 					type='submit'
 					onClick={onSubmit}
+					onSubmit={onSubmit}
 				>
 					Search
 				</Button>
