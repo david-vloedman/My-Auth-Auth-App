@@ -24,7 +24,7 @@ export default function LoginContainer({ props }) {
 				color={'secondary'}
 				align='center'
 			>
-				{visibility.login ? 'Login' : 'Create Account'}
+				{visibility.login ? 'Sign-in' : 'Create Account'}
 			</Typography>
 			<Box display='flex' flexDirection={'column'}>
 				{visibility.login ? <LoginForm toggleForms={toggleForms} /> : null}
