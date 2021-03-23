@@ -1,4 +1,5 @@
 import { Box, CircularProgress } from '@material-ui/core'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import fetchJson from '../../../lib/fetchJson'
 import * as Styles from './CreateUserForm.styles'
@@ -11,6 +12,8 @@ const url = '/api/users/create-user'
 
 export default function CreateUser(props) {
 	const { toggleForms } = props
+
+	const router = useRouter()
 
 	const [form, setForm] = useState({
 		firstName: {
@@ -80,7 +83,7 @@ export default function CreateUser(props) {
 			body: JSON.stringify(getFormValues(form)),
 			credentials: 'include',
 		})
-
+		console.log(response)
 		setForm({
 			...form,
 			loading: false
@@ -98,7 +101,7 @@ export default function CreateUser(props) {
 		}
 
 		if (response.success) {
-			toggleForms()
+			router.push('/')
 		}
 	}
 

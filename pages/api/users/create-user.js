@@ -1,9 +1,10 @@
 import { connectToDatabase } from '../../../util/mongodb'
+import withSession from '../../../lib/withSession'
 import bcrypt from 'bcrypt'
 /**
  * Add a new user to the database
  */
-export default async (req, res) => {
+export default withSession(async (req, res) => {
 	try {
 		const { db } = await connectToDatabase()
 		// get data from the request
@@ -36,13 +37,18 @@ export default async (req, res) => {
 		if (user.hasError) {
 			return res.json(unknownErrorResponse())
 		}
+
+		req.session.set('user', {_id: user._id})
+
+		await req.session.save()
+
 		// return the id of the newly created user
 		return res.json(userCreatedResponse({ _id: user._id }))
 	} catch (err) {
 		console.log(err)
 		res.json(err)
 	}
-}
+})
 
 const createNewUser = async (user, collection) => {
 	const result = await collection.insertOne(user)
