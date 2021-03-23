@@ -67,20 +67,17 @@ export default function FriendsContainer(props) {
 	}
 
 	return (
-		<Box component={'div'}>
+		<Box>
 			<StyledPaper>
-				
-					<Typography component='h2' variant='h5'>
-						Friends
-					</Typography>
-				
-				
+				<Box display={'flex'} flexDirection={'column'} p={'1rem'}>
+					<Typography component={'h2'} variant={'h5'}>Friends</Typography>
+
 					<FriendsList
 						friendsList={reduxUser.friends ? [...reduxUser.friends] : []}
 						onRemoveFriend={dispatchFriendRemoved}
 						openNewMessageDialog={dispatchOpenDialog}
 					/>
-				
+				</Box>
 			</StyledPaper>
 			<ComposeMessageDialog
 				dialogOpen={composeMessageDialog.isOpen}
