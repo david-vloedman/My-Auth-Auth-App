@@ -1,5 +1,4 @@
 import FriendsList from '../../FriendsList/FriendsList'
-import { StyledPaper } from './FriendsContainer.styles'
 import {
 	composeMessageDialogOpen,
 	composeMessageDialogClosed,
@@ -14,6 +13,7 @@ import { friendRemoved } from '../../../redux/reducers'
 import { useDispatch, useSelector } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
+import Paper from '@material-ui/core/Paper'
 
 const sendMessageUrl = '/api/messages/sendMessage/'
 
@@ -68,7 +68,7 @@ export default function FriendsContainer(props) {
 
 	return (
 		<Box>
-			<StyledPaper>
+			<Paper>
 				<Box display={'flex'} flexDirection={'column'} p={'1rem'}>
 					<Typography component={'h2'} variant={'h5'}>Friends</Typography>
 
@@ -78,7 +78,7 @@ export default function FriendsContainer(props) {
 						openNewMessageDialog={dispatchOpenDialog}
 					/>
 				</Box>
-			</StyledPaper>
+			</Paper>
 			<ComposeMessageDialog
 				dialogOpen={composeMessageDialog.isOpen}
 				dialogClosed={dispatchCloseDialog}

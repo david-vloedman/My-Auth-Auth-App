@@ -19,6 +19,7 @@ import { receivedMessageDeleted } from '../../../redux/reducers'
 import { alert, onAlertClose } from '../../../redux/snackbar'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
+import { Box } from '@material-ui/core'
 
 const sendMessageUrl = '/api/messages/sendMessage/'
 const deleteMessageUrl = '/api/messages/removeMessage/'
@@ -114,7 +115,7 @@ export default function MessagesContainer(props) {
 	}
 
 	return (
-		<Styles.StyledMainContainer>
+		<Box>
 			<Styles.StyledPaper>
 				<Messages
 					messages={userState.receivedMessages}
@@ -138,6 +139,6 @@ export default function MessagesContainer(props) {
 				onReplyClick={dispatchMessageReply}
 			/>
 			<SnackBar />
-		</Styles.StyledMainContainer>
+		</Box>
 	)
 }
