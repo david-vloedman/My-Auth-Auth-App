@@ -26,7 +26,7 @@ describe('SendMessageBox tests', () => {
 		)
 
 		const button = wrapper.find('button[data-test-id="sendBtn"]')
-		const input = wrapper.find('input#messageField')
+		
 		button.simulate('click')
 
 		expect(onClick.mock.calls.length).toBe(1)
@@ -44,7 +44,7 @@ describe('SendMessageBox tests', () => {
 		)
 
 		const button = wrapper.find('button[data-test-id="sendBtn"]')
-		const input = wrapper.find('input#messageField')
+		const input = wrapper.find('textarea#messageField')
 		input.simulate('change', { name: 'messageField', value: 'Hello there' })
 
 		expect(onChange.mock.calls.length).toBe(1)
