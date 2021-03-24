@@ -11,10 +11,11 @@ export default withSession(async (req, res) => {
 
 	const {
 		recipientId,
-		message
+		messageBody
 	} = req.body
-	console.log(recipientId, message)
-	if (!recipientId || !message)
+
+	console.log(recipientId, messageBody)
+	if (!recipientId || !messageBody)
 		return Responses.serverError(res, 'Malformed Request')
 
 	try {
@@ -23,7 +24,7 @@ export default withSession(async (req, res) => {
 
     const newMessage = {
       sentAt: new Date(),
-      message,
+      message: messageBody,
       sentBy: sessionUser._id,
       previous: null,
     }

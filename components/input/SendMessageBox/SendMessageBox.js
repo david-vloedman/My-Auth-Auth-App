@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send'
 export default function SendMessageBox(props) {
-	const { onClick, onChange } = props
+	const { onSendMessage, onMessageChange } = props
 
 	return (
 		<Box display={'inline-flex'} width={'100%'} alignItems={'center'}>
@@ -14,14 +14,14 @@ export default function SendMessageBox(props) {
 				variant='outlined'
         id='messageField'
         name='messageField'
-				onChange={onChange}
+				onChange={onMessageChange}
 				data-test-id='messageField'
 				fullWidth
 				multiline
 			/>
 			</Box>
 			<Box ml={'.5rem'}>
-			<IconButton onClick={onClick} data-test-id='sendBtn'>
+			<IconButton onClick={onSendMessage} data-test-id='sendBtn'>
 				<SendIcon />
 			</IconButton>
 			</Box>

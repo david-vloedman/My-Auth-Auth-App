@@ -1,6 +1,7 @@
 import ConversationDisplay from '../components/ConversationDisplay/ConversationDisplay'
 import ConversationHeading from '../components/ConversationHeading/ConversationHeading'
 import SendMessageBox from '../components/input/SendMessageBox/SendMessageBox'
+import Conversation from '../components/Conversation/Conversation'
 import withSession from '../lib/withSession'
 import getAppState from '../lib/helpers/getAppState'
 import { useState } from 'react'
@@ -10,94 +11,30 @@ import { Box, Divider, Paper } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 
 export default function testPage(props) {
-	const sessionUser = useSelector((state) => state.user)
-	const [form, setForm] = useState()
+	const userFriends = useSelector((state) => state.user.friends)
+  const userConversations = useSelector((state) => state.user.conversations)
 
-	const onChange = (e) => {
-		setForm({
-			...form,
-			[e.target.name]: e.target.value,
-		})
-		console.log(form)
-	}
 
-	const onSendToChange = (e, newValue) => {
-    console.log(newValue)
-		setForm({
-			...form,
-			sendTo: newValue,
-		})
-	}
+  const sendMessage = async (data) => {
+    console.log(`sending message to ${data.recipientId}. message=${messageBody}`)
+  }
 
-	const onClick = async (e) => {
-		const response = await axios.post('/api/messages/conversation/create', {
-			recipientId: 'test',
-			message: 'hellow',
-		})
-	}
-	// {text, date, author, align}
+  const createNewConversation = async (data) => {
+    try{
+      const response = await axios.post('/api/messages/conversation/create', data)
+      console.log(response)
 
-	const testMessages = [
-		{
-			text: 'Hey there',
-			date: '3:23 PM',
-			author: 'David',
-			align: 'right',
-		},
-		{
-			text: 'Hey there',
-			date: '3:23 PM',
-			author: 'David',
-			align: 'left',
-		},
-		{
-			text: 'Hey there',
-			date: '3:23 PM',
-			author: 'David',
-			align: 'right',
-		},
-		{
-			text: 'Hey there',
-			date: '3:23 PM',
-			author: 'David',
-			align: 'right',
-		},
-		{
-			text: 'Hey there',
-			date: '3:23 PM',
-			author: 'David',
-			align: 'right',
-		},
-		{
-			text: 'Hey there',
-			date: '3:23 PM',
-			author: 'David',
-			align: 'right',
-		},
-		{
-			text: 'Hey there',
-			date: '3:23 PM',
-			author: 'David',
-			align: 'right',
-		},
-	]
+    } catch(error){
+      console.error(error)
+    }
+  }
+
 
 	return (
 		<Box maxWidth={'450px'} m={'auto'}>
-			<Paper>
-				<ConversationHeading
-					isNewMessage={true}
-					friends={sessionUser.friends}
-					onSendToChange={onSendToChange}
-				/>
-				<Box display='flex' flexDirection='column' p='1rem'>
-					<ConversationDisplay chattingWith={'David'} />
-					<Divider />
-					<Box pt={'1rem'}>
-						<SendMessageBox onClick={onClick} onChange={onChange} />
-					</Box>
-				</Box>
-			</Paper>
+      <Paper>
+      <Conversation isNewMessage={true} potentialRecipients={userFriends} onSendMessage={sendMessage} createNewConversation={createNewConversation}/>
+      </Paper>
 		</Box>
 	)
 }
