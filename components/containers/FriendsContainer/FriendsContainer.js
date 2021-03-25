@@ -1,66 +1,56 @@
 import FriendsList from '../../FriendsList/FriendsList'
-import {
-	composeMessageDialogOpen,
-	composeMessageDialogClosed,
-	messageFormChange,
-	messageFormSubmit,
-	sendRequestSuccess,
-	sendRequestFail,
-} from '../../../redux/composeMessageDialog'
-import ComposeMessageDialog from '../../dialogs/ComposeMessageDialog/ComposeMessageDialog'
-import axios from 'axios'
+import ConversationDrawer from 'components/ConversationDrawer/ConversationDrawer'
 import { friendRemoved } from '../../../redux/reducers'
+import Conversation from 'components/Conversation/Conversation'
+import * as ConversationActions from 'redux/conversation'
+
+import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Paper from '@material-ui/core/Paper'
 
-const sendMessageUrl = '/api/messages/sendMessage/'
-
 export default function FriendsContainer(props) {
 	const reduxUser = useSelector((state) => state.user)
-	const composeMessageDialog = useSelector(
-		(state) => state.composeMessageDialog
-	)
+
+	const conversationState = useSelector((state) => state.conversation)
+
 	const dispatch = useDispatch()
 
-	const dispatchCloseDialog = () => {
-		dispatch(composeMessageDialogClosed())
-	}
-
-	const dispatchOpenDialog = (recipientId, recipientUserName) => {
-		dispatch(
-			composeMessageDialogOpen({
-				recipientId,
-				senderId: reduxUser._id,
-				recipientUserName,
-			})
+	const dispatchOpenChat = (recipientId, recipientUserName) => {
+		const existingChat = reduxUser.conversations.find((c) =>
+			c.participants.includes(recipientId)
 		)
+		
+		if (existingChat) {
+			dispatch(
+				ConversationActions.setRecipient({ recipientId, recipientUserName })
+			)
+			dispatch(ConversationActions.setMessages(existingChat.messages))
+			dispatch(ConversationActions.chatOpen())
+			return
+		}
+		dispatch(
+			ConversationActions.setRecipient({ recipientId, recipientUserName })
+		)
+		dispatch(ConversationActions.chatOpen())
 	}
 
-	const dispatchMessageChange = (e) => {
-		const prop = {
-			[e.target.name]: e.target.value,
+	const dispatchCloseConversation = () =>
+		dispatch(ConversationActions.chatClosed())
+
+	const createConversation = () => {
+		try{
+			const response = axios.post('/api/messages/conversation/create', {
+				recipientId: conversationState.recipient.recipientId,
+				messageBody: conversationState.messageField
+			})
+		} catch(error){
+			console.error(error)
 		}
-		dispatch(messageFormChange(prop))
+		
 	}
-	const dispatchMessageSubmit = async (e) => {
-		try {
-			const response = await axios.post(
-				`${sendMessageUrl}${composeMessageDialog.messageForm.recipient}`,
-				{
-					...composeMessageDialog.messageForm,
-				}
-			)
-			if (response.status === 200) {
-				dispatch(sendRequestSuccess(response.data.data.message))
-			}
-		} catch (error) {
-			console.log(error)
-			dispatch(sendRequestFail())
-		}
-		dispatch(messageFormSubmit())
-	}
+
 
 	const dispatchFriendRemoved = (uid) => {
 		dispatch(friendRemoved(uid))
@@ -70,23 +60,26 @@ export default function FriendsContainer(props) {
 		<Box>
 			<Paper>
 				<Box display={'flex'} flexDirection={'column'} p={'1rem'}>
-					<Typography component={'h2'} variant={'h5'}>Friends</Typography>
+					<Typography component={'h2'} variant={'h5'}>
+						Friends
+					</Typography>
 
 					<FriendsList
 						friendsList={reduxUser.friends ? [...reduxUser.friends] : []}
 						onRemoveFriend={dispatchFriendRemoved}
-						openNewMessageDialog={dispatchOpenDialog}
+						openNewMessageDialog={dispatchOpenChat}
 					/>
 				</Box>
 			</Paper>
-			<ComposeMessageDialog
-				dialogOpen={composeMessageDialog.isOpen}
-				dialogClosed={dispatchCloseDialog}
-				onSubmit={dispatchMessageSubmit}
-				onChange={dispatchMessageChange}
-				formData={composeMessageDialog.messageForm}
-				recipientUsername={composeMessageDialog.messageForm.recipientDisplay}
-			/>
+			<ConversationDrawer
+				isOpen={conversationState.isOpen}
+				onClose={dispatchCloseConversation}
+			>
+				<Conversation
+					conversation={conversationState}
+				/>
+
+			</ConversationDrawer>
 		</Box>
 	)
 }

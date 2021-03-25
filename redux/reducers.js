@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
-import { friendsPageReducer } from './friendsPageSlice'
+import { conversationReducer } from './conversation'
 import { composeMessageDialogReducer } from './composeMessageDialog'
 import { viewMessageDialogReducer } from './viewMessageDialog'
 
@@ -82,7 +82,8 @@ const reducers = combineReducers({
 	layout: layoutSlice.reducer,
 	user: userSlice.reducer,
 	composeMessageDialog: composeMessageDialogReducer,
-	viewMessageDialog: viewMessageDialogReducer
+	viewMessageDialog: viewMessageDialogReducer,
+	conversation: conversationReducer
 })
 
 export default reducers

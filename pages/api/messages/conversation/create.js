@@ -24,7 +24,7 @@ export default withSession(async (req, res) => {
 
     const newMessage = {
       sentAt: new Date(),
-      message: messageBody,
+    	body: messageBody,
       sentBy: sessionUser._id,
       previous: null,
     }

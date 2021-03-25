@@ -9,17 +9,17 @@ import {
 
 export default function ConversationDisplay(props) {
 	const { messages } = props
-
+  
 	return (
 		<>
 			<Divider />
 			<Box maxHeight={'70vh'} minHeight={'50vh'} overflow={'auto'}>
-				<List>
+				<List >
 					{messages?.map?.((msg) => (
 						<ListItem key={Math.random()}>
 							<ListItemText
-								primary={msg.text}
-								secondary={msg.date}
+								primary={msg.body}
+								secondary={msg.sentAt}
 								align={msg.align}
 							/>
 						</ListItem>
