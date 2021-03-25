@@ -14,32 +14,11 @@ export default function testPage(props) {
 	const userFriends = useSelector((state) => state.user.friends)
   const userConversations = useSelector((state) => state.user.conversations)
 
-  const testConvo = {...userConversations[0], messages: [{
-    body: 'hey',
-    sentAt: new Date().toTimeString()
-  }]}
-
-
-  const sendMessage = async (data) => {
-    console.log(`sending message to ${JSON.stringify(data)}`)
-
-  }
-
-  const createNewConversation = async (data) => {
-    try{
-      const response = await axios.post('/api/messages/conversation/create', data)
-      console.log(response)
-
-    } catch(error){
-      console.error(error)
-    }
-  }
-
 
 	return (
 		<Box maxWidth={'450px'} m={'auto'}>
       <Paper>
-      <Conversation conversation={testConvo} onSendMessage={sendMessage} createNewConversation={createNewConversation}/>
+      <Conversation />
       </Paper>
       
 		</Box>

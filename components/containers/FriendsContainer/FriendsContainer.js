@@ -24,7 +24,7 @@ export default function FriendsContainer(props) {
 		
 		if (existingChat) {
 			dispatch(
-				ConversationActions.setRecipient({ recipientId, recipientUserName })
+				ConversationActions.setRecipient({ id: recipientId, userName: recipientUserName })
 			)
 			dispatch(ConversationActions.setMessages(existingChat.messages))
 			dispatch(ConversationActions.chatOpen())
@@ -39,18 +39,19 @@ export default function FriendsContainer(props) {
 	const dispatchCloseConversation = () =>
 		dispatch(ConversationActions.chatClosed())
 
-	const createConversation = () => {
+	const createConversation = async () => {
 		try{
-			const response = axios.post('/api/messages/conversation/create', {
+			const response = await axios.post('/api/messages/conversation/create', {
 				recipientId: conversationState.recipient.recipientId,
 				messageBody: conversationState.messageField
 			})
+
+			console.log(response)
 		} catch(error){
 			console.error(error)
 		}
 		
 	}
-
 
 	const dispatchFriendRemoved = (uid) => {
 		dispatch(friendRemoved(uid))
@@ -67,7 +68,6 @@ export default function FriendsContainer(props) {
 					<FriendsList
 						friendsList={reduxUser.friends ? [...reduxUser.friends] : []}
 						onRemoveFriend={dispatchFriendRemoved}
-						openNewMessageDialog={dispatchOpenChat}
 					/>
 				</Box>
 			</Paper>
@@ -76,7 +76,10 @@ export default function FriendsContainer(props) {
 				onClose={dispatchCloseConversation}
 			>
 				<Conversation
-					conversation={conversationState}
+					conversation={conversationState} 
+					onNewConversation={createConversation}
+					
+					currentUserId={reduxUser._id}
 				/>
 
 			</ConversationDrawer>

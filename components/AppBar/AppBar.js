@@ -3,8 +3,7 @@ import * as Styles from './AppBar.styles'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 
-export default function AppBar({ props }) {
-	const { loggedIn, toggleDrawer } = props
+export default function AppBar({ loggedIn, toggleDrawer }) {
 
 	const MenuButton = () => {
 		return (

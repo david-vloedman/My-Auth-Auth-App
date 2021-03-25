@@ -4,8 +4,10 @@ import {
 	TextField,
 } from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send'
-export default function SendMessageBox(props) {
-	const { onSendMessage, onMessageChange } = props
+import {onSendButtonClick, onMessageFieldChange} from 'redux/conversation'
+import {connect} from 'react-redux'
+
+function SendMessageBox({conversation, dispatch}) {
 
 	return (
 		<Box display={'inline-flex'} width={'100%'} alignItems={'center'}>
@@ -14,17 +16,21 @@ export default function SendMessageBox(props) {
 				variant='outlined'
         id='messageField'
         name='messageField'
-				onChange={onMessageChange}
+				onChange={ (e) => onMessageFieldChange(dispatch, e)}
 				data-test-id='messageField'
 				fullWidth
 				multiline
 			/>
 			</Box>
 			<Box ml={'.5rem'}>
-			<IconButton onClick={onSendMessage} data-test-id='sendBtn'>
+			<IconButton onClick={() => onSendButtonClick(dispatch, conversation)} data-test-id='sendBtn'>
 				<SendIcon />
 			</IconButton>
 			</Box>
 		</Box>
 	)
 }
+
+const mapStateToProps = (state) => ({conversation: state.conversation})
+
+export default connect(mapStateToProps)(SendMessageBox)

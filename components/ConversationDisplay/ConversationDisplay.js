@@ -6,9 +6,9 @@ import {
 	ListItem,
 	ListItemText,
 } from '@material-ui/core'
+import { connect } from 'react-redux'
 
-export default function ConversationDisplay(props) {
-	const { messages } = props
+function ConversationDisplay({messages}) {
   
 	return (
 		<>
@@ -29,3 +29,7 @@ export default function ConversationDisplay(props) {
 		</>
 	)
 }
+
+const mapStateToProps = (state) => ({messages: state.conversation.messages})
+
+export default connect(mapStateToProps)(ConversationDisplay)

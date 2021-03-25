@@ -1,8 +1,8 @@
-import { connectToDatabase } from '../../../../util/mongodb'
-import withSession from '../../../../lib/withSession'
-import * as Responses from '../../../../lib/helpers/responses'
+import { connectToDatabase } from '../../../util/mongodb'
+import withSession from '../../../lib/withSession'
+import * as Responses from '../../../lib/helpers/responses'
 import { ObjectId } from 'mongodb'
-import getAppState from '../../../../lib/helpers/getAppState'
+import getAppState from '../../../lib/helpers/getAppState'
 
 export default withSession(async (req, res) => {
 	const sessionUser = req.session.get('user')
@@ -38,7 +38,7 @@ export default withSession(async (req, res) => {
 
     if(insertResponse.result.ok){
       console.log(insertResponse.result)
-      return Responses.ok(res, '', insertResponse)
+      return Responses.ok(res, '', newConversation)
     }
 
 	} catch (error) {
