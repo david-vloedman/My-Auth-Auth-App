@@ -13,6 +13,7 @@ function SendMessageBox({ conversation, dispatch }) {
 					id='messageField'
 					name='messageField'
 					onChange={(e) => onMessageFieldChange(dispatch, e)}
+					value={conversation.messageField}
 					data-test-id='messageField'
 					fullWidth
 					multiline

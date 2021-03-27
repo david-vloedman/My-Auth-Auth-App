@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Paper from '@material-ui/core/Paper'
-
+import {onConversationClose} from 'lib/helpers/conversation'
 export default function FriendsContainer(props) {
 	const reduxUser = useSelector((state) => state.user)
 
@@ -18,9 +18,6 @@ export default function FriendsContainer(props) {
 	const dispatch = useDispatch()
 
 	
-
-	const dispatchCloseConversation = () =>
-		dispatch(ConversationActions.chatClosed())
 
 	const createConversation = async () => {
 		try{
@@ -56,7 +53,7 @@ export default function FriendsContainer(props) {
 			</Paper>
 			<ConversationDrawer
 				isOpen={conversationState.isOpen}
-				onClose={dispatchCloseConversation}
+				onClose={() => onConversationClose(dispatch, conversationState)}
 			>
 				<Conversation
 					conversation={conversationState} 

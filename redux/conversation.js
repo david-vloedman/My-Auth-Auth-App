@@ -11,10 +11,15 @@ const reducer = {
 		}
 	},
 	setMessages(state, action) {
-		console.log(action)
 		return {
 			...state,
 			messages: [...action.payload],
+		}
+	},
+	messageSent(state, action){
+		return {
+			...state,
+			messageField: ''
 		}
 	},
 
@@ -29,6 +34,7 @@ const reducer = {
 		return {
 			...state,
 			isOpen: true,
+			intervalId: action.payload
 		}
 	},
 
@@ -94,7 +100,7 @@ export const {
 	setRecipient,
 	messageFieldChange,
 	setId,
-	messageAdded,
+	messageSent
 } = conversationSlice.actions
 
 export const conversationReducer = conversationSlice.reducer
