@@ -9,15 +9,17 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import SendIcon from '@material-ui/icons/Send'
 import IconButton from '@material-ui/core/IconButton'
 import Avatar from '@material-ui/core/Avatar'
-import {connect} from 'react-redux'
-import {onOpenChat} from 'redux/conversation'
+import { connect } from 'react-redux'
+import { onOpenChat } from 'lib/helpers/conversation'
 
-	
-function FriendsList(props) {
-	const { friendsList, onRemoveFriend, openNewMessageDialog,  existingConversations, dispatch  } = props
-
+function FriendsList({
+	friendsList,
+	onRemoveFriend,
+	existingConversations,
+	dispatch,
+}) {
 	const MainList = (props) => {
-		const { friends,} = props
+		const { friends } = props
 
 		return (
 			<List>
@@ -37,7 +39,12 @@ function FriendsList(props) {
 								</IconButton>
 								<IconButton
 									onClick={() =>
-										onOpenChat(dispatch, friend._id, friend.userName, existingConversations)
+										onOpenChat(
+											dispatch,
+											friend._id,
+											friend.userName,
+											existingConversations
+										)
 									}
 								>
 									<SendIcon />
@@ -53,6 +60,9 @@ function FriendsList(props) {
 	return <MainList friends={friendsList} />
 }
 
-const mapStateToProps = (state, ownProps) => ({existingConversations: state.user.conversations, ...ownProps})
+const mapStateToProps = (state, ownProps) => ({
+	existingConversations: state.user.conversations,
+	...ownProps,
+})
 
 export default connect(mapStateToProps)(FriendsList)

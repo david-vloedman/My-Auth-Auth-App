@@ -2,7 +2,7 @@ import { connectToDatabase } from '../../../util/mongodb'
 import withSession from '../../../lib/withSession'
 import * as Responses from '../../../lib/helpers/responses'
 import { ObjectId } from 'mongodb'
-import getAppState from '../../../lib/helpers/getAppState'
+
 
 export default withSession(async (req, res) => {
 	const sessionUser = req.session.get('user')
@@ -10,7 +10,7 @@ export default withSession(async (req, res) => {
 	if (!sessionUser) return Responses.forbidden(res)
 
 	const { conversationId, messageBody } = req.body
-
+  
 	try {
 		const { db } = await connectToDatabase()
 		const conversations = db.collection('conversations')
@@ -23,11 +23,16 @@ export default withSession(async (req, res) => {
 		}
 
 		const updateResult = await conversations.updateOne(
-			{ _id: conversationId },
+			{ _id: ObjectId(conversationId) },
 			{ $push: { messages: newMessage } }
 		)
-
     console.log(updateResult)
+    if(updateResult.result.n === 1){
+      const updatedConversation = await conversations.findOne(ObjectId(conversationId))
+      return Responses.ok(res, 'message sent', updatedConversation)
+    }
+    
+    return Responses.serverError(res, 'message failed to send')
 		
 	} catch (error) {
 		console.error(error)

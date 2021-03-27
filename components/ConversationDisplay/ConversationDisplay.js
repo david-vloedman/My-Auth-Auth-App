@@ -7,14 +7,21 @@ import {
 	ListItemText,
 } from '@material-ui/core'
 import { connect } from 'react-redux'
+import { useEffect } from 'react'
 
 function ConversationDisplay({messages}) {
-  
+
+	useEffect(() => {
+		const displayContainer = document.getElementById('displayContainer')
+		displayContainer.scrollTop = displayContainer.scrollHeight;
+	})
+
+
 	return (
 		<>
 			<Divider />
-			<Box maxHeight={'70vh'} minHeight={'50vh'} overflow={'auto'}>
-				<List >
+			<Box maxHeight={'70vh'} minHeight={'50vh'} id={'displayContainer'} overflow={'auto'}>
+				<List dense={true}>
 					{messages?.map?.((msg) => (
 						<ListItem key={Math.random()}>
 							<ListItemText
@@ -25,6 +32,7 @@ function ConversationDisplay({messages}) {
 						</ListItem>
 					))}
 				</List>
+				
 			</Box>
 		</>
 	)

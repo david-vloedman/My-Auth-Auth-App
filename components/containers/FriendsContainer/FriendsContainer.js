@@ -17,24 +17,7 @@ export default function FriendsContainer(props) {
 
 	const dispatch = useDispatch()
 
-	const dispatchOpenChat = (recipientId, recipientUserName) => {
-		const existingChat = reduxUser.conversations.find((c) =>
-			c.participants.includes(recipientId)
-		)
-		
-		if (existingChat) {
-			dispatch(
-				ConversationActions.setRecipient({ id: recipientId, userName: recipientUserName })
-			)
-			dispatch(ConversationActions.setMessages(existingChat.messages))
-			dispatch(ConversationActions.chatOpen())
-			return
-		}
-		dispatch(
-			ConversationActions.setRecipient({ recipientId, recipientUserName })
-		)
-		dispatch(ConversationActions.chatOpen())
-	}
+	
 
 	const dispatchCloseConversation = () =>
 		dispatch(ConversationActions.chatClosed())
