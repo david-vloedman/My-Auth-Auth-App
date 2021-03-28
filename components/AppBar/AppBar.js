@@ -12,7 +12,7 @@ export default function AppBar({ loggedIn, toggleDrawer }) {
 			</IconButton>
 		)
 	}
-
+	
 	return (
 		<div>
 			<Styles.StyledAppBar position='static'>

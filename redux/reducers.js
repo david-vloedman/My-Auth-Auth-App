@@ -81,7 +81,6 @@ export const { toggleLoggedIn, toggleDrawer } = layoutSlice.actions
 const reducers = combineReducers({
 	layout: layoutSlice.reducer,
 	user: userSlice.reducer,
-	composeMessageDialog: composeMessageDialogReducer,
 	viewMessageDialog: viewMessageDialogReducer,
 	conversation: conversationReducer
 })
