@@ -1,7 +1,7 @@
 import { Box, IconButton, TextField } from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send'
 import { onMessageFieldChange } from 'redux/conversation'
-import { onSendButtonClick } from 'lib/helpers/conversation'
+import { sendMessage, requestSendMessage } from 'lib/helpers/conversation/conversation'
 import { connect } from 'react-redux'
 
 function SendMessageBox({ conversation, dispatch }) {
@@ -21,7 +21,7 @@ function SendMessageBox({ conversation, dispatch }) {
 			</Box>
 			<Box ml={'.5rem'}>
 				<IconButton
-					onClick={() => onSendButtonClick(dispatch, conversation)}
+					onClick={() => sendMessage(dispatch, conversation._id, requestSendMessage, conversation.messageField)}
 					data-test-id='sendBtn'
 				>
 					<SendIcon />
