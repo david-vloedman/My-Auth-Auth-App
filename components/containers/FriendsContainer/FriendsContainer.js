@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Paper from '@material-ui/core/Paper'
-import {onConversationClose} from 'lib/helpers/conversation'
+import { onConversationClose } from 'lib/helpers/conversation'
 export default function FriendsContainer(props) {
 	const reduxUser = useSelector((state) => state.user)
 
@@ -17,20 +17,17 @@ export default function FriendsContainer(props) {
 
 	const dispatch = useDispatch()
 
-	
-
 	const createConversation = async () => {
-		try{
+		try {
 			const response = await axios.post('/api/messages/conversation/create', {
 				recipientId: conversationState.recipient.recipientId,
-				messageBody: conversationState.messageField
+				messageBody: conversationState.messageField,
 			})
 
 			console.log(response)
-		} catch(error){
+		} catch (error) {
 			console.error(error)
 		}
-		
 	}
 
 	const dispatchFriendRemoved = (uid) => {
@@ -51,17 +48,8 @@ export default function FriendsContainer(props) {
 					/>
 				</Box>
 			</Paper>
-			<ConversationDrawer
-				isOpen={conversationState.isOpen}
-				onClose={() => onConversationClose(dispatch, conversationState)}
-			>
-				<Conversation
-					conversation={conversationState} 
-					onNewConversation={createConversation}
-					
-					currentUserId={reduxUser._id}
-				/>
-
+			<ConversationDrawer>
+				<Conversation />
 			</ConversationDrawer>
 		</Box>
 	)

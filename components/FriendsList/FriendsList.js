@@ -10,8 +10,7 @@ import SendIcon from '@material-ui/icons/Send'
 import IconButton from '@material-ui/core/IconButton'
 import Avatar from '@material-ui/core/Avatar'
 import { connect } from 'react-redux'
-import { onOpenChat } from 'lib/helpers/conversation'
-import {requestNewConversation} from 'lib/helpers/conversation/conversation'
+import { openConversation } from 'lib/helpers/conversation/conversation'
 
 function FriendsList({
 	friendsList,
@@ -40,9 +39,11 @@ function FriendsList({
 								</IconButton>
 								<IconButton
 									onClick={() =>
-										requestNewConversation(
+										openConversation(
 											dispatch,
 											friend._id,
+											friend.userName,
+											existingConversations
 										)
 									}
 								>

@@ -2,14 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const reducer = {
-	setRecipient(state, action) {
-		return {
-			...state,
-			recipient: {
-				...action.payload,
-			},
-		}
-	},
+
 	setMessages(state, action) {
 		return {
 			...state,
@@ -30,11 +23,42 @@ const reducer = {
 		}
 	},
 
+
+
+	isLoading(state, action) {
+		return {
+			...state,
+			isLoading: true,
+		}
+	},
+
+	setId(state, action) {
+		return {
+			...state,
+			_id: action.payload,
+		}
+	},
+
+	// In use after refactor
+	setConversation(state, action){
+		return {
+			...state,
+			...action.payload
+		}
+	},
+
+	setRecipient(state, action) {
+		return {
+			...state,
+			recipient: {
+				...action.payload,
+			},
+		}
+	},
 	chatOpen(state, action) {
 		return {
 			...state,
 			isOpen: true,
-			intervalId: action.payload
 		}
 	},
 
@@ -56,33 +80,25 @@ const reducer = {
 		}
 	},
 
-	isLoading(state, action) {
-		return {
-			...state,
-			isLoading: true,
-		}
-	},
-
-	setId(state, action) {
-		return {
-			...state,
-			_id: action.payload,
-		}
-	},
-
-	setConversation(state, action){
-		return {
-			...state,
-			...action.payload
-		}
-	},
-
 	failedToLoad(state, action){
 		return {
 			...state,
 			failedToLoad: true
 		}
+	},
+	updateLoopStarted(state, action){
+		return {
+			...state,
+			updateIntervalId : action.payload,
+		}
+	},
+	updateLoopTerminated(state, action){
+		return {
+			...state,
+			updateIntervalId: undefined
+		}
 	}
+
 }
 
 const conversationSlice = createSlice({
@@ -116,7 +132,9 @@ export const {
 	setId,
 	messageSent,
 	setConversation,
-	failedToLoad
+	failedToLoad,
+	updateLoopStarted,
+	updateLoopTerminated
 } = conversationSlice.actions
 
 export const conversationReducer = conversationSlice.reducer

@@ -9,7 +9,7 @@ export default withSession(async (req, res) => {
 	if (!sessionUser) return Responses.forbidden(res)
 
 	const { conversationId } = req.query
-
+	console.log(conversationId)
 	if (!conversationId) return Responses.notFound(res, 'Conversation not found')
 
 	try {

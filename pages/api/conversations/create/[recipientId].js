@@ -26,7 +26,7 @@ export default withSession(async (req, res) => {
 
 		if (insertResponse.result.ok) {
 			return res.status(200).json({
-				...insertResponse.ops,
+				...insertResponse.ops[0],
 			})
 		}
 
