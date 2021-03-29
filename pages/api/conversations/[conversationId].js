@@ -22,7 +22,7 @@ export default withSession(async (req, res) => {
 
 		if (!response) return Responses.notFound(res, 'Conversation not found')
 
-    return Responses.ok(res, '', response.messages)
+    return res.status(200).json(response)
 
 	} catch (error) {
 		console.error(error)

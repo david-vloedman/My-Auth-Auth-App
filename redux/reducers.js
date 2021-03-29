@@ -59,7 +59,17 @@ const userReducer = {
 			...state,
 			receivedMessages: [...state.receivedMessages.filter(msg => msg.id !== action.payload)]
 		}
+	},
+	conversationAdded(state, action){
+		return {
+			...state,
+			conversations: [
+				...state.conversations,
+				action.payload
+			]
+		}
 	}
+	
 }
 
 const userSlice = createSlice({
@@ -73,7 +83,8 @@ export const {
 	unsetUser,
 	friendRemoved,
 	friendAdded,
-	receivedMessageDeleted
+	receivedMessageDeleted,
+	conversationAdded
 } = userSlice.actions
 
 export const { toggleLoggedIn, toggleDrawer } = layoutSlice.actions

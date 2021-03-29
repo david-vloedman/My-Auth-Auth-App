@@ -69,6 +69,20 @@ const reducer = {
 			_id: action.payload,
 		}
 	},
+
+	setConversation(state, action){
+		return {
+			...state,
+			...action.payload
+		}
+	},
+
+	failedToLoad(state, action){
+		return {
+			...state,
+			failedToLoad: true
+		}
+	}
 }
 
 const conversationSlice = createSlice({
@@ -100,7 +114,9 @@ export const {
 	setRecipient,
 	messageFieldChange,
 	setId,
-	messageSent
+	messageSent,
+	setConversation,
+	failedToLoad
 } = conversationSlice.actions
 
 export const conversationReducer = conversationSlice.reducer

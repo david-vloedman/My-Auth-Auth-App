@@ -1,15 +1,18 @@
-import { connectToDatabase } from '../../../util/mongodb'
-import withSession from '../../../lib/withSession'
-import * as Responses from '../../../lib/helpers/responses'
+import { connectToDatabase } from 'util/mongodb'
+import withSession from 'lib/withSession'
+import * as Responses from 'lib/helpers/responses'
 
 export default withSession(async (req, res) => {
 	const sessionUser = req.session.get('user')
 
-	if (!sessionUser) return Responses.forbidden(res)
+	if (!sessionUser) return res.status(403)
 
-	const { recipientId } = req.body
+	const { recipientId } = req.query
 
-	if (!recipientId) return Responses.serverError(res, 'Malformed Request')
+	if (!recipientId)
+		return res.status(500).json({
+			message: 'forbidden',
+		})
 
 	try {
 		const { db } = await connectToDatabase()
@@ -22,8 +25,16 @@ export default withSession(async (req, res) => {
 		const insertResponse = await conversations.insertOne(newConversation)
 
 		if (insertResponse.result.ok) {
-			return Responses.ok(res, '', newConversation)
+			return res.status(200).json({
+				...insertResponse.ops,
+			})
 		}
+
+		Responses.serverError(
+			res,
+			'Unknown error, failed to create conversation',
+			insertResponse
+		)
 	} catch (error) {
 		console.error(error)
 		Responses.serverError(res, error)

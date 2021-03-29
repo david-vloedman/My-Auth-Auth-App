@@ -26,7 +26,7 @@ export default withSession(async (req, res) => {
 			{ _id: ObjectId(conversationId) },
 			{ $push: { messages: newMessage } }
 		)
-    console.log(updateResult)
+    
     if(updateResult.result.n === 1){
       const updatedConversation = await conversations.findOne(ObjectId(conversationId))
       return Responses.ok(res, 'message sent', updatedConversation)
