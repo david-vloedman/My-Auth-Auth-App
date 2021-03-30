@@ -9,12 +9,6 @@ const reducer = {
 			messages: [...action.payload],
 		}
 	},
-	messageSent(state, action){
-		return {
-			...state,
-			messageField: ''
-		}
-	},
 
 	messageAdded(state, action) {
 		return {
@@ -97,6 +91,20 @@ const reducer = {
 			...state,
 			updateIntervalId: undefined
 		}
+	},
+	messageSent(state, action){
+		return {
+			...state,
+			messageField: ''
+		}
+	},
+
+	failedToSendMessage(state, action){
+		return {
+			...state,
+			
+
+		}
 	}
 
 }
@@ -134,7 +142,8 @@ export const {
 	setConversation,
 	failedToLoad,
 	updateLoopStarted,
-	updateLoopTerminated
+	updateLoopTerminated,
+	failedToSendMessage
 } = conversationSlice.actions
 
 export const conversationReducer = conversationSlice.reducer
