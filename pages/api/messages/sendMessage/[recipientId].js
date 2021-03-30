@@ -32,7 +32,8 @@ export default withSession(async (req, res) => {
 			recipient: recipientId,
 			body: body.substring(0, 400), // limit message size to 400 characters, truncate anything over
 			subject: subject.substring(0, 25), // limit subject size to 25 characters, truncate anything over
-			createdAt: Date.now(),
+			sentAt: Date.now(),
+			hasBeenRead: false,
 			inResponseTo: null, // possibly chain messages into conversations in future
 		}
 

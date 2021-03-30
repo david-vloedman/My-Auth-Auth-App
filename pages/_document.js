@@ -23,18 +23,6 @@ export default class MyDocument extends Document {
 				...initialProps,
 				styles: (
 					<>
-						{/* <link
-							rel={'preload'}
-							href={'/fonts/Bebas_Neue/BebasNeue-Regular.ttf'}
-							as={'font'}
-              crossOrigin={''}
-						/>
-            <link
-							rel={'preload'}
-							href={'/fonts/Open_Sans/OpenSans-Regular.ttf'}
-							as={'font'}
-              crossOrigin={''}
-						/> */}
 						{initialProps.styles}
 						{materialUiSheets.getStyleElement()}
 						{styledComponentSheet.getStyleElement()}

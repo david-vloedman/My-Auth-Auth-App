@@ -1,65 +1,33 @@
 import FriendsList from '../../FriendsList/FriendsList'
-import {
-	composeMessageDialogOpen,
-	composeMessageDialogClosed,
-	messageFormChange,
-	messageFormSubmit,
-	sendRequestSuccess,
-	sendRequestFail,
-} from '../../../redux/composeMessageDialog'
-import ComposeMessageDialog from '../../dialogs/ComposeMessageDialog/ComposeMessageDialog'
-import axios from 'axios'
+import ConversationDrawer from 'components/ConversationDrawer/ConversationDrawer'
 import { friendRemoved } from '../../../redux/reducers'
+import Conversation from 'components/Conversation/Conversation'
+import * as ConversationActions from 'redux/conversation'
+
+import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Paper from '@material-ui/core/Paper'
-
-const sendMessageUrl = '/api/messages/sendMessage/'
-
+import { onConversationClose } from 'lib/helpers/conversation'
 export default function FriendsContainer(props) {
 	const reduxUser = useSelector((state) => state.user)
-	const composeMessageDialog = useSelector(
-		(state) => state.composeMessageDialog
-	)
+
+	const conversationState = useSelector((state) => state.conversation)
+
 	const dispatch = useDispatch()
 
-	const dispatchCloseDialog = () => {
-		dispatch(composeMessageDialogClosed())
-	}
-
-	const dispatchOpenDialog = (recipientId, recipientUserName) => {
-		dispatch(
-			composeMessageDialogOpen({
-				recipientId,
-				senderId: reduxUser._id,
-				recipientUserName,
-			})
-		)
-	}
-
-	const dispatchMessageChange = (e) => {
-		const prop = {
-			[e.target.name]: e.target.value,
-		}
-		dispatch(messageFormChange(prop))
-	}
-	const dispatchMessageSubmit = async (e) => {
+	const createConversation = async () => {
 		try {
-			const response = await axios.post(
-				`${sendMessageUrl}${composeMessageDialog.messageForm.recipient}`,
-				{
-					...composeMessageDialog.messageForm,
-				}
-			)
-			if (response.status === 200) {
-				dispatch(sendRequestSuccess(response.data.data.message))
-			}
+			const response = await axios.post('/api/messages/conversation/create', {
+				recipientId: conversationState.recipient.recipientId,
+				messageBody: conversationState.messageField,
+			})
+
+			console.log(response)
 		} catch (error) {
-			console.log(error)
-			dispatch(sendRequestFail())
+			console.error(error)
 		}
-		dispatch(messageFormSubmit())
 	}
 
 	const dispatchFriendRemoved = (uid) => {
@@ -70,23 +38,19 @@ export default function FriendsContainer(props) {
 		<Box>
 			<Paper>
 				<Box display={'flex'} flexDirection={'column'} p={'1rem'}>
-					<Typography component={'h2'} variant={'h5'}>Friends</Typography>
+					<Typography component={'h2'} variant={'h5'}>
+						Friends
+					</Typography>
 
 					<FriendsList
 						friendsList={reduxUser.friends ? [...reduxUser.friends] : []}
 						onRemoveFriend={dispatchFriendRemoved}
-						openNewMessageDialog={dispatchOpenDialog}
 					/>
 				</Box>
 			</Paper>
-			<ComposeMessageDialog
-				dialogOpen={composeMessageDialog.isOpen}
-				dialogClosed={dispatchCloseDialog}
-				onSubmit={dispatchMessageSubmit}
-				onChange={dispatchMessageChange}
-				formData={composeMessageDialog.messageForm}
-				recipientUsername={composeMessageDialog.messageForm.recipientDisplay}
-			/>
+			<ConversationDrawer>
+				<Conversation />
+			</ConversationDrawer>
 		</Box>
 	)
 }

@@ -3,8 +3,6 @@ import Container from '@material-ui/core/Container'
 import styled from 'styled-components'
 import MenuDrawer from './MenuDrawer'
 import AppBar from '../AppBar/AppBar'
-import defaultTheme from '../themes/default'
-import Heading from '../Heading/Heading'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Actions from '../../redux/reducers'
 import { useRouter } from 'next/router'
@@ -12,8 +10,8 @@ import axios from 'axios'
 
 const logoutUrl = '/api/session/logout'
 
-export default function Layout(props) {
-	const { user } = props
+export default function Layout({user, children}) {
+	
 	const dispatch = useDispatch()
 	const router = useRouter()
 
@@ -42,7 +40,7 @@ export default function Layout(props) {
 
 	return (
 		<>
-			<AppBar props={{ toggleDrawer: dispatchDrawerToggle, loggedIn }} />
+			<AppBar toggleDrawer={dispatchDrawerToggle} loggedIn={loggedIn}/>
 			<StyledContainer>
 				<CssBaseLine />
 				{loggedIn ? (
@@ -54,7 +52,7 @@ export default function Layout(props) {
 					/>
 				) : null}
 
-				{{ ...props.children }}
+				{children}
 			</StyledContainer>
 		</>
 	)

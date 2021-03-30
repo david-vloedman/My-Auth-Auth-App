@@ -74,16 +74,18 @@ export default function CreateUser(props) {
 	const onSubmit = async (e) => {
 		e.preventDefault()
 		resetFormErrors(form)
+
 		setForm({
 			...form,
 			loading: true
 		})
+		
 		const response = await fetchJson(url, {
 			method: 'POST',
 			body: JSON.stringify(getFormValues(form)),
 			credentials: 'include',
 		})
-		console.log(response)
+		
 		setForm({
 			...form,
 			loading: false
