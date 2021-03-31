@@ -16,8 +16,6 @@ const reducer = {
 		}
 	},
 
-
-
 	isLoading(state, action) {
 		return {
 			...state,
