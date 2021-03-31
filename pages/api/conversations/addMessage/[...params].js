@@ -24,6 +24,8 @@ export default withSession(async (req, res) => {
 			sentAt: new Date(),
 			body: messageBody,
 			sentBy: sessionUser._id,
+			_id:ObjectId(),
+			hasBeenRead: false
 		}
 
 		const updateResult = await conversations.updateOne(
