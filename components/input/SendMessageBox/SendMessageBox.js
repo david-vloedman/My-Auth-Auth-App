@@ -25,7 +25,6 @@ function SendMessageBox({ conversation, dispatch }) {
 				</Box>
 				<Box ml={'.5rem'}>
 					<IconButton
-						type='submit'
 						onClick={() =>
 							sendMessage(
 								dispatch,
