@@ -28,9 +28,8 @@ function SendMessageBox({ conversation, dispatch }) {
 						onClick={() =>
 							sendMessage(
 								dispatch,
-								conversation._id,
+								conversation,
 								requestSendMessage,
-								conversation.messageField
 							)
 						}
 						data-test-id='sendBtn'
