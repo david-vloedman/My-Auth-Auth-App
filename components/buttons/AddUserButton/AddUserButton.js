@@ -8,7 +8,7 @@ const url = (uid) => `/api/friends/addFriend/${uid}`
 
 export default function AddUserButton(props) {
 	const { user, setAlert, onAddFriend } = props
-
+	
 	const [request, setRequest] = useState({
 		loading: false,
 		error: false,
