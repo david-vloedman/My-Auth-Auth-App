@@ -21,13 +21,18 @@ export default withSession(async (req, res) => {
 
 		const updateResult = await db
 			.collection('conversations')
-			.updateOne(
-				{ _id: ObjectId(conversationId), 'messages.hasBeenRead': false, 'messages.sentBy': { $ne: `${sessionUser._id}`}},
+			.update(
+				{
+					_id: ObjectId(conversationId),
+					'messages.hasBeenRead': false,
+					'messages.sentBy': { $ne: ObjectId(sessionUser._id) },
+				},
 				{ $set: { 'messages.$.hasBeenRead': true } },
 				{ multi: true }
 			)
 
-		res.status(200).json(updateResult.nModified)
+		console.log(updateResult.result.nModified)
+		res.status(200).json(updateResult.result.nModified)
 	} catch (error) {
 		console.error(error)
 		res.status(500)
