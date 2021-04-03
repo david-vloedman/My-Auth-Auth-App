@@ -21,7 +21,7 @@ export default withSession(async (req, res) => {
 		const conversations = db.collection('conversations')
 
 		const newMessage = {
-			sentAt: new Date(),
+			sentAt: new Date().toDateString(),
 			body: messageBody,
 			sentBy: sessionUser._id,
 			_id:ObjectId(),

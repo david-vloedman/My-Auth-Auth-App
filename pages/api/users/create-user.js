@@ -16,6 +16,7 @@ export default withSession(async (req, res) => {
 			userName,
 			password,
 			role: 'user',
+			createdAt: new Date().toDateString()
 		}
 		// validate data
 		if (!validUserName(newUser.userName)) return res.json(userNameNotValidResponse())

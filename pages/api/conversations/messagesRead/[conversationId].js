@@ -22,7 +22,7 @@ export default withSession(async (req, res) => {
 		const updateResult = await db
 			.collection('conversations')
 			.updateOne(
-				{ _id: ObjectId(conversationId), 'messages.hasBeenRead': false, 'messages.sentBy': { $ne: ObjectId(sessionUser._id)}},
+				{ _id: ObjectId(conversationId), 'messages.hasBeenRead': false, 'messages.sentBy': { $ne: `${sessionUser._id}`}},
 				{ $set: { 'messages.$.hasBeenRead': true } },
 				{ multi: true }
 			)
