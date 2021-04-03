@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux'
 import { useEffect } from 'react'
 
-function ConversationDisplay({messages}) {
+export const ConversationDisplay = ({messages}) => {
 
 	useEffect(() => {
 		const displayContainer = document.getElementById('displayContainer')
@@ -21,13 +21,14 @@ function ConversationDisplay({messages}) {
 		<>
 			<Divider />
 			<Box maxHeight={'70vh'} minHeight={'50vh'} id={'displayContainer'} overflow={'auto'}>
-				<List dense={true}>
+				<List dense={true} data-test-id={'displayList'}>
 					{messages?.map?.((msg) => (
 						<ListItem key={Math.random()}>
 							<ListItemText
 								primary={msg.body}
 								secondary={msg.sentAt}
 								align={msg.align}
+								data-test-id={'messageDisplayText'}
 							/>
 						</ListItem>
 					))}
