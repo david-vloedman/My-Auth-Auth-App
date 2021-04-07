@@ -8,12 +8,6 @@ export default withSession(async (req, res) => {
 
 	const sessionUser = req.session.get('user')
 
-	// if(!params || params.length !== 2){
-	//   res.status(500).json({
-	//     message: 'malformed request'
-	//   })
-	// }
-
 	if (!sessionUser) return res.status(403)
 
 	try {
@@ -21,7 +15,7 @@ export default withSession(async (req, res) => {
 
 		const updateResult = await db
 			.collection('conversations')
-			.update(
+			.updateMany(
 				{
 					_id: ObjectId(conversationId),
 					'messages.hasBeenRead': false,
@@ -31,7 +25,7 @@ export default withSession(async (req, res) => {
 				{ multi: true }
 			)
 
-		console.log(updateResult.result.nModified)
+		
 		res.status(200).json(updateResult.result.nModified)
 	} catch (error) {
 		console.error(error)

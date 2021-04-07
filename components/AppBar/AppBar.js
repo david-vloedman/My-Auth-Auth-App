@@ -25,7 +25,7 @@ export default function AppBar({ loggedIn, toggleDrawer }) {
 						</Typography>
 					</Styles.FlexGrowOne>
 					<Box m={'1rem'}>
-					<NewMessageCounter />
+					{loggedIn ? <NewMessageCounter /> : null}
 					</Box>
 					{loggedIn ? <MenuButton /> : null}
 				</Toolbar>
