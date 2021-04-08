@@ -22,7 +22,7 @@ export default function RemoveUserButton(props) {
 			})
 
 			const response = await axios.post(url(friend._id))
-
+			console.log(response)
 			setRequest({
 				loading: false,
 				error: false,
@@ -31,7 +31,7 @@ export default function RemoveUserButton(props) {
 
 			onRemoveFriend(response.data?.data)
 		} catch (error) {
-			console.log(error)
+			console.error(error)
 			setRequest({
 				loading: false,
 				error: true,

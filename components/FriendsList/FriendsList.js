@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Avatar from '@material-ui/core/Avatar'
 import { connect } from 'react-redux'
 import { openConversation } from 'lib/helpers/conversation/conversation'
+import RemoveUserButton from 'components/buttons/RemoveUserButton/RemoveUserButton'
 
 function FriendsList({
 	friendsList,
@@ -20,6 +21,8 @@ function FriendsList({
 }) {
 	const MainList = (props) => {
 		const { friends } = props
+
+		
 
 		return (
 			<List>
@@ -34,9 +37,9 @@ function FriendsList({
 								secondary={friend.name ? friend.name : null}
 							/>
 							<ListItemSecondaryAction>
-								<IconButton onClick={() => onRemoveFriend(friend._id)}>
-									<DeleteIcon />
-								</IconButton>
+								
+									<RemoveUserButton friend={friend}/>
+								
 								<IconButton
 									onClick={() =>
 										openConversation(
