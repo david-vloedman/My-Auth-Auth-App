@@ -5,8 +5,10 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import defaultTheme from '../components/themes/default'
 import { initStore } from '../store'
 
+const store = initStore()
+
 function MyApp({ Component, pageProps }) {
-	const store = initStore()
+	
 
 	return (
 		<Provider store={store}>

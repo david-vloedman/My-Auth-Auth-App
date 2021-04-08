@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { combineReducers } from 'redux'
 import { conversationReducer } from './conversation'
-import { composeMessageDialogReducer } from './composeMessageDialog'
+import { chessReducer } from 'redux/chessSlice/chessSlice'
 import { viewMessageDialogReducer } from './viewMessageDialog'
 
 const layoutReducer = {
@@ -95,7 +95,8 @@ const reducers = combineReducers({
 	layout: layoutSlice.reducer,
 	user: userSlice.reducer,
 	viewMessageDialog: viewMessageDialogReducer,
-	conversation: conversationReducer
+	conversation: conversationReducer,
+	chess: chessReducer
 })
 
 export default reducers

@@ -1,21 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const reducer = {
-	setGame(state, action) {
+	gameLoaded(state, action) {
+    console.log(action.payload)
 		return {
-      ...state,
+			...state,
 			game: {
-        ...action.payload
-      },
+        ...state.game,
+				...action.payload,
+			},
 		}
 	},
 
-  setAvailableMoves(state, action){
+	setAvailableMoves(state, action) {
+		return {
+			...state,
+			player: {
+				...state.player,
+				availableMoves: action.payload,
+			},
+		}
+	},
+  gameError(state, action){
     return {
       ...state,
-      player: {
-        ...state.player,
-        availableMoves: action.payload
+      game: {
+        ...state.game,
+        error: action.payload
       }
     }
   }
@@ -25,16 +36,19 @@ const chessGame = createSlice({
 	name: 'ChessGame',
 	initialState: {
 		game: {
-			white: '',
-			black: '',
 			fenString: '',
-      check: false,
-      checkMate: false
+			check: false,
+			checkMate: false,
 		},
-    player: {
-      availableMoves: [],
-      advantage: ''
-    }
+		player: {
+			availableMoves: [],
+			advantage: '',
+			orientation: '',
+		},
 	},
 	reducers: reducer,
 })
+
+export const chessReducer = chessGame.reducer
+
+export const { gameLoaded, setAvailableMoves, gameError } = chessGame.actions

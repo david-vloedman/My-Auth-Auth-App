@@ -12,6 +12,7 @@ import Avatar from '@material-ui/core/Avatar'
 import { connect } from 'react-redux'
 import { openConversation } from 'lib/helpers/conversation/conversation'
 import RemoveUserButton from 'components/buttons/RemoveUserButton/RemoveUserButton'
+import NewMatchButton from 'components/buttons/NewMatchButton/NewMatchButton'
 
 function FriendsList({
 	friendsList,
@@ -39,7 +40,7 @@ function FriendsList({
 							<ListItemSecondaryAction>
 								
 									<RemoveUserButton friend={friend}/>
-								
+								<NewMatchButton friendId={friend._id} />
 								<IconButton
 									onClick={() =>
 										openConversation(

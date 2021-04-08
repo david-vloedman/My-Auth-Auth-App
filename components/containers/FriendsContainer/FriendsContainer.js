@@ -2,14 +2,12 @@ import FriendsList from '../../FriendsList/FriendsList'
 import ConversationDrawer from 'components/ConversationDrawer/ConversationDrawer'
 import { friendRemoved } from '../../../redux/reducers'
 import Conversation from 'components/Conversation/Conversation'
-import * as ConversationActions from 'redux/conversation'
-
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Paper from '@material-ui/core/Paper'
-import { onConversationClose } from 'lib/helpers/conversation'
+
 export default function FriendsContainer(props) {
 	const reduxUser = useSelector((state) => state.user)
 
