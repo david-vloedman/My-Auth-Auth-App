@@ -2,7 +2,6 @@ import FriendsList from '../../FriendsList/FriendsList'
 import ConversationDrawer from 'components/ConversationDrawer/ConversationDrawer'
 import { friendRemoved } from '../../../redux/reducers'
 import Conversation from 'components/Conversation/Conversation'
-import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
@@ -11,22 +10,7 @@ import Paper from '@material-ui/core/Paper'
 export default function FriendsContainer(props) {
 	const reduxUser = useSelector((state) => state.user)
 
-	const conversationState = useSelector((state) => state.conversation)
-
 	const dispatch = useDispatch()
-
-	const createConversation = async () => {
-		try {
-			const response = await axios.post('/api/messages/conversation/create', {
-				recipientId: conversationState.recipient.recipientId,
-				messageBody: conversationState.messageField,
-			})
-
-			console.log(response)
-		} catch (error) {
-			console.error(error)
-		}
-	}
 
 	const dispatchFriendRemoved = (uid) => {
 		dispatch(friendRemoved(uid))

@@ -8,7 +8,7 @@ export const getUnreadMessages = async (db, uid) => {
 
 		const data = conversations?.reduce((acc, con) => {
 			const unreadMessages = con.messages?.filter(
-				(msg) => msg.hasBeenRead === false || false
+				(msg) => !msg.hasBeenRead && msg.sentBy !== uid
 			)
 
 			if (unreadMessages?.length > 0) {
