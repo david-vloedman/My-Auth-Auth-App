@@ -6,23 +6,20 @@ import ListItemText from '@material-ui/core/ListItemText'
 import PersonAdd from '@material-ui/icons/PersonAdd'
 import Person from '@material-ui/icons/Person'
 import ExitToApp from '@material-ui/icons/ExitToApp'
+import { toggleDrawer } from 'lib/helpers/layout/layout'
+import { logout } from 'lib/helpers/user/user'
+import { connect } from 'react-redux'
 // import Message from '@material-ui/icons/Message'
 import Link from 'next/link'
 
-export default function MenuDrawer({ toggleDrawer, logout, open }) {
-
+export function MenuDrawer({ showDrawer, dispatch }) {
 	return (
-		<Drawer anchor='left' open={open} onClose={toggleDrawer}>
-			<List onClick={toggleDrawer}>
-				{/* <Link href='/messages'>
-					<ListItem button key='messages'>
-						<ListItemIcon>
-							<Message />
-						</ListItemIcon>
-						<ListItemText primary='Messages' />
-					</ListItem>
-				</Link> */}
-
+		<Drawer
+			anchor='left'
+			open={showDrawer}
+			onClose={(e) => toggleDrawer(dispatch)}
+		>
+			<List onClick={(e) => toggleDrawer(dispatch)}>
 				<Link href='/friends'>
 					<ListItem key='myFriends' button>
 						<ListItemIcon>
@@ -31,7 +28,7 @@ export default function MenuDrawer({ toggleDrawer, logout, open }) {
 						<ListItemText primary='My Friends' />
 					</ListItem>
 				</Link>
-				
+
 				<Link href='/users/search'>
 					<ListItem key='findFriends' button>
 						<ListItemIcon>
@@ -41,7 +38,7 @@ export default function MenuDrawer({ toggleDrawer, logout, open }) {
 					</ListItem>
 				</Link>
 				<Link href='/users/search'>
-					<ListItem key='logOut' button onClick={logout}>
+					<ListItem key='logOut' button onClick={(e) => logout(dispatch)}>
 						<ListItemIcon>
 							<ExitToApp />
 						</ListItemIcon>
@@ -52,3 +49,7 @@ export default function MenuDrawer({ toggleDrawer, logout, open }) {
 		</Drawer>
 	)
 }
+
+const mapStateToProps = (state) => ({ showDrawer: state.layout.showDrawer })
+
+export default connect(mapStateToProps)(MenuDrawer)

@@ -1,7 +1,5 @@
 export const getUserState = (db, uid) => {}
 
-
-
 export const getUnreadMessages = async (db, uid) => {
 	try {
 		const conversations = await getUserConversations(db, uid)

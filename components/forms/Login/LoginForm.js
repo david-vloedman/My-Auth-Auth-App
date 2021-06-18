@@ -51,7 +51,7 @@ function LoginForm(props) {
 		try {
 			setForm({
 				...form,
-				loading: true
+				loading: true,
 			})
 			const response = await fetchJson(url, {
 				method: 'POST',
@@ -60,7 +60,7 @@ function LoginForm(props) {
 			})
 			setForm({
 				...form,
-				loading: false
+				loading: false,
 			})
 			if (response.hasError) {
 				setForm({
@@ -91,43 +91,41 @@ function LoginForm(props) {
 				errorMessage: '',
 			},
 		})
-		
 	}
 
 	return (
-		
 		<form autoComplete={'off'} noValidate>
 			<Box display={'flex'} flexDirection={'column'}>
-			<Styles.StyledTextField
-				error={form.userName.hasError}
-				helperText={form.userName.hasError ? 'User not found' : ''}
-				name='userName'
-				id='userName'
-				label='User Name'
-				onChange={onChange}
-				required
-			/>
+				<Styles.StyledTextField
+					error={form.userName.hasError}
+					helperText={form.userName.hasError ? 'User not found' : ''}
+					name='userName'
+					id='userName'
+					label='User Name'
+					onChange={onChange}
+					required
+				/>
 
-			<Styles.StyledTextField
-				error={form.password.hasError}
-				helperText={form.password.hasError ? 'Invalid password' : ''}
-				type='password'
-				id='password'
-				name='password'
-				label='Password'
-				onChange={onChange}
-				required
-			/>
+				<Styles.StyledTextField
+					error={form.password.hasError}
+					helperText={form.password.hasError ? 'Invalid password' : ''}
+					type='password'
+					id='password'
+					name='password'
+					label='Password'
+					onChange={onChange}
+					required
+				/>
 
-			<Styles.StyledButton
-				type='submit'
-				onClick={onSubmit}
-				onSubmit={onSubmit}
-				variant='contained'
-				color={'secondary'}
-			>
-				{form.loading ? <CircularProgress /> : 'Sign-in'}
-			</Styles.StyledButton>
+				<Styles.StyledButton
+					type='submit'
+					onClick={onSubmit}
+					onSubmit={onSubmit}
+					variant='contained'
+					color={'secondary'}
+				>
+					{form.loading ? <CircularProgress /> : 'Sign-in'}
+				</Styles.StyledButton>
 			</Box>
 		</form>
 	)

@@ -8,11 +8,15 @@ export default withSession(async (req, res) => {
 	const { db } = await connectToDatabase()
 	const { userName, password } = JSON.parse(req.body)
 	const userCollection = db.collection('users')
-	
+
 	const user = await userCollection.findOne({ userName: userName })
-	
+
 	if (!user) {
-		return res.json({ hasError: true, errorSource:'userName', errorMsg: 'No user found' })
+		return res.json({
+			hasError: true,
+			errorSource: 'userName',
+			errorMsg: 'No user found',
+		})
 	}
 
 	if (await bcrypt.compare(password, user.password)) {
@@ -27,7 +31,11 @@ export default withSession(async (req, res) => {
 		return res.json({ loggedIn: true, session: req.session.get('user') })
 	}
 
-	return res.json({ hasError: true, errorSource: 'password', errorMsg: 'Invalid password' })
+	return res.json({
+		hasError: true,
+		errorSource: 'password',
+		errorMsg: 'Invalid password',
+	})
 })
 
 /**

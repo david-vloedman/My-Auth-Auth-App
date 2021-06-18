@@ -7,8 +7,7 @@ import { viewMessageDialogReducer } from './viewMessageDialog'
 const layoutReducer = {
 	toggleLoggedIn(state, payload) {
 		return {
-			...state,
-			loggedIn: !state.loggedIn,
+			undefined,
 		}
 	},
 
@@ -28,50 +27,60 @@ const layoutSlice = createSlice({
 
 const userReducer = {
 	setUser(state, action) {
-		
 		return {
 			...state,
 			...action.payload,
-			loggedIn: true
+			loggedIn: true,
 		}
 	},
 	unsetUser(state, action) {
 		return {
 			...state,
 			user: undefined,
-			loggedIn: false
+			loggedIn: false,
 		}
 	},
+
 	friendAdded(state, action) {
 		return {
 			...state,
-			...action.payload
+			...action.payload,
 		}
 	},
+
 	friendRemoved(state, action) {
 		return {
 			...state,
-			friends: [...state.friends.filter(fri => fri._id !== action.payload)]
+			friends: [...state.friends.filter((fri) => fri._id !== action.payload)],
 		}
 	},
 	receivedMessageDeleted(state, action) {
 		return {
 			...state,
-			receivedMessages: [...state.receivedMessages.filter(msg => msg.id !== action.payload)]
+			receivedMessages: [
+				...state.receivedMessages.filter((msg) => msg.id !== action.payload),
+			],
 		}
 	},
-	conversationAdded(state, action){
+	conversationAdded(state, action) {
 		return {
 			...state,
-			conversations: [
-				...state.conversations,
-				action.payload
-			]
+			conversations: [...state.conversations, action.payload],
 		}
 	},
 
+	logout(state, action) {
+		return {
+			undefined
+		}
+	},
 
-	
+	login(state, action){
+		return {
+			...state,
+			...action.payload
+		}
+	}
 }
 
 const userSlice = createSlice({
@@ -86,7 +95,9 @@ export const {
 	friendRemoved,
 	friendAdded,
 	receivedMessageDeleted,
-	conversationAdded
+	conversationAdded,
+	logout,
+	login,
 } = userSlice.actions
 
 export const { toggleLoggedIn, toggleDrawer } = layoutSlice.actions
@@ -96,7 +107,7 @@ const reducers = combineReducers({
 	user: userSlice.reducer,
 	viewMessageDialog: viewMessageDialogReducer,
 	conversation: conversationReducer,
-	chess: chessReducer
+	chess: chessReducer,
 })
 
 export default reducers

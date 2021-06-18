@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const reducer = {
-
 	setMessages(state, action) {
 		return {
 			...state,
@@ -31,10 +30,10 @@ const reducer = {
 	},
 
 	// In use after refactor
-	setConversation(state, action){
+	setConversation(state, action) {
 		return {
 			...state,
-			...action.payload
+			...action.payload,
 		}
 	},
 
@@ -71,39 +70,35 @@ const reducer = {
 		}
 	},
 
-	failedToLoad(state, action){
+	failedToLoad(state, action) {
 		return {
 			...state,
-			failedToLoad: true
+			failedToLoad: true,
 		}
 	},
-	updateLoopStarted(state, action){
+	updateLoopStarted(state, action) {
 		return {
 			...state,
-			updateIntervalId : action.payload,
+			updateIntervalId: action.payload,
 		}
 	},
-	updateLoopTerminated(state, action){
+	updateLoopTerminated(state, action) {
 		return {
 			...state,
-			updateIntervalId: undefined
+			updateIntervalId: undefined,
 		}
 	},
-	messageSent(state, action){
+	messageSent(state, action) {
 		return {
 			...state,
-			messageField: ''
+			messageField: '',
 		}
 	},
-
-	failedToSendMessage(state, action){
+	failedToSendMessage(state, action) {
 		return {
 			...state,
-			
-
 		}
-	}
-
+	},
 }
 
 const conversationSlice = createSlice({
@@ -121,12 +116,9 @@ const conversationSlice = createSlice({
 	reducers: reducer,
 })
 
-
-
 export const onMessageFieldChange = (dispatch, e) => {
 	dispatch(messageFieldChange(e.target.value))
 }
-
 
 export const {
 	chatClosed,
@@ -140,7 +132,7 @@ export const {
 	failedToLoad,
 	updateLoopStarted,
 	updateLoopTerminated,
-	failedToSendMessage
+	failedToSendMessage,
 } = conversationSlice.actions
 
 export const conversationReducer = conversationSlice.reducer
