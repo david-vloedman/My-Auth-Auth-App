@@ -1,7 +1,7 @@
 import { connectToDatabase } from '../../../util/mongodb'
 import withSession from '../../../lib/withSession'
 import bcrypt from 'bcrypt'
-import { getUserState } from 'util/helpers/user'
+import { getUserState } from 'util/helpers/user/user'
 /**
  * Login into a user account
  */
@@ -31,7 +31,7 @@ export default withSession(async (req, res) => {
 
 			await req.session.save()
 
-			const userState = await getUserState(db, user._id)
+			const userState = await getUserState(user._id)
 
 			return res.json({
 				loggedIn: true,

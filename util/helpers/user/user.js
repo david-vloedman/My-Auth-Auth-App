@@ -1,17 +1,22 @@
 import { ObjectId } from 'bson'
+import { connectToDatabase } from 'util/mongodb'
 
 /**
  * @param {*} db
  * @param {*} uid
  */
-export const getUserState = async (db, uid) => {
+export const getUserState = async (uid) => {
 	try {
+		const { db } = await connectToDatabase()
 		const user = await getUser(db, uid)
+		console.log(uid)
 		const conversations = await getUserConversations(db, uid)
 		const friends = await getUserFriends(user, db.collection('users'))
 
 		return {...user, friends, conversations} 
-	} catch (error) {}
+	} catch (error) {
+		console.error(error, new Error().stack)
+	}
 }
 
 /**
@@ -46,7 +51,8 @@ export const getUserConversations = async (db, uid) => {
 
 		return mappedConversations
 	} catch (error) {
-		console.error(error)
+		console.error(error, new Error().stack)
+		return []
 	}
 }
 
@@ -86,7 +92,7 @@ const getUser = async (db, uid) => {
 
 		return userDoc
 	} catch (error) {
-		console.error(error)
+		console.error(error, new Error().stack)
 	}
 }
 
@@ -98,7 +104,7 @@ const getUser = async (db, uid) => {
  */
 export const getUserFriends = async (user, userCollection) => {
 	try {
-		const friendObjIds = user.friends.map((uid) => ObjectId(uid))
+		const friendObjIds = user?.friends.map((uid) => ObjectId(uid)) || []
 
 		const friends = await userCollection
 			.find(
@@ -109,7 +115,7 @@ export const getUserFriends = async (user, userCollection) => {
 
 		return friends
 	} catch (error) {
-		console.error(error)
+		console.error(error, "CAUGHT")
 		return []
 	}
 }

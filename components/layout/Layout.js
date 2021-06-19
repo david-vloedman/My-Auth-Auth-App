@@ -7,29 +7,23 @@ import { toggleDrawer } from 'lib/helpers/layout/layout.js'
 import { logout } from 'lib/helpers/user/user'
 import { connect } from 'react-redux'
 
-export function Layout({loggedIn, showDrawer, children, dispatch}) {
-	
-	console.log(loggedIn)
-	
-	
-
+export function Layout({ loggedIn, showDrawer, children, dispatch }) {
 	// //if there is no user in redux state, set it to the state given by the server
 	// if (Object.keys(reduxUser).length === 0 && Object.keys(user).length > 0) {
 	// 	dispatch(Actions.setUser(user))
 	// 	dispatch(Actions.toggleLoggedIn())
 	// }
 
-
 	return (
 		<>
-			<AppBar toggleDrawer={toggleDrawer} loggedIn={loggedIn}/>
+			<AppBar toggleDrawer={() => toggleDrawer(dispatch)} loggedIn={loggedIn} />
 			<StyledContainer>
 				<CssBaseLine />
 				{loggedIn ? (
 					<MenuDrawer
 						open={showDrawer}
-						onClose={(e) => toggleDrawer(dispatch)}
-						toggleDrawer={(e) => toggleDrawer(dispatch)}
+						onClose={() => toggleDrawer(dispatch)}
+						toggleDrawer={() => toggleDrawer(dispatch)}
 						logout={() => logout(dispatch)}
 					/>
 				) : null}
@@ -40,7 +34,12 @@ export function Layout({loggedIn, showDrawer, children, dispatch}) {
 	)
 }
 
-const mapStateToProps = (state) => ({ user: state.user, loggedIn: state.user.loggedIn, showDrawer: state.layout.showDrawer })
+const mapStateToProps = (state, ownProps) => ({
+	user: state.user,
+	loggedIn: state.layout.loggedIn,
+	showDrawer: state.layout.showDrawer,
+	...ownProps,
+})
 
 export default connect(mapStateToProps)(Layout)
 

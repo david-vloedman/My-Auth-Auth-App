@@ -8,7 +8,6 @@ import { initStore } from '../store'
 const store = initStore()
 
 function MyApp({ Component, pageProps }) {
-	
 
 	return (
 		<Provider store={store}>
