@@ -6,13 +6,11 @@ import ListItemText from '@material-ui/core/ListItemText'
 import PersonAdd from '@material-ui/icons/PersonAdd'
 import Person from '@material-ui/icons/Person'
 import ExitToApp from '@material-ui/icons/ExitToApp'
-import { toggleDrawer } from 'lib/helpers/layout/layout'
 import { logout } from 'lib/helpers/user/user'
 import { connect } from 'react-redux'
-// import Message from '@material-ui/icons/Message'
 import Link from 'next/link'
 
-export function MenuDrawer({ showDrawer, dispatch }) {
+export function MenuDrawer({ showDrawer, dispatch, toggleDrawer }) {
 	return (
 		<Drawer
 			anchor='left'

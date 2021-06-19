@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import fetchJson from '../../../lib/fetchJson'
 import * as Styles from './LoginForm.styles'
 import { Box, CircularProgress } from '@material-ui/core'
+import { login } from 'lib/helpers/user/user'
+import { connect } from 'react-redux'
 
-const url = '/api/session/login'
 
-function LoginForm(props) {
+function LoginForm({dispatch}) {
 	const router = useRouter()
 
 	const [form, setForm] = useState({
@@ -53,11 +53,9 @@ function LoginForm(props) {
 				...form,
 				loading: true,
 			})
-			const response = await fetchJson(url, {
-				method: 'POST',
-				body: JSON.stringify(getFormValues(form)),
-				credentials: 'include',
-			})
+			
+			const response = login(dispatch, getFormValues(form))
+			
 			setForm({
 				...form,
 				loading: false,
@@ -131,4 +129,4 @@ function LoginForm(props) {
 	)
 }
 
-export default LoginForm
+export default connect()(LoginForm)

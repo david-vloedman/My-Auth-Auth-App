@@ -1,12 +1,14 @@
 import { connectToDatabase } from '../../../util/mongodb'
 import withSession from '../../../lib/withSession'
 import bcrypt from 'bcrypt'
+import { getUserState } from 'util/helpers/user'
 /**
  * Login into a user account
  */
 export default withSession(async (req, res) => {
 	const { db } = await connectToDatabase()
-	const { userName, password } = JSON.parse(req.body)
+	
+	const { userName, password } = req.body
 	const userCollection = db.collection('users')
 
 	const user = await userCollection.findOne({ userName: userName })
@@ -19,16 +21,33 @@ export default withSession(async (req, res) => {
 		})
 	}
 
-	if (await bcrypt.compare(password, user.password)) {
-		const newSession = {
-			_id: user._id,
+	try {
+		if (await bcrypt.compare(password, user.password)) {
+			const newSession = {
+				_id: user._id,
+			}
+
+			req.session.set('user', newSession)
+
+			await req.session.save()
+
+			const userState = await getUserState(db, user._id)
+
+			console.log(userState)
+
+			return res.json({
+				loggedIn: true,
+				session: req.session.get('user'),
+				user: userState,
+			})
+
 		}
-
-		req.session.set('user', newSession)
-
-		await req.session.save()
-
-		return res.json({ loggedIn: true, session: req.session.get('user') })
+	} catch (error) {
+		res.json({
+			hasError: true,
+			errorSource: 'unknown',
+			errorMsg: 'An unexpected error has occurred',
+		})
 	}
 
 	return res.json({
@@ -37,24 +56,3 @@ export default withSession(async (req, res) => {
 		errorMsg: 'Invalid password',
 	})
 })
-
-/**
- * Gets the friends of the given
- * @param {*} user
- * @param {*} userCollection
- * @param {*} req
- */
-export const getFriends = async (user, userCollection) => {
-	if (user.friends) {
-		const friends = await userCollection
-			.find(
-				{ _id: { $in: [...user.friends] } },
-				{ userName: 1, name: 1 },
-				undefined
-			)
-			.toArray()
-		return [...friends]
-	}
-
-	return []
-}
