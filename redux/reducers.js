@@ -5,11 +5,21 @@ import { chessReducer } from 'redux/chessSlice/chessSlice'
 import { viewMessageDialogReducer } from './viewMessageDialog'
 
 const layoutReducer = {
-	toggleLoggedIn(state, payload) {
+	loggedIn(state, payload){
 		return {
-			undefined,
+			...state,
+			loggedIn: true
 		}
 	},
+
+	loggedOut(state, payload){
+		return {
+			...state,
+			loggedIn: false
+		}
+	},
+
+
 
 	toggleDrawer(state, payload) {
 		return {
@@ -27,17 +37,17 @@ const layoutSlice = createSlice({
 
 const userReducer = {
 	setUser(state, action) {
+		console.log(action.payload)
 		return {
 			...state,
 			...action.payload,
-			loggedIn: true,
+			
 		}
 	},
 	unsetUser(state, action) {
 		return {
 			...state,
 			user: undefined,
-			loggedIn: false,
 		}
 	},
 
@@ -100,7 +110,7 @@ export const {
 	login,
 } = userSlice.actions
 
-export const { toggleLoggedIn, toggleDrawer } = layoutSlice.actions
+export const { loggedIn, loggedOut, toggleDrawer } = layoutSlice.actions
 
 const reducers = combineReducers({
 	layout: layoutSlice.reducer,

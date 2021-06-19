@@ -33,8 +33,6 @@ export default withSession(async (req, res) => {
 
 			const userState = await getUserState(db, user._id)
 
-			console.log(userState)
-
 			return res.json({
 				loggedIn: true,
 				session: req.session.get('user'),

@@ -5,8 +5,7 @@ import { Box, CircularProgress } from '@material-ui/core'
 import { login } from 'lib/helpers/user/user'
 import { connect } from 'react-redux'
 
-
-function LoginForm({dispatch}) {
+function LoginForm({ dispatch }) {
 	const router = useRouter()
 
 	const [form, setForm] = useState({
@@ -53,9 +52,9 @@ function LoginForm({dispatch}) {
 				...form,
 				loading: true,
 			})
-			
-			const response = login(dispatch, getFormValues(form))
-			
+
+			const response = await login(dispatch, getFormValues(form))
+
 			setForm({
 				...form,
 				loading: false,

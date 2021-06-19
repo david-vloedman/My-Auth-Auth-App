@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import MenuDrawer from '../MenuDrawer/MenuDrawer'
 import AppBar from '../AppBar/AppBar'
 import { toggleDrawer } from 'lib/helpers/layout/layout.js'
+import { logout } from 'lib/helpers/user/user'
 import { connect } from 'react-redux'
 
 export function Layout({loggedIn, showDrawer, children, dispatch}) {
@@ -29,7 +30,7 @@ export function Layout({loggedIn, showDrawer, children, dispatch}) {
 						open={showDrawer}
 						onClose={(e) => toggleDrawer(dispatch)}
 						toggleDrawer={(e) => toggleDrawer(dispatch)}
-						logout={dispatchLogout}
+						logout={() => logout(dispatch)}
 					/>
 				) : null}
 
