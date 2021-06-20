@@ -9,8 +9,12 @@ import ExitToApp from '@material-ui/icons/ExitToApp'
 import { logout } from 'lib/helpers/user/user'
 import { connect } from 'react-redux'
 import Link from 'next/link'
+import {useRouter} from 'next/router'
 
 export function MenuDrawer({ showDrawer, dispatch, toggleDrawer }) {
+
+	const router = useRouter()
+
 	return (
 		<Drawer
 			anchor='left'
@@ -36,7 +40,7 @@ export function MenuDrawer({ showDrawer, dispatch, toggleDrawer }) {
 					</ListItem>
 				</Link>
 				<Link href='/users/search'>
-					<ListItem key='logOut' button onClick={(e) => logout(dispatch)}>
+					<ListItem key='logOut' button onClick={(e) => logout(dispatch, router)}>
 						<ListItemIcon>
 							<ExitToApp />
 						</ListItemIcon>
