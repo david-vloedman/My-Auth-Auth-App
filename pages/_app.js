@@ -4,6 +4,7 @@ import Layout from '../components/layout/Layout'
 import { ThemeProvider } from '@material-ui/core/styles'
 import defaultTheme from '../components/themes/default'
 import { initStore } from '../store'
+import { PersistGate } from 'redux-persist/integration/react'
 
 const store = initStore()
 
@@ -11,6 +12,7 @@ function MyApp({ Component, pageProps }) {
 
 	return (
 		<Provider store={store}>
+			<PersistGate persistor={store.__PERSISTOR} loading={null}>
 			<style jsx global>{`
 				@font-face {
 					font-family: 'Bebas Neue';
@@ -33,6 +35,7 @@ function MyApp({ Component, pageProps }) {
 					<Component {...pageProps} />
 				</Layout>
 			</ThemeProvider>
+			</PersistGate>
 		</Provider>
 	)
 }

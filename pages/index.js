@@ -3,6 +3,9 @@ import withSession from '../lib/withSession'
 import { getUserState } from 'util/helpers/user/user'
 
 export default function Home(props) {
+
+
+
 	return (
 		<div className='container'>
 			<Head>
