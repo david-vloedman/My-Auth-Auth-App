@@ -1,7 +1,7 @@
 import { Box, CircularProgress } from '@material-ui/core'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import fetchJson from '../../../lib/fetchJson'
+import fetchJson from '../../../client_lib/fetchJson'
 import * as Styles from './CreateUserForm.styles'
 
 const url = '/api/users/create-user'

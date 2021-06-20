@@ -4,7 +4,7 @@ import { onMessageFieldChange } from 'redux/conversation'
 import {
 	sendMessage,
 	requestSendMessage,
-} from 'lib/helpers/conversation/conversation'
+} from 'client_lib/helpers/conversation/conversation'
 import { connect } from 'react-redux'
 
 function SendMessageBox({ conversation, dispatch }) {

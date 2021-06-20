@@ -1,6 +1,6 @@
-import { connectToDatabase } from '../../util/mongodb'
+import { connectToDatabase } from '../../server_lib/mongodb'
 import { ObjectId } from 'mongodb'
-import { getUnreadMessages } from 'util/helpers/user/user'
+import { getUnreadMessages } from 'server_lib/helpers/user/user'
 
 export default async (uid) => {
 // 	try {

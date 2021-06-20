@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import withSession from '../lib/withSession'
+import withSession from '../client_lib/withSession'
 
 export default function Home(props) {
 	return (

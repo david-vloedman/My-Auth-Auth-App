@@ -1,5 +1,5 @@
-import withSession from '../../../lib/withSession'
-import * as Responses from '../../../lib/helpers/responses'
+import withSession from '../../../client_lib/withSession'
+import * as Responses from '../../../client_lib/helpers/responses'
 
 const logout = async (req, res) => {
 	req.session.destroy()

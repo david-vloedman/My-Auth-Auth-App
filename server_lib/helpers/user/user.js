@@ -1,5 +1,5 @@
 import { ObjectId } from 'bson'
-import { connectToDatabase } from 'util/mongodb'
+import { connectToDatabase } from 'server_lib/mongodb'
 
 /**
  * @param {*} db

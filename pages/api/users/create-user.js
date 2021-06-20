@@ -1,5 +1,5 @@
-import { connectToDatabase } from '../../../util/mongodb'
-import withSession from '../../../lib/withSession'
+import { connectToDatabase } from '../../../server_lib/mongodb'
+import withSession from '../../../client_lib/withSession'
 import bcrypt from 'bcrypt'
 /**
  * Add a new user to the database

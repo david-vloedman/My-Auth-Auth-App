@@ -1,4 +1,4 @@
-import withSession from '../../../lib/withSession'
+import withSession from '../../../client_lib/withSession'
 
 export default withSession(async (req, res) => {
 	const user = req.session.get('user')

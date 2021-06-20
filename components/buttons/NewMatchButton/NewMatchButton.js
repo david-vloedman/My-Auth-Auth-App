@@ -1,6 +1,6 @@
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 import IconButton from '@material-ui/core/IconButton'
-import {startNewMatch} from 'lib/helpers/chess/chess'
+import {startNewMatch} from 'client_lib/helpers/chess/chess'
 import { useRouter } from 'next/router';
 import { connect } from 'react-redux';
 

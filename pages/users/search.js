@@ -1,4 +1,4 @@
-import withSession from '../../lib/withSession'
+import withSession from '../../client_lib/withSession'
 import SearchUsersContainer from '../../components/containers/SearchUsersContainer/SearchUsersContainer'
 import { friendAdded } from '../../redux/reducers'
 import { useDispatch } from 'react-redux'

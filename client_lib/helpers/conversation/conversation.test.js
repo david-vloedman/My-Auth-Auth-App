@@ -10,7 +10,7 @@ import {
 	UnloadConversation,
 	UpdateConversation,
 	CreateConversation,
-} from 'lib/helpers/conversation/conversation'
+} from 'client_lib/helpers/conversation/conversation'
 
 /**
  *  Send message should

@@ -1,5 +1,5 @@
 import Drawer from '@material-ui/core/Drawer'
-import {closeConversation} from 'lib/helpers/conversation/conversation'
+import {closeConversation} from 'client_lib/helpers/conversation/conversation'
 import {connect} from 'react-redux'
 
 export function ConversationDrawer({ isOpen, children, dispatch, updateIntervalId }) {

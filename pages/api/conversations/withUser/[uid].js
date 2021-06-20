@@ -1,5 +1,5 @@
-import { connectToDatabase } from 'util/mongodb'
-import withSession from 'lib/withSession'
+import { connectToDatabase } from 'server_lib/mongodb'
+import withSession from 'client_lib/withSession'
 
 export default withSession(async (req, res) => {
 	const { uid } = req.query

@@ -10,7 +10,7 @@ import SendIcon from '@material-ui/icons/Send'
 import IconButton from '@material-ui/core/IconButton'
 import Avatar from '@material-ui/core/Avatar'
 import { connect } from 'react-redux'
-import { openConversation } from 'lib/helpers/conversation/conversation'
+import { openConversation } from 'client_lib/helpers/conversation/conversation'
 import RemoveUserButton from 'components/buttons/RemoveUserButton/RemoveUserButton'
 import NewMatchButton from 'components/buttons/NewMatchButton/NewMatchButton'
 

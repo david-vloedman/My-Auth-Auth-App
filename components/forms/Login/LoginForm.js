@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import * as Styles from './LoginForm.styles'
 import { Box, CircularProgress } from '@material-ui/core'
-import { login } from 'lib/helpers/user/user'
+import { login } from 'client_lib/helpers/user/user'
 import { connect } from 'react-redux'
 
 function LoginForm({ dispatch }) {

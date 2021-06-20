@@ -1,7 +1,7 @@
-import { connectToDatabase } from '../../../util/mongodb'
-import withSession from '../../../lib/withSession'
+import { connectToDatabase } from '../../../server_lib/mongodb'
+import withSession from '../../../client_lib/withSession'
 import bcrypt from 'bcrypt'
-import { getUserState } from 'util/helpers/user/user'
+import { getUserState } from 'server_lib/helpers/user/user'
 /**
  * Login into a user account
  */

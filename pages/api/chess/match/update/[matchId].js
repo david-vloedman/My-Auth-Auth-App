@@ -1,5 +1,5 @@
-import { connectToDatabase } from 'util/mongodb'
-import withSession from 'lib/withSession'
+import { connectToDatabase } from 'server_lib/mongodb'
+import withSession from 'client_lib/withSession'
 import { Chess } from 'chess.js'
 
 export default withSession(async (req, res) => {
@@ -10,8 +10,6 @@ export default withSession(async (req, res) => {
 	if (!sessionUser) return res.status(403)
 
   const match = new Chess(fenString)
-
-  
 
 	try {
 		const { db } = await connectToDatabase()
