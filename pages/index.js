@@ -1,11 +1,8 @@
 import Head from 'next/head'
 import withSession from '../lib/withSession'
-import { getUserState } from 'util/helpers/user/user'
+// import { getUserState } from 'util/helpers/user/user'
 
 export default function Home(props) {
-
-
-
 	return (
 		<div className='container'>
 			<Head>
@@ -32,19 +29,9 @@ export const getServerSideProps = withSession(async function ({ req, res }) {
 		}
 	}
 
-	try {
-		const userState = JSON.parse(JSON.stringify(await getUserState(sessionUser._id)))
-
-		console.log(userState, 'GSSP')
-		return {
-			props: {
-				...userState,
-			},
-		}
-	} catch (error) {
-		console.log(error)
-		return {
-			notFound: true,
-		}
+	return {
+		props: {
+			sessionUser,
+		},
 	}
 })
