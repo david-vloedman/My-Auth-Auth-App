@@ -29,10 +29,10 @@ const requestNewMatch = async (dispatch, friendId) => {
 
 		if (response.status === 200) {
 			const gameObj = response.data
+			console.log(gameObj)
 			return dispatch(gameLoaded(gameObj))
 		}
-
-		dispatch(gameError('failed to create game'))
+		
 	} catch (error) {
 		console.error(error)
 		dispatch(gameError('failed to create game'))

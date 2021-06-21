@@ -5,7 +5,7 @@ const loginUrl = '/api/session/login'
 
 export const logout = async (dispatch, router) => {
 	try {
-		await axios.get(logoutUrl)
+		const response = await axios.get(logoutUrl)
 		router.push('/')
 		dispatch(loggedOut())
 		
