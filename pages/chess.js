@@ -2,9 +2,13 @@ import Head from 'next/head'
 import ChessContainer from 'components/containers/ChessContainer/ChessContainer'
 import withSession from 'client_lib/withSession'
 import { connectToDatabase } from 'server_lib/mongodb'
-import { findMatchDocument, loadExistingGame } from 'server_lib/helpers/chess/chess'
+import { loadExistingGame } from 'server_lib/helpers/chess/chess'
+import { connect } from 'react-redux'
+import { loadMatchIntoState } from 'client_lib/helpers/chess/chess'
 
-export default function chess(props) {
+export function chess({ dispatch, matchState }) {
+	loadMatchIntoState(dispatch, matchState)
+
 	return (
 		<div>
 			<Head>
@@ -15,14 +19,17 @@ export default function chess(props) {
 	)
 }
 
-export const getServerSideProps = withSession(async (req, res) => {
+export default connect(() => ({}))(chess)
 
-	try{
-		const {mid} = req.params
-		const {db} = await connectToDatabase()
-		const matchState = loadExistingGame(db, mid)
+export const getServerSideProps = withSession(async ({ req, query }) => {
+	try {
+		const { mid } = query
+		const { db } = await connectToDatabase()
+		const matchState = JSON.parse(
+			JSON.stringify(await loadExistingGame(db, mid))
+		)
 		const sessionUser = req.session.get('user')
-	
+
 		if (!sessionUser || !mid) {
 			return {
 				redirect: {
@@ -32,20 +39,22 @@ export const getServerSideProps = withSession(async (req, res) => {
 			}
 		}
 
-		if(!matchState){
+		if (!matchState) {
 			return {
-				notFound: true
+				notFound: true,
 			}
 		}
-	
+
 		return {
 			props: {
 				sessionUser,
-				matchState
+				matchState,
 			},
 		}
-	} catch(error){
-
+	} catch (error) {
+		console.error(error)
+		return {
+			notFound: true,
+		}
 	}
-
 })

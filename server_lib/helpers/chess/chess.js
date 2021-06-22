@@ -1,3 +1,4 @@
+import { ObjectID } from 'bson'
 import { Chess } from 'chess.js'
 
 const matchCollectionString = 'chessMatches'
@@ -13,7 +14,7 @@ export const initializeGame = async (db, { uid, fid, whitePlayer }) => {
 	try {
 		const matchId = await insertNewMatchDocument(db, match.fenString, players)
 		if (matchId) {
-			const matchState = createMatchState(match, players)
+			const matchState = createMatchState(match, players, matchId)
 			console.log(matchState)
 			return matchState
 		}
@@ -27,13 +28,13 @@ export const initializeGame = async (db, { uid, fid, whitePlayer }) => {
 export const loadExistingGame = async (db, mid) => {
 	try {
 		const matchDoc = await findMatchDocument(db, mid)
-
+		console.log(matchDoc)
 		const match = new Chess(matchDoc.fenString)
 
-		return createMatchState(match, matchDoc.players)
+		return createMatchState(match, matchDoc.players, matchDoc._id)
 	} catch (error) {
-    console.error(error)
-  }
+		console.error(error)
+	}
 }
 
 /**
@@ -48,9 +49,10 @@ export const makeMove = (move, gameFen) => {
 	return moveObj ? match.fen() : null
 }
 
-export const createMatchState = (match, players) => {
+export const createMatchState = (match, players, mid) => {
 	return {
 		game: {
+			matchId: mid,
 			fenString: match.fen(),
 			inCheck: match.in_check(),
 			inCheckmate: match.in_checkmate(),
@@ -146,7 +148,11 @@ export const updateMatchDocument = async (db, mid, newFen) => {
  */
 export const findMatchDocument = async (db, mid) => {
 	try {
-		return await db.collection(matchCollectionString).findOne({ _id: mid })
+		const dbResponse = await db
+			.collection(matchCollectionString)
+			.findOne(ObjectID(mid))
+		
+		return dbResponse
 	} catch (error) {
 		console.error(error)
 		console.error(error.stack)

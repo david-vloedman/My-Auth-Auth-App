@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic'
 import { connect } from 'react-redux'
 
 export function ChessBoard({ fenString }) {
-
 	const Chessboard = dynamic(() => import('chessboardjsx'), { ssr: false })
 
 	return (
@@ -13,4 +12,6 @@ export function ChessBoard({ fenString }) {
 	)
 }
 
-export default connect((state) => ({ fenString: state.chess.game.fenString }))(ChessBoard)
+export default connect((state) => ({ fenString: state.chess.game.fenString }))(
+	ChessBoard
+)

@@ -2,10 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const reducer = {
 	gameLoaded(state, action) {
-    
 		return {
-			...state,
-			...action.payload
+			game: action.payload.game,
+			player: action.payload.player
 		}
 	},
 

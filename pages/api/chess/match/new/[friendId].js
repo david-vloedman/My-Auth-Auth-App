@@ -13,8 +13,8 @@ export default withSession(async (req, res) => {
 		const { db } = await connectToDatabase()
 
 		const matchState = await initializeGame(db, { uid: sessionUser, friendId })
-		console.log(matchState)
-		return res.status(200).json({matchState})
+		
+		return res.status(200).json(matchState.game.matchId)
 	} catch (error) {
 		console.error(error)
 		res.status(500)

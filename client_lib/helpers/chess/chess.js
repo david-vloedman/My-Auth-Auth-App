@@ -12,9 +12,9 @@ import {
  * @param {*} router
  * @param {*} friendId
  */
-export const startNewMatch = (dispatch, router, friendId) => {
-	requestNewMatch(dispatch, friendId)
-	router.push('/chess')
+export const startNewMatch = async (dispatch, router, friendId) => {
+	const matchId = await requestNewMatch(dispatch, friendId)
+	router.push(`/chess?mid=${matchId}`)
 }
 
 /**
@@ -28,13 +28,17 @@ const requestNewMatch = async (dispatch, friendId) => {
 		const response = await axios.post(`/api/chess/match/new/${friendId}`)
 
 		if (response.status === 200) {
-			const gameObj = response.data
-			console.log(gameObj)
-			return dispatch(gameLoaded(gameObj))
+			const matchId = response.data
+			return matchId
 		}
 		
 	} catch (error) {
 		console.error(error)
 		dispatch(gameError('failed to create game'))
 	}
+}
+
+
+export const loadMatchIntoState = (dispatch, matchState) => {
+	dispatch(gameLoaded(matchState))
 }
