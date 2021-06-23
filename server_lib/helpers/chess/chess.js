@@ -8,14 +8,14 @@ const matchCollectionString = 'chessMatches'
  * @param {*} param1
  * @returns
  */
-export const initializeGame = async (db, { uid, fid, whitePlayer }) => {
-	const { match, players } = createNewMatchObj(uid, fid, whitePlayer)
+export const initializeGame = async (db, uid, fid, whitePlayer) => {
+	const { match, players } = createNewMatchObj(uid, fid)
 
 	try {
-		const matchId = await insertNewMatchDocument(db, match.fenString, players)
+		const matchId = await insertNewMatchDocument(db, match.fen(), players)
 		if (matchId) {
 			const matchState = createMatchState(match, players, matchId)
-			console.log(matchState)
+
 			return matchState
 		}
 	} catch (error) {
@@ -28,7 +28,7 @@ export const initializeGame = async (db, { uid, fid, whitePlayer }) => {
 export const loadExistingGame = async (db, mid) => {
 	try {
 		const matchDoc = await findMatchDocument(db, mid)
-		console.log(matchDoc)
+
 		const match = new Chess(matchDoc.fenString)
 
 		return createMatchState(match, matchDoc.players, matchDoc._id)
@@ -45,35 +45,35 @@ export const loadExistingGame = async (db, mid) => {
  */
 export const makeMove = (move, matchDoc, sessionUser) => {
 	const match = new Chess(matchDoc.fenString)
-  // TODO uncomment this check when done testing the API
-  // if(isPlayersTurn(match, sessionUser, matchDoc.players)){
-  const moveObj = match.move(move)
-  return moveObj ? match.fen() : null
-  // }
+	// TODO uncomment this check when done testing the API
+	// if(isPlayersTurn(match, sessionUser, matchDoc.players)){
+	const moveObj = match.move(move)
+	return moveObj ? match.fen() : null
+	// }
 }
 /**
  * Verifies that the move being made is by the correct player
- * @param {*} match 
- * @param {*} userId 
- * @param {*} players 
- * @returns 
+ * @param {*} match
+ * @param {*} userId
+ * @param {*} players
+ * @returns
  */
 const isPlayersTurn = (match, userId, players) => {
-  const turn = match.turn()
-  if(turn === 'b'){
-    return players.black === userId
-  }
+	const turn = match.turn()
+	if (turn === 'b') {
+		return players.black === userId
+	}
 
-  return players.white === userId
+	return players.white === userId
 }
 /**
  * Creates a match state object
- * @param {*} match 
- * @param {*} players 
- * @param {*} mid 
- * @returns 
+ * @param {*} match
+ * @param {*} players
+ * @param {*} mid
+ * @returns
  */
-export const createMatchState = (match, players, mid) => {
+export const createMatchState = (match, players, mid, userId) => {
 	return {
 		game: {
 			matchId: mid,
@@ -87,27 +87,21 @@ export const createMatchState = (match, players, mid) => {
 			players,
 		},
 		player: {
-			availableMoves: match.moves() || [],
+			availableMoves: isPlayersTurn(match, userId, players)
+				? match.moves()
+				: [],
 		},
 	}
 }
 
-export const createNewMatchObj = (uid, fid, whitePlayer) => {
+export const createNewMatchObj = (uid, fid) => {
 	const newMatch = new Chess()
 	const players = {}
 
-	if ((whitePlayer && whitePlayer !== uid) || whitePlayer !== fid) {
-		throw new Error('white player given does not match either opponent')
-	}
-	// if no white player is given one will be chosen at random
-	if (whitePlayer === '') {
-		players.white = flipCoin() ? uid : fid
-	} else {
-		players.white = whitePlayer
-	}
+	players.white = flipCoin() ? uid : fid
 	// set the black player to whichever is not white
 	players.black = players.white === uid ? fid : uid
-
+	
 	return { match: newMatch, players }
 }
 

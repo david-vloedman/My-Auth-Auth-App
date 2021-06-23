@@ -1,6 +1,5 @@
 import { connectToDatabase } from 'server_lib/mongodb'
 import withSession from 'client_lib/withSession'
-import { Chess } from 'chess.js'
 import {
 	createMatchState,
 	findMatchDocument,
@@ -10,7 +9,7 @@ import {
 
 export default withSession(async (req, res) => {
 	const { matchId, move } = req.query
-
+	// TODO uncomment when don
 	// const sessionUser = req.session.get('user')
 
 	// if (!sessionUser) return res.status(403)
@@ -23,16 +22,20 @@ export default withSession(async (req, res) => {
 		if (!matchDoc) return res.status(404)
 
 		const afterMoveFen = makeMove(move, matchDoc, '')
-		
+
 		if (afterMoveFen) {
 			const updateMatchSuccess = await updateMatchDocument(
 				db,
 				matchId,
 				afterMoveFen
 			)
-			
+
 			if (updateMatchSuccess) {
-				const newMatchState = createMatchState(afterMoveMatch, matchDoc.players, matchId)
+				const newMatchState = createMatchState(
+					afterMoveMatch,
+					matchDoc.players,
+					matchId
+				)
 				return res.status(200).json(newMatchState)
 			}
 		}

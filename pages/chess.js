@@ -8,9 +8,7 @@ import { loadMatchIntoState } from 'client_lib/helpers/chess/chess'
 import { useEffect } from 'react'
 
 export function chess({ dispatch, matchState }) {
-
 	useEffect(() => loadMatchIntoState(dispatch, matchState))
-	
 
 	return (
 		<div>
