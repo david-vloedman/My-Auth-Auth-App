@@ -1,31 +1,48 @@
 import { connectToDatabase } from 'server_lib/mongodb'
 import withSession from 'client_lib/withSession'
 import { Chess } from 'chess.js'
-import { createMatchState, findMatchDocument, makeMove } from 'server_lib/helpers/chess/chess'
+import {
+	createMatchState,
+	findMatchDocument,
+	makeMove,
+	updateMatchDocument,
+} from 'server_lib/helpers/chess/chess'
 
 export default withSession(async (req, res) => {
-	const { matchId } = req.query
-	const { move } = req.params
+	const { matchId, move } = req.query
 
-	const sessionUser = req.session.get('user')
-	if (!sessionUser) return res.status(403)
+	// const sessionUser = req.session.get('user')
+
+	// if (!sessionUser) return res.status(403)
 
 	try {
 		const { db } = await connectToDatabase()
 
 		const matchDoc = await findMatchDocument(db, matchId)
 
-		const match = Chess(matchDoc.fenString)
+		if (!matchDoc) return res.status(404)
 
-		const afterMove = makeMove(move, match.fen())
-
-
-
-		if(afterMove){
-			const newMatchState = createMatchState(match, matchDoc.players, matchId)
+		const afterMoveFen = makeMove(move, matchDoc, '')
+		
+		if (afterMoveFen) {
+			const updateMatchSuccess = await updateMatchDocument(
+				db,
+				matchId,
+				afterMoveFen
+			)
+			
+			if (updateMatchSuccess) {
+				const newMatchState = createMatchState(afterMoveMatch, matchDoc.players, matchId)
+				return res.status(200).json(newMatchState)
+			}
 		}
 
-		if (match) return res.status(200).json(match)
+		if (!afterMoveFen) {
+			res.json({
+				hasError: true,
+				message: 'Illegal Move',
+			})
+		}
 
 		res.status(404)
 	} catch (error) {

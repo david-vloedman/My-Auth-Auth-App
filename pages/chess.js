@@ -5,9 +5,12 @@ import { connectToDatabase } from 'server_lib/mongodb'
 import { loadExistingGame } from 'server_lib/helpers/chess/chess'
 import { connect } from 'react-redux'
 import { loadMatchIntoState } from 'client_lib/helpers/chess/chess'
+import { useEffect } from 'react'
 
 export function chess({ dispatch, matchState }) {
-	loadMatchIntoState(dispatch, matchState)
+
+	useEffect(() => loadMatchIntoState(dispatch, matchState))
+	
 
 	return (
 		<div>

@@ -43,12 +43,36 @@ export const loadExistingGame = async (db, mid) => {
  * @param {*} gameFen
  * @returns
  */
-export const makeMove = (move, gameFen) => {
-	const match = new Chess(gameFen)
-	const moveObj = match.move(move)
-	return moveObj ? match.fen() : null
+export const makeMove = (move, matchDoc, sessionUser) => {
+	const match = new Chess(matchDoc.fenString)
+  // TODO uncomment this check when done testing the API
+  // if(isPlayersTurn(match, sessionUser, matchDoc.players)){
+  const moveObj = match.move(move)
+  return moveObj ? match.fen() : null
+  // }
 }
+/**
+ * Verifies that the move being made is by the correct player
+ * @param {*} match 
+ * @param {*} userId 
+ * @param {*} players 
+ * @returns 
+ */
+const isPlayersTurn = (match, userId, players) => {
+  const turn = match.turn()
+  if(turn === 'b'){
+    return players.black === userId
+  }
 
+  return players.white === userId
+}
+/**
+ * Creates a match state object
+ * @param {*} match 
+ * @param {*} players 
+ * @param {*} mid 
+ * @returns 
+ */
 export const createMatchState = (match, players, mid) => {
 	return {
 		game: {
@@ -78,7 +102,6 @@ export const createNewMatchObj = (uid, fid, whitePlayer) => {
 	// if no white player is given one will be chosen at random
 	if (whitePlayer === '') {
 		players.white = flipCoin() ? uid : fid
-		console.log(players.white)
 	} else {
 		players.white = whitePlayer
 	}
@@ -126,14 +149,14 @@ export const removeMatchDocument = async (db, mid) => {}
 export const updateMatchDocument = async (db, mid, newFen) => {
 	try {
 		const dbResponse = await db.collection(matchCollectionString).updateOne(
-			{ _id: mid },
+			{ _id: ObjectID(mid) },
 			{
 				$set: {
 					fenString: newFen,
 				},
 			}
 		)
-
+		console.log(dbResponse)
 		return dbResponse?.result?.n === 1
 	} catch (error) {
 		console.error(error)
@@ -151,7 +174,7 @@ export const findMatchDocument = async (db, mid) => {
 		const dbResponse = await db
 			.collection(matchCollectionString)
 			.findOne(ObjectID(mid))
-		
+
 		return dbResponse
 	} catch (error) {
 		console.error(error)
