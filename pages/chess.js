@@ -26,6 +26,9 @@ export const getServerSideProps = withSession(async ({ req, query }) => {
 	try {
 		const { mid } = query
 		const { db } = await connectToDatabase()
+
+		// for some reason the JSON obj must be stringified and then parsed
+		// to avoid NextJS complaining about object format
 		const matchState = JSON.parse(
 			JSON.stringify(await loadExistingGame(db, mid))
 		)

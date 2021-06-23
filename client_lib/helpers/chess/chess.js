@@ -1,10 +1,6 @@
 import axios from 'axios'
 import { Chess } from 'chess.js'
-import {
-	gameLoaded,
-	gameError,
-	setAvailableMoves,
-} from 'redux/chessSlice/chessSlice'
+import { gameLoaded, gameError } from 'redux/chessSlice/chessSlice'
 
 /**
  * Start the match
@@ -31,14 +27,30 @@ const requestNewMatch = async (dispatch, friendId) => {
 			const matchId = response.data
 			return matchId
 		}
-		
 	} catch (error) {
 		console.error(error)
 		dispatch(gameError('failed to create game'))
 	}
 }
 
+export const requestPlayerMove = async (dispatch, move, matchId) => {
+	try {
+		const { data } = await axios.post(`/api/chess/match/update/${matchId}`, {
+			move: move,
+		})
+
+		if (data.hasError) return
+
+		loadMatchIntoState(dispatch, data)
+	} catch (error) {
+		console.error(error)
+	}
+}
 
 export const loadMatchIntoState = (dispatch, matchState) => {
 	dispatch(gameLoaded(matchState))
+}
+
+const validateMove = (fenString, move) => {
+	
 }

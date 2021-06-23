@@ -14,5 +14,6 @@ export function ChessBoard({ fenString, orientation }) {
 
 export default connect((state) => ({
 	fenString: state.chess.game.fenString,
-	orientation: state.chess.game.players.white === state.user.id ? 'white' : 'black',
+	orientation:
+		state.chess.game.players.white === state.user.id ? 'white' : 'black',
 }))(ChessBoard)
