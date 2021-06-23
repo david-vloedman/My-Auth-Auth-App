@@ -87,6 +87,8 @@ export const createMatchState = (match, players, mid, userId) => {
 			players,
 		},
 		player: {
+			id: userId,
+			color: players.white === userId ? 'white' : 'black',
 			availableMoves: isPlayersTurn(match, userId, players)
 				? match.moves()
 				: [],
@@ -101,7 +103,7 @@ export const createNewMatchObj = (uid, fid) => {
 	players.white = flipCoin() ? uid : fid
 	// set the black player to whichever is not white
 	players.black = players.white === uid ? fid : uid
-	
+
 	return { match: newMatch, players }
 }
 
