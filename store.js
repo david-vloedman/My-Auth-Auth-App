@@ -35,3 +35,4 @@ export function initStore(initialState) {
 	return store
 	// return createStore(reducers, initialState, composeEnhancers(applyMiddleware(thunk)))
 }
+

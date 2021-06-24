@@ -46,8 +46,7 @@ const userReducer = {
 	},
 	unsetUser(state, action) {
 		return {
-			...state,
-			user: undefined,
+			
 		}
 	},
 
@@ -81,7 +80,8 @@ const userReducer = {
 
 	logout(state, action) {
 		return {
-			undefined
+			...state,
+			user: {}
 		}
 	},
 

@@ -1,13 +1,15 @@
 import axios from 'axios'
-import { setUser, loggedIn, loggedOut } from 'redux/reducers'
+import { setUser, loggedIn, loggedOut, unsetUser } from 'redux/reducers'
 const logoutUrl = '/api/session/logout'
 const loginUrl = '/api/session/login'
 
 export const logout = async (dispatch, router) => {
 	try {
 		const response = await axios.get(logoutUrl)
-		router.push('/')
 		dispatch(loggedOut())
+		dispatch(unsetUser())
+		router.push('/')
+		
 		
 		return true
 	} catch (error) {
