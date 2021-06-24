@@ -8,12 +8,14 @@ import {
 } from 'server_lib/helpers/chess/chess'
 
 export default withSession(async (req, res) => {
-	const { matchId, move } = req.query
+	
+	const { matchId } = req.query
+	const { move } = req.body
 	// TODO uncomment when don
 	// const sessionUser = req.session.get('user')
 
 	// if (!sessionUser) return res.status(403)
-
+	
 	try {
 		const { db } = await connectToDatabase()
 
@@ -21,13 +23,13 @@ export default withSession(async (req, res) => {
 
 		if (!matchDoc) return res.status(404)
 
-		const afterMoveFen = makeMove(move, matchDoc, '')
-
-		if (afterMoveFen) {
+		const afterMoveMatch = makeMove(move, matchDoc, '')
+		
+		if (afterMoveMatch) {
 			const updateMatchSuccess = await updateMatchDocument(
 				db,
 				matchId,
-				afterMoveFen
+				afterMoveMatch.fen()
 			)
 
 			if (updateMatchSuccess) {
@@ -40,7 +42,7 @@ export default withSession(async (req, res) => {
 			}
 		}
 
-		if (!afterMoveFen) {
+		if (!afterMoveMatch) {
 			res.json({
 				hasError: true,
 				message: 'Illegal Move',

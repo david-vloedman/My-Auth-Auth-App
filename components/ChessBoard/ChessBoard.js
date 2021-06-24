@@ -9,18 +9,18 @@ import {
 	onDragStart
 } from 'client_lib/helpers/chess/chessboard'
 
-export function ChessBoard({ fenString, orientation }) {
+export function ChessBoard({ matchState, orientation, dispatch }) {
 	const Chessboard = dynamic(() => import('chessboardjsx'), { ssr: false })
 
 	return (
 		<Box id='chessBoard' ml={'auto'} mr={'auto'}>
 			<Chessboard
 				width={340}
-				position={fenString}
+				position={matchState.game.fenString}
 				orientation={orientation}
 				onMoveEnd={onMoveEnd}
 				onDragMove={onDragMove}
-				onDrop={onDrop}
+				onDrop={onDrop(dispatch, matchState)}
 				onSquareClick={onSquareClick}
 				onDragStart={onDragStart}
 			/>
@@ -29,7 +29,7 @@ export function ChessBoard({ fenString, orientation }) {
 }
 
 export default connect((state) => ({
-	fenString: state.chess.game.fenString,
+	matchState: state.chess,
 	orientation:
 		state.chess.player.color
 }))(ChessBoard)

@@ -48,7 +48,7 @@ export const makeMove = (move, matchDoc, sessionUser) => {
 	// TODO uncomment this check when done testing the API
 	// if(isPlayersTurn(match, sessionUser, matchDoc.players)){
 	const moveObj = match.move(move)
-	return moveObj ? match.fen() : null
+	return moveObj ? match : null
 	// }
 }
 /**
@@ -164,6 +164,7 @@ export const updateMatchDocument = async (db, mid, newFen) => {
  * @param {*} mid
  */
 export const findMatchDocument = async (db, mid) => {
+	console.log(mid)
 	try {
 		const dbResponse = await db
 			.collection(matchCollectionString)

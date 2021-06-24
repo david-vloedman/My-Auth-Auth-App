@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Chess } from 'chess.js'
+import Chess from 'chess.js'
 import { gameLoaded, gameError } from 'redux/chessSlice/chessSlice'
 import { createMatchState } from 'server_lib/helpers/chess/chess'
 
@@ -53,24 +53,28 @@ export const loadMatchIntoState = (dispatch, matchState) => {
 }
 
 const validateMove = (fenString, move) => {
-	const match = Chess(fenString)
+	const match = new Chess(fenString)
 	match.move(move)
 	return match
 }
 
-export const makeMove = async (dispatch, move, matchId, matchState) => {
+export const makeMove = async (dispatch, move, matchState) => {
+	console.log(move)
 	const updatedMatch = validateMove(matchState.fenString, move)
-
+	
 	const updatedMatchState = createMatchState(
 		updatedMatch,
-		matchState.players,
-		matchId,
+		matchState.game.players,
+		matchState.game.matchId,
 		matchState.player.id
 	)
-	dispatch(loadMatchIntoState(updatedMatchState ))
-	if (newFen !== fenString) {
+	loadMatchIntoState(dispatch, updatedMatchState)
+
+	console.log(matchState.game.fenString === updatedMatch.fen())
+	if (updatedMatch.fen() !== matchState.game.fenString) {
 		try {
-			await requestPlayerMove(dispatch, move, matchId)
+			const response = await requestPlayerMove(dispatch, move, matchState.game.matchId)
+			console.log(response)
 		} catch (error) {
 			console.error(error)
 		}
