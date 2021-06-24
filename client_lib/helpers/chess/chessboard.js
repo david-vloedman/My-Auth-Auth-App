@@ -1,6 +1,4 @@
-export const onDragStart = (source, piece, position, orientation) => (
-	match
-) => {}
+export const onDragStart = (source, piece, position, orientation) => {console.log('test')}
 
 export const onDragMove = (
 	newLocation,
@@ -18,5 +16,7 @@ export const onDrop = (source, target, piece, newPos, oldPos, orientation) => (
 export const onMoveEnd = (oldPos, newPos) => (match) => {}
 
 
-export const onSquareClick = (square) => {}
+export const onSquareClick = (square) => {
+	console.log(square)
+}
 
