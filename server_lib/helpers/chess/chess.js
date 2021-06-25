@@ -138,6 +138,7 @@ export const insertNewMatchDocument = async (db, fenString, players) => {
 		const dbResponse = await db.collection(matchCollectionString).insertOne({
 			fenString,
 			players,
+			startedOn: new Date().toDateString()
 		})
 
 		return dbResponse.insertedId

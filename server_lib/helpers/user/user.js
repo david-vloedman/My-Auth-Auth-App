@@ -122,26 +122,33 @@ export const getUserFriends = async (user, userCollection) => {
 
 /**
  * Gets the matches attached to the current user
- * @param {*} db 
- * @param {*} userId 
- * @returns 
+ * @param {*} db
+ * @param {*} userId
+ * @returns
  */
 export const getUserChessMatches = async (db, userId) => {
 	try {
-		
 		const userMatches = await db
 			.collection('chessMatches')
 			.find({
 				$or: [
 					{
-						'players.white': `${userId}`,
+						'players.white._id': ObjectId(userId),
 					},
-					{ 'players.black': `${userId}` },
+					{ 'players.black._id': ObjectId(userId) },
 				],
 			})
 			.toArray()
 
-		return userMatches
+		const mapped = userMatches.map((m) => ({
+			...m,
+			opponent:
+				m.players.white._id === userId
+					? m.players?.black?.userName
+					: m.players?.white?.userName,
+		}))
+
+		return mapped
 	} catch (error) {
 		console.error(error)
 	}

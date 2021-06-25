@@ -16,14 +16,11 @@ import NewMatchButton from 'components/buttons/NewMatchButton/NewMatchButton'
 
 function FriendsList({
 	friendsList,
-	onRemoveFriend,
 	existingConversations,
 	dispatch,
 }) {
 	const MainList = (props) => {
 		const { friends } = props
-
-		
 
 		return (
 			<List>
@@ -38,8 +35,7 @@ function FriendsList({
 								secondary={friend.name ? friend.name : null}
 							/>
 							<ListItemSecondaryAction>
-								
-									<RemoveUserButton friend={friend}/>
+								<RemoveUserButton friend={friend} />
 								<NewMatchButton friendId={friend._id} />
 								<IconButton
 									onClick={() =>
