@@ -9,11 +9,11 @@ export const getUserState = async (uid) => {
 	try {
 		const { db } = await connectToDatabase()
 		const user = await getUser(db, uid)
-		console.log(uid)
 		const conversations = await getUserConversations(db, uid)
 		const friends = await getUserFriends(user, db.collection('users'))
-
-		return {...user, friends, conversations} 
+		const chessMatches = await getUserChessMatches(db, uid)
+		console.log(chessMatches)
+		return { ...user, friends, conversations, chessMatches }
 	} catch (error) {
 		console.error(error, new Error().stack)
 	}
@@ -115,7 +115,34 @@ export const getUserFriends = async (user, userCollection) => {
 
 		return friends
 	} catch (error) {
-		console.error(error, "CAUGHT")
+		console.error(error)
 		return []
+	}
+}
+
+/**
+ * Gets the matches attached to the current user
+ * @param {*} db 
+ * @param {*} userId 
+ * @returns 
+ */
+export const getUserChessMatches = async (db, userId) => {
+	try {
+		
+		const userMatches = await db
+			.collection('chessMatches')
+			.find({
+				$or: [
+					{
+						'players.white': `${userId}`,
+					},
+					{ 'players.black': `${userId}` },
+				],
+			})
+			.toArray()
+
+		return userMatches
+	} catch (error) {
+		console.error(error)
 	}
 }
