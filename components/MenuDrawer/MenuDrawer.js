@@ -30,7 +30,11 @@ export function MenuDrawer({ showDrawer, dispatch, toggleDrawer }) {
 						<ListItemText primary='My Friends' />
 					</ListItem>
 				</Link>
-
+				<Link href='/myMatches'>
+					<ListItem key='myMatches' button>
+						<ListItemText primary='My Matches' />
+					</ListItem>
+				</Link>
 				<Link href='/users/search'>
 					<ListItem key='findFriends' button>
 						<ListItemIcon>
