@@ -13,7 +13,7 @@ export const onDragMove = (
 
 export const onDrop = (dispatch, matchState) => (source, target, piece, newPos, oldPos, orientation) => {
 	console.log(source)
-	const result = makeMove(dispatch, source.targetSquare,  matchState)
+	const result = makeMove(dispatch, {to: source.targetSquare, from: source.sourceSquare},  matchState)
 }
 
 

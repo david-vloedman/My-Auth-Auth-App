@@ -40,9 +40,9 @@ export const requestPlayerMove = async (dispatch, move, matchId) => {
 			move: move,
 		})
 
-		if (data.hasError) return
-
+		if (data.hasError) return false
 		loadMatchIntoState(dispatch, data)
+		return true
 	} catch (error) {
 		console.error(error)
 	}
@@ -54,26 +54,32 @@ export const loadMatchIntoState = (dispatch, matchState) => {
 
 const validateMove = (fenString, move) => {
 	const match = new Chess(fenString)
-	match.move(move)
-	return match
+
+	const moveObj = match.move(move)
+	console.log(moveObj)
+	return moveObj !== null ? match : null
 }
 
 export const makeMove = async (dispatch, move, matchState) => {
-	console.log(move)
-	const updatedMatch = validateMove(matchState.fenString, move)
 	
-	const updatedMatchState = createMatchState(
-		updatedMatch,
-		matchState.game.players,
-		matchState.game.matchId,
-		matchState.player.id
-	)
-	loadMatchIntoState(dispatch, updatedMatchState)
+	const updatedMatch = validateMove(matchState.game.fenString, move)
+	console.log(updatedMatch)
+	if (updatedMatch) {
+		const updatedMatchState = createMatchState(
+			updatedMatch,
+			matchState.game.players,
+			matchState.game.matchId,
+			matchState.player.id
+		)
 
-	console.log(matchState.game.fenString === updatedMatch.fen())
-	if (updatedMatch.fen() !== matchState.game.fenString) {
+		loadMatchIntoState(dispatch, updatedMatchState)
+
 		try {
-			const response = await requestPlayerMove(dispatch, move, matchState.game.matchId)
+			const response = await requestPlayerMove(
+				dispatch,
+				move,
+				matchState.game.matchId
+			)
 			console.log(response)
 		} catch (error) {
 			console.error(error)

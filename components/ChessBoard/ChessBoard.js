@@ -10,6 +10,7 @@ import {
 } from 'client_lib/helpers/chess/chessboard'
 
 export function ChessBoard({ matchState, orientation, dispatch }) {
+	
 	const Chessboard = dynamic(() => import('chessboardjsx'), { ssr: false })
 
 	return (

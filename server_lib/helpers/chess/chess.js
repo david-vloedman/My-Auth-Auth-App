@@ -9,9 +9,12 @@ const matchCollectionString = 'chessMatches'
  * @returns
  */
 export const initializeGame = async (db, uid, fid, whitePlayer) => {
-	const { match, players } = createNewMatchObj(uid, fid)
-
 	try {
+		const playersObj = await createPlayersObj(db, uid, fid)
+		const { match, players } = createNewMatchObj(
+			playersObj.user,
+			playersObj.friend
+		)
 		const matchId = await insertNewMatchDocument(db, match.fen(), players)
 		if (matchId) {
 			const matchState = createMatchState(match, players, matchId)
@@ -23,6 +26,22 @@ export const initializeGame = async (db, uid, fid, whitePlayer) => {
 	}
 
 	return null
+}
+
+const createPlayersObj = async (db, uid, fid) => {
+	try {
+		const user = await db
+			.collection('users')
+			.findOne(ObjectID(uid), { projection: { userName: 1, rank: 1, _id: 1 } })
+
+		const friend = await db
+			.collection('users')
+			.findOne(ObjectID(fid), { projection: { userName: 1, rank: 1, _id: 1 } })
+
+		return { user: user, friend: friend }
+	} catch (error) {
+		console.error(error)
+	}
 }
 
 export const loadExistingGame = async (db, mid) => {
@@ -101,7 +120,7 @@ export const createNewMatchObj = (uid, fid) => {
 	players.white = flipCoin() ? uid : fid
 	// set the black player to whichever is not white
 	players.black = players.white === uid ? fid : uid
-	
+
 	return { match: newMatch, players }
 }
 
@@ -150,7 +169,7 @@ export const updateMatchDocument = async (db, mid, newFen) => {
 				},
 			}
 		)
-		console.log(dbResponse)
+		
 		return dbResponse?.result?.n === 1
 	} catch (error) {
 		console.error(error)
@@ -164,7 +183,7 @@ export const updateMatchDocument = async (db, mid, newFen) => {
  * @param {*} mid
  */
 export const findMatchDocument = async (db, mid) => {
-	console.log(mid)
+	
 	try {
 		const dbResponse = await db
 			.collection(matchCollectionString)
