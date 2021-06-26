@@ -9,7 +9,6 @@ const matchCollectionString = 'chessMatches'
  * @returns
  */
 export const initializeGame = async (db, uid, fid, whitePlayer) => {
-
 	try {
 		const playersObj = await createPlayersObj(db, uid, fid)
 		const { match, players } = createNewMatchObj(
@@ -65,11 +64,11 @@ export const loadExistingGame = async (db, mid, userId) => {
  */
 export const makeMove = (move, matchDoc, sessionUser) => {
 	const match = new Chess(matchDoc.fenString)
-	// TODO uncomment this check when done testing the API
-	// if(isPlayersTurn(match, sessionUser, matchDoc.players)){
-	const moveObj = match.move(move)
-	return moveObj ? match : null
-	// }
+	
+	if (isPlayersTurn(match, sessionUser, matchDoc.players)) {
+		const moveObj = match.move(move)
+		return moveObj ? match : null
+	}
 }
 /**
  * Verifies that the move being made is by the correct player
@@ -81,10 +80,10 @@ export const makeMove = (move, matchDoc, sessionUser) => {
 const isPlayersTurn = (match, userId, players) => {
 	const turn = match.turn()
 	if (turn === 'b') {
-		return players.black === userId
+		return `${players.black._id}` === userId
 	}
 
-	return players.white === userId
+	return `${players.white._id}` === userId
 }
 /**
  * Creates a match state object
@@ -94,7 +93,6 @@ const isPlayersTurn = (match, userId, players) => {
  * @returns
  */
 export const createMatchState = (match, players, mid, userId) => {
-
 	return {
 		game: {
 			matchId: mid,
@@ -125,7 +123,7 @@ export const createNewMatchObj = (uid, fid) => {
 }
 
 const flipCoin = () => {
-	return Math.floor((Math.random() * 2) + 1) === 1
+	return Math.floor(Math.random() * 2 + 1) === 1
 }
 
 /**

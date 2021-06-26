@@ -23,7 +23,7 @@ export default withSession(async (req, res) => {
 
 		if (!matchDoc) return res.status(404)
 
-		const afterMoveMatch = makeMove(move, matchDoc, '')
+		const afterMoveMatch = makeMove(move, matchDoc, sessionUser._id)
 		
 		if (afterMoveMatch) {
 			const updateMatchSuccess = await updateMatchDocument(
