@@ -41,7 +41,6 @@ export const requestPlayerMove = async (dispatch, move, matchId) => {
 		})
 
 		if (data.hasError) return false
-		loadMatchIntoState(dispatch, data)
 		return true
 	} catch (error) {
 		console.error(error)
@@ -63,7 +62,7 @@ const validateMove = (fenString, move) => {
 export const makeMove = async (dispatch, move, matchState) => {
 	
 	const updatedMatch = validateMove(matchState.game.fenString, move)
-	console.log(updatedMatch)
+	
 	if (updatedMatch) {
 		const updatedMatchState = createMatchState(
 			updatedMatch,

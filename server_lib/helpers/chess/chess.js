@@ -106,9 +106,7 @@ export const createMatchState = (match, players, mid, userId) => {
 			players,
 		},
 		player: {
-			availableMoves: isPlayersTurn(match, userId, players)
-				? match.moves()
-				: [],
+			color: players.white._id === userId ? 'white' : 'black',
 		},
 	}
 }
@@ -138,7 +136,7 @@ export const insertNewMatchDocument = async (db, fenString, players) => {
 		const dbResponse = await db.collection(matchCollectionString).insertOne({
 			fenString,
 			players,
-			startedOn: new Date().toDateString()
+			startedOn: new Date().toDateString(),
 		})
 
 		return dbResponse.insertedId
@@ -170,7 +168,7 @@ export const updateMatchDocument = async (db, mid, newFen) => {
 				},
 			}
 		)
-		
+
 		return dbResponse?.result?.n === 1
 	} catch (error) {
 		console.error(error)
@@ -184,7 +182,6 @@ export const updateMatchDocument = async (db, mid, newFen) => {
  * @param {*} mid
  */
 export const findMatchDocument = async (db, mid) => {
-	
 	try {
 		const dbResponse = await db
 			.collection(matchCollectionString)
