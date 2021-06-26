@@ -51,17 +51,19 @@ export const loadMatchIntoState = (dispatch, matchState) => {
 	dispatch(gameLoaded(matchState))
 }
 
-const validateMove = (fenString, move) => {
+const validateMove = (fenString, move, userColor) => {
 	const match = new Chess(fenString)
-
-	const moveObj = match.move(move)
-	console.log(moveObj)
-	return moveObj !== null ? match : null
+	console.log(userColor[0])
+	if(match.turn() === userColor[0]){
+		const moveObj = match.move(move)
+		return moveObj !== null ? match : null
+	}
+	return null
 }
 
 export const makeMove = async (dispatch, move, matchState, userId) => {
 	
-	const updatedMatch = validateMove(matchState.game.fenString, move)
+	const updatedMatch = validateMove(matchState.game.fenString, move, matchState.player.color)
 	
 	if (updatedMatch) {
 		const updatedMatchState = createMatchState(
