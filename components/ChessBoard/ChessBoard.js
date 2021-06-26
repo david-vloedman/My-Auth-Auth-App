@@ -6,11 +6,10 @@ import {
 	onDragMove,
 	onDrop,
 	onSquareClick,
-	onDragStart
+	onDragStart,
 } from 'client_lib/helpers/chess/chessboard'
 
-export function ChessBoard({ matchState, orientation, dispatch }) {
-	
+export function ChessBoard({ matchState, orientation, dispatch, userId }) {
 	const Chessboard = dynamic(() => import('chessboardjsx'), { ssr: false })
 
 	return (
@@ -21,7 +20,7 @@ export function ChessBoard({ matchState, orientation, dispatch }) {
 				orientation={orientation}
 				onMoveEnd={onMoveEnd}
 				onDragMove={onDragMove}
-				onDrop={onDrop(dispatch, matchState)}
+				onDrop={onDrop(dispatch, matchState, userId)}
 				onSquareClick={onSquareClick}
 				onDragStart={onDragStart}
 			/>
@@ -31,6 +30,6 @@ export function ChessBoard({ matchState, orientation, dispatch }) {
 
 export default connect((state) => ({
 	matchState: state.chess,
-	orientation:
-		state.chess.player.color
+	orientation: state.chess.player.color,
+	userId: state.user._id,
 }))(ChessBoard)

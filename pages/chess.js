@@ -23,6 +23,18 @@ export function chess({ dispatch, matchState }) {
 export default connect(() => ({}))(chess)
 
 export const getServerSideProps = withSession(async ({ req, query }) => {
+
+	const sessionUser = req.session.get('user')
+
+	if(!sessionUser){
+		return {
+			redirect: {
+				destination: '/login',
+				permanent: false
+			}
+		}
+	}
+
 	try {
 		const { mid } = query
 		const { db } = await connectToDatabase()
@@ -30,9 +42,10 @@ export const getServerSideProps = withSession(async ({ req, query }) => {
 		// for some reason the JSON obj must be stringified and then parsed
 		// to avoid NextJS complaining about object format
 		const matchState = JSON.parse(
-			JSON.stringify(await loadExistingGame(db, mid))
+			JSON.stringify(await loadExistingGame(db, mid, sessionUser._id))
 		)
-		const sessionUser = req.session.get('user')
+		
+		console.log(matchState)
 
 		if (!sessionUser || !mid) {
 			return {

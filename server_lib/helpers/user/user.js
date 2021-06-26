@@ -128,6 +128,7 @@ export const getUserFriends = async (user, userCollection) => {
  */
 export const getUserChessMatches = async (db, userId) => {
 	try {
+		
 		const userMatches = await db
 			.collection('chessMatches')
 			.find({
@@ -139,15 +140,16 @@ export const getUserChessMatches = async (db, userId) => {
 				],
 			})
 			.toArray()
-
+		
 		const mapped = userMatches.map((m) => ({
 			...m,
 			opponent:
-				m.players.white._id === userId
+				`${m.players.white._id}`=== userId
 					? m.players?.black?.userName
 					: m.players?.white?.userName,
 		}))
 
+		console.log(mapped)
 		return mapped
 	} catch (error) {
 		console.error(error)

@@ -11,9 +11,9 @@ export const onDragMove = (
 	orientation
 ) => (match) => {}
 
-export const onDrop = (dispatch, matchState) => (source, target, piece, newPos, oldPos, orientation) => {
+export const onDrop = (dispatch, matchState, userId) => (source, target, piece, newPos, oldPos, orientation) => {
 	console.log(source)
-	const result = makeMove(dispatch, {to: source.targetSquare, from: source.sourceSquare},  matchState)
+	const result = makeMove(dispatch, {to: source.targetSquare, from: source.sourceSquare},  matchState, userId)
 }
 
 

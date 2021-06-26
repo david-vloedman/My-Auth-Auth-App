@@ -9,6 +9,7 @@ const matchCollectionString = 'chessMatches'
  * @returns
  */
 export const initializeGame = async (db, uid, fid, whitePlayer) => {
+
 	try {
 		const playersObj = await createPlayersObj(db, uid, fid)
 		const { match, players } = createNewMatchObj(
@@ -44,13 +45,13 @@ const createPlayersObj = async (db, uid, fid) => {
 	}
 }
 
-export const loadExistingGame = async (db, mid) => {
+export const loadExistingGame = async (db, mid, userId) => {
 	try {
 		const matchDoc = await findMatchDocument(db, mid)
 
 		const match = new Chess(matchDoc.fenString)
 
-		return createMatchState(match, matchDoc.players, matchDoc._id)
+		return createMatchState(match, matchDoc.players, matchDoc._id, userId)
 	} catch (error) {
 		console.error(error)
 	}
@@ -93,6 +94,7 @@ const isPlayersTurn = (match, userId, players) => {
  * @returns
  */
 export const createMatchState = (match, players, mid, userId) => {
+
 	return {
 		game: {
 			matchId: mid,
@@ -106,7 +108,7 @@ export const createMatchState = (match, players, mid, userId) => {
 			players,
 		},
 		player: {
-			color: players.white._id === userId ? 'white' : 'black',
+			color: `${players.white._id}` === userId ? 'white' : 'black',
 		},
 	}
 }
@@ -123,7 +125,7 @@ export const createNewMatchObj = (uid, fid) => {
 }
 
 const flipCoin = () => {
-	return Math.random() % 2 === 0
+	return Math.floor((Math.random() * 2) + 1) === 1
 }
 
 /**

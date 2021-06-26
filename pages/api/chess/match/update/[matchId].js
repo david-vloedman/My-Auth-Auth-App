@@ -11,10 +11,10 @@ export default withSession(async (req, res) => {
 	
 	const { matchId } = req.query
 	const { move } = req.body
-	// TODO uncomment when done
-	// const sessionUser = req.session.get('user')
+	
+	const sessionUser = req.session.get('user')
 
-	// if (!sessionUser) return res.status(403)
+	if (!sessionUser) return res.status(403)
 	
 	try {
 		const { db } = await connectToDatabase()
@@ -36,7 +36,8 @@ export default withSession(async (req, res) => {
 				const newMatchState = createMatchState(
 					afterMoveMatch,
 					matchDoc.players,
-					matchId
+					matchId,
+					sessionUser._id
 				)
 				return res.status(200).json(newMatchState)
 			}

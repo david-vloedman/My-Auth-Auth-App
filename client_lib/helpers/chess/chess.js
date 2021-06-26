@@ -59,7 +59,7 @@ const validateMove = (fenString, move) => {
 	return moveObj !== null ? match : null
 }
 
-export const makeMove = async (dispatch, move, matchState) => {
+export const makeMove = async (dispatch, move, matchState, userId) => {
 	
 	const updatedMatch = validateMove(matchState.game.fenString, move)
 	
@@ -68,7 +68,7 @@ export const makeMove = async (dispatch, move, matchState) => {
 			updatedMatch,
 			matchState.game.players,
 			matchState.game.matchId,
-			matchState.player.id
+			userId
 		)
 
 		loadMatchIntoState(dispatch, updatedMatchState)
