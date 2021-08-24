@@ -23,7 +23,7 @@ export default withSession(async (req, res) => {
 		const user = await usersCollection.findOne(ObjectId(sessionUser._id))
 		const friend = await usersCollection.findOne(ObjectId(uid))
 		// check to see if the current user is friends with the given UID, if not, nothing to remove
-		if(!user.friends?.includes(uid)) return Responses.notFound(res, 'Friend not found')
+		if(!user.friends?.some(fri => fri == uid)) return Responses.notFound(res, 'Friend not found')
 		
 		const updatedList = user?.friends?.filter((f) => f !== uid)
 		
@@ -31,15 +31,13 @@ export default withSession(async (req, res) => {
 			$set: { friends: [...updatedList] },
 		})
 
-				// if document was updated, retrieve updated user doc and update the session
-		const updatedUser = await getAppState(user._id)
 		
-		updateResult.result.nModified === 0
+		
+		updateResult.result.n === 0
 			? Responses.serverError(res, 'Failed to remove friend')
 			: Responses.ok(
 				res,
-				`${friend.userName} has been removed from your friends`,
-				 {...updatedUser})
+				`${friend.userName} has been removed from your friends`,)
 
 	} catch (error) {
 		// todo logging

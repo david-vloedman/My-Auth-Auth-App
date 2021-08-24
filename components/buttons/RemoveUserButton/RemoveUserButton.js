@@ -1,47 +1,20 @@
 import IconButton from '@material-ui/core/IconButton'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import DeleteIcon from '@material-ui/icons/Delete'
-import axios from 'axios'
+import { connect } from 'react-redux'
 import { useState } from 'react'
+import {removeFriend} from 'client_lib/helpers/friends/friends'
 
-const url = (uid) => `/api/friends/removeFriend/${uid}`
-
-export default function RemoveUserButton(props) {
-	const { onRemoveFriend, friend } = props
+function RemoveUserButton({friend, dispatch }) {
 
 	const [request, setRequest] = useState({
 		loading: false,
 		error: false,
 	})
 
-	const onClick = async () => {
-		try {
-			setRequest({
-				loading: true,
-				error: false,
-			})
-
-			const response = await axios.post(url(friend._id))
-			console.log(response)
-			setRequest({
-				loading: false,
-				error: false,
-				success: true,
-			})
-
-			onRemoveFriend(response.data?.data)
-		} catch (error) {
-			console.error(error)
-			setRequest({
-				loading: false,
-				error: true,
-			})
-		}
-	}
-
 	return (
 		<>
-			<IconButton onClick={onClick}>
+			<IconButton onClick={() => removeFriend(dispatch, friend._id, setRequest)}>
 				{request.loading ? (
 					<CircularProgress />
 				) : (
@@ -51,3 +24,9 @@ export default function RemoveUserButton(props) {
 		</>
 	)
 }
+
+const mapStateToProps = (state, ownProps) => ({
+	...ownProps,
+})
+
+export default connect(mapStateToProps)(RemoveUserButton)

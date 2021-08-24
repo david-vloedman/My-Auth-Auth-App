@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import { conversationReducer } from './conversation'
 import { chessReducer } from 'redux/chessSlice/chessSlice'
 import { viewMessageDialogReducer } from './viewMessageDialog'
+import {snackbarReducer} from 'redux/snackbar'
 
 const layoutReducer = {
 	loggedIn(state, payload){
@@ -54,14 +55,14 @@ const userReducer = {
 	friendAdded(state, action) {
 		return {
 			...state,
-			...action.payload,
+			friends: [...state.friends, action.payload]
 		}
 	},
 
 	friendRemoved(state, action) {
 		return {
 			...state,
-			friends: [...state.friends.filter((fri) => fri._id !== action.payload)],
+			friends: [...state.friends.filter((fri) => fri._id != action.payload)],
 		}
 	},
 	receivedMessageDeleted(state, action) {
@@ -118,6 +119,7 @@ const reducers = combineReducers({
 	viewMessageDialog: viewMessageDialogReducer,
 	conversation: conversationReducer,
 	chess: chessReducer,
+	snackBar: snackbarReducer
 })
 
 export default reducers

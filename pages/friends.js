@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import withSession from '../client_lib/withSession'
 import FriendsContainer from '../components/containers/FriendsContainer/FriendsContainer'
+import SnackBar from 'components/SnackBar/SnackBar'
+
 
 export default function friends(props) {
 	return (
@@ -8,6 +10,7 @@ export default function friends(props) {
 			<Head>
 				<title>My Friends</title>
 			</Head>
+			<SnackBar />
 			<FriendsContainer />
 		</div>
 	)

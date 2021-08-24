@@ -6,19 +6,17 @@ import AppBar from '../AppBar/AppBar'
 import { toggleDrawer } from 'client_lib/helpers/layout/layout.js'
 import { logout } from 'client_lib/helpers/user/user'
 import { connect } from 'react-redux'
+import SnackBar from 'components/SnackBar/SnackBar.js'
 
 export function Layout({ loggedIn, showDrawer, children, dispatch }) {
-	// //if there is no user in redux state, set it to the state given by the server
-	// if (Object.keys(reduxUser).length === 0 && Object.keys(user).length > 0) {
-	// 	dispatch(Actions.setUser(user))
-	// 	dispatch(Actions.toggleLoggedIn())
-	// }
 
 	return (
 		<>
+		
 			<AppBar toggleDrawer={() => toggleDrawer(dispatch)} loggedIn={loggedIn} />
 			<StyledContainer>
 				<CssBaseLine />
+				
 				{loggedIn ? (
 					<MenuDrawer
 						open={showDrawer}
@@ -27,9 +25,10 @@ export function Layout({ loggedIn, showDrawer, children, dispatch }) {
 						logout={() => logout(dispatch)}
 					/>
 				) : null}
-
 				{children}
+				
 			</StyledContainer>
+			<SnackBar />
 		</>
 	)
 }

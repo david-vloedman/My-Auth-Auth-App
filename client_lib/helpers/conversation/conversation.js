@@ -252,7 +252,7 @@ export const openConversation = async (
 				recipientUserName
 			))
 		
-		// if the conversation 
+		
 		const conversation =
 			Object.keys(foundConversation).length === 0
 				? await requestNewConversation(recipientId)

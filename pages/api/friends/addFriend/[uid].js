@@ -8,7 +8,7 @@ export default withSession(async (req, res) => {
 	const {
 		query: { uid },
 	} = req
-	
+
 	// get the current user
 	const sessionUser = req.session.get('user')
 	// check the session, if no session, return forbidden
@@ -22,25 +22,38 @@ export default withSession(async (req, res) => {
 		const user = await usersCollection.findOne(ObjectId(sessionUser._id))
 
 		// if the users friends already include the friend, respond accordingly
-		if (user.friends?.includes(uid)) return Responses.ok(res, 'Already friends')
+		if (user.friends?.some((fri) => fri == uid))
+			return Responses.noContent(res, 'Already friends')
 
 		// try to find user specified by given UID
-		const friend = await usersCollection.findOne(ObjectId(uid))
+		const results = await usersCollection
+			.find(ObjectId(uid))
+			?.project({
+				userName: 1,
+				_id: 1,
+				name: 1,
+			})
+			?.toArray()
+
+		const friend = results.pop()
+
 		// no friend exists, return error
 		if (!friend) return Responses.serverError(res, 'Failed to add friend')
 
 		// try to add friend to current user
 		const updateResult = await usersCollection.updateOne(
 			{ _id: ObjectId(sessionUser._id) },
-			{ $push: { friends: friend._id.toString() } }
+			{ $push: { friends: friend._id } }
 		)
 		// if document was updated, retrieve updated user doc and update the session
 		if (updateResult.result.nModified === 1) {
-			const updatedUser = await getAppState(user._id)
-
 			updateResult.result.nModified === 0
 				? Responses.serverError(res, 'Failed to add friend')
-				: Responses.ok(res, `${friend.userName} has been added to your friends`, {...updatedUser})
+				: Responses.ok(
+						res,
+						`${friend.userName} has been added to your friends`,
+						{ ...friend }
+				  )
 		}
 	} catch (error) {
 		// todo logging
