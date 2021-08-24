@@ -25,7 +25,27 @@ const reducer = {
         error: action.payload
       }
     }
-  }
+  },
+
+	startMatchPolling(state, action){
+		return {
+			...state,
+			game: {
+				...state.game,
+				pollId: action.payload
+			}
+		}
+	},
+
+	endMatchPolling(state, action){
+		return {
+			...state, 
+			game: {
+				...state.game,
+				pollId: undefined
+			}
+		}
+	}
 }
 
 const chessGame = createSlice({
