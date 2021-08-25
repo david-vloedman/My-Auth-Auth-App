@@ -44,8 +44,6 @@ export const getServerSideProps = withSession(async ({ req, query }) => {
 		const matchState = JSON.parse(
 			JSON.stringify(await loadExistingGame(db, mid, sessionUser._id))
 		)
-		
-		console.log(matchState)
 
 		if (!sessionUser || !mid) {
 			return {

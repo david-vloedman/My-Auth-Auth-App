@@ -68,7 +68,7 @@ export const createConversation = async (
  */
 export const requestNewConversation = async (recipientId) => {
 	const url = `/api/conversations/create/${recipientId}`
-	console.log('new')
+	
 	try {
 		const response = await axios.post(url)
 

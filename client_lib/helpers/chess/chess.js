@@ -2,6 +2,7 @@ import axios from 'axios'
 import Chess from 'chess.js'
 import { gameLoaded, gameError } from 'redux/chessSlice/chessSlice'
 import { createMatchState } from 'server_lib/helpers/chess/chess'
+import { startMatchPolling, endMatchPolling} from 'client_lib/helpers/chess/matchPolling'
 
 /**
  * Start the match
@@ -48,10 +49,13 @@ export const requestPlayerMove = async (dispatch, move, matchId) => {
 }
 
 export const loadMatchIntoState = (dispatch, matchState) => {
+	console.log(matchState.game.matchId)
+	startMatchPolling(dispatch, requestMatch, matchState.game.matchId)
 	dispatch(gameLoaded(matchState))
+	
 }
 
-const validateMove = (fenString, move, userColor) => {
+const updateMatch = (fenString, move, userColor) => {
 	const match = new Chess(fenString)
 
 	if (match.turn() === userColor[0]) {
@@ -62,7 +66,7 @@ const validateMove = (fenString, move, userColor) => {
 }
 
 export const makeMove = async (dispatch, move, matchState, userId) => {
-	const updatedMatch = validateMove(
+	const updatedMatch = updateMatch(
 		matchState.game.fenString,
 		move,
 		matchState.player.color
@@ -84,9 +88,19 @@ export const makeMove = async (dispatch, move, matchState, userId) => {
 				move,
 				matchState.game.matchId
 			)
-			console.log(response)
 		} catch (error) {
 			console.error(error)
 		}
+	}
+}
+
+export const requestMatch = async (dispatch, mid) => {
+	try {
+		console.log(mid)
+		const response = await axios.get(`/api/chess/match/get/${mid}`,)
+		
+		return response?.data
+	} catch (error) {
+		console.error(error)
 	}
 }

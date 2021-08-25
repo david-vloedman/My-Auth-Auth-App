@@ -4,10 +4,15 @@ const reducer = {
 	gameLoaded(state, action) {
 		return {
 			game: action.payload.game,
-			player: action.payload.player
+			player: action.payload.player,
 		}
 	},
-
+	gameUpdated(state, action) {
+		return {
+			...state,
+			game: action.payload.game,
+		}
+	},
 	setAvailableMoves(state, action) {
 		return {
 			...state,
@@ -17,35 +22,35 @@ const reducer = {
 			},
 		}
 	},
-  gameError(state, action){
-    return {
-      ...state,
-      game: {
-        ...state.game,
-        error: action.payload
-      }
-    }
-  },
-
-	startMatchPolling(state, action){
+	gameError(state, action) {
 		return {
 			...state,
 			game: {
 				...state.game,
-				pollId: action.payload
-			}
+				error: action.payload,
+			},
 		}
 	},
 
-	endMatchPolling(state, action){
+	updateLoopStarted(state, action) {
 		return {
-			...state, 
+			...state,
 			game: {
 				...state.game,
-				pollId: undefined
-			}
+				pollId: action.payload,
+			},
 		}
-	}
+	},
+
+	updateLoopTerminated(state, action) {
+		return {
+			...state,
+			game: {
+				...state.game,
+				pollId: undefined,
+			},
+		}
+	},
 }
 
 const chessGame = createSlice({
@@ -67,4 +72,11 @@ const chessGame = createSlice({
 
 export const chessReducer = chessGame.reducer
 
-export const { gameLoaded, setAvailableMoves, gameError } = chessGame.actions
+export const {
+	gameLoaded,
+	setAvailableMoves,
+	gameError,
+	updateLoopStarted,
+	updateLoopTerminated,
+	gameUpdated,
+} = chessGame.actions
